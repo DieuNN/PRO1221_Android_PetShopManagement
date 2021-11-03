@@ -1,12 +1,9 @@
-package com.example.pro1221_android_petshopmanagement.screen
+package com.example.pro1221_android_petshopmanagement.screen.activity
 
-import android.annotation.SuppressLint
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -38,7 +35,7 @@ class LauncherScreen : ComponentActivity() {
             LauncherScreenMainView()
             Handler(Looper.getMainLooper()).postDelayed({
                 startActivity(
-                    Intent(this, MainActivity::class.java)
+                    Intent(this, LoginActivity::class.java)
                 )
                 finish()
             }, 8500)

@@ -1,4 +1,10 @@
 <resources>
-    <string name="app_name">PRO1221_Android_PetShopManagement</string>
+    <string name="app_name">My Pet Shop</string>
     <string name="title_activity_launcher_screen">LauncherScreen</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="login">Đăng nhập</string>
+    <string name="sign_up">Đăng ký</string>
+    <string name="email">E-mail</string>
+    <string name="password">Mật khẩu</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
 </resources>

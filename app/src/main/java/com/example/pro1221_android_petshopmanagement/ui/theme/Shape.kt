@@ -1,4 +1,4 @@
-package com.example.pro1221_android_petshopmanagement.screen.ui.theme
+package com.example.pro1221_android_petshopmanagement.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
