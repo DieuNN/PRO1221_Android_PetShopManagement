@@ -89,7 +89,6 @@ fun AppIconAppearanceAnimate(modifier: Modifier) {
             modifier = Modifier.alpha(imageAlpha)
         )
     }
-
 }
 
 
