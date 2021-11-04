@@ -1,43 +1,47 @@
-package com.example.pro1221_android_petshopmanagement.screen.activity
+package com.example.pro1221_android_petshopmanagement.ui.screen.component
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.*
+import android.content.Intent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.ui.activity.MainActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-
-class LoginActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-
-        }
-    }
-}
 
 @Composable
 fun LoginMainView() {
+    // remove status bar color
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(
         color = Color.Transparent
     )
+
+    val context = LocalContext.current
 
     // scroll state
     val scrollState = rememberScrollState()
@@ -46,10 +50,17 @@ fun LoginMainView() {
         mutableStateOf("")
     }
 
-    // password input state
-    var passwordInputState by remember {
+    // password input state and visibility state
+    var passwordInputState by rememberSaveable {
         mutableStateOf("")
     }
+    var passwordVisibilityState by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val visibilityIcon =
+        if (passwordVisibilityState) painterResource(id = R.drawable.ic_baseline_visibility_24) else painterResource(
+            id = R.drawable.ic_baseline_visibility_off_24
+        )
 
     Column(
         modifier = Modifier
@@ -87,11 +98,26 @@ fun LoginMainView() {
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(id = R.string.password)) },
             value = passwordInputState,
-            onValueChange = { passwordInputState = it }
+            onValueChange = { passwordInputState = it },
+            trailingIcon = {
+                IconButton(onClick = { passwordVisibilityState = !passwordVisibilityState }) {
+                    Icon(
+                        painter = visibilityIcon,
+                        contentDescription = null
+                    )
+                }
+            },
+            visualTransformation = if (passwordVisibilityState) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password
+            )
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
             Text(
+                modifier = Modifier.clickable {
+
+                },
                 text = stringResource(id = R.string.forgot_password),
                 fontSize = 12.sp,
                 style = MaterialTheme.typography.caption
@@ -100,11 +126,12 @@ fun LoginMainView() {
         Spacer(modifier = Modifier.height(8.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Button(
-                onClick = { /*TODO*/ }, modifier = Modifier
+                onClick = {
+                          context.startActivity(Intent(context, MainActivity::class.java))
+                          }, modifier = Modifier
                     .width(140.dp)
                     .height(48.dp),
-                border = BorderStroke(1.dp, colorResource(id = R.color.black)),
-                colors = androidx.compose.material3.ButtonDefaults.buttonColors(colorResource(id = R.color.copper))
+                colors = ButtonDefaults.buttonColors(colorResource(id = R.color.copper))
             ) {
                 Text(text = stringResource(id = R.string.login), color = Color.White)
             }
@@ -140,8 +167,8 @@ fun LoginMainView() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun LoginPrev() {
+fun Prev() {
     LoginMainView()
 }

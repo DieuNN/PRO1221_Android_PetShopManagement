@@ -1,30 +1,23 @@
-package com.example.pro1221_android_petshopmanagement.screen.activity
+package com.example.pro1221_android_petshopmanagement.ui.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.pro1221_android_petshopmanagement.ui.screen.component.LoginMainView
 
-class MainActivity : ComponentActivity() {
-    @ExperimentalAnimationApi
+class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainContent()
+            LoginMainView()
         }
     }
 }
 
-@ExperimentalAnimationApi
 @Preview
 @Composable
-fun ComposablePreview(){
-    MainContent()
-}
-
-@ExperimentalAnimationApi
-@Composable
-fun MainContent() {
+fun Preview() {
+    LoginMainView()
 }

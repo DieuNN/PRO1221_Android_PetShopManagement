@@ -1,4 +1,4 @@
-package com.example.pro1221_android_petshopmanagement.screen.activity
+package com.example.pro1221_android_petshopmanagement.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
