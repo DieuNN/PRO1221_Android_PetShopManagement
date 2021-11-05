@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.ui.model.AnimalInfo
+import com.example.pro1221_android_petshopmanagement.ui.model.Customer
 
 
 @Composable
@@ -55,7 +56,7 @@ fun AppBar(title: String, leftIcon: ImageVector, rightIcon: ImageVector) {
 fun AnimalInfoItem(animalInfo: AnimalInfo) {
     val context = LocalContext.current
     ListItem() {
-        var expanedState by remember {
+        var expandedState by remember {
             mutableStateOf(false)
         }
         Card(
@@ -71,7 +72,7 @@ fun AnimalInfoItem(animalInfo: AnimalInfo) {
             elevation = 5.dp,
             backgroundColor = colorResource(id = R.color.copper),
             onClick = {
-                expanedState = !expanedState
+                expandedState = !expandedState
             }
         ) {
             Column(
@@ -109,7 +110,7 @@ fun AnimalInfoItem(animalInfo: AnimalInfo) {
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
-                if (expanedState) {
+                if (expandedState) {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Image(
                             painter = rememberImagePainter(
@@ -140,15 +141,48 @@ fun AnimalInfoItem(animalInfo: AnimalInfo) {
     }
 }
 
+@Preview
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun CustomerItemPrev() {
+    val context = LocalContext.current
+    CustomerItem(
+        customer = Customer(
+            id = 1,
+            name = "Manuel Vivo",
+            address = "Spain",
+            phoneNumber = "03123123123123",
+            image = BitmapFactory.decodeResource(context.resources, R.drawable.manuel_vivo)
+        )
+    )
+}
 
-@Preview(name = "app-bar")
+@ExperimentalMaterialApi
+@Composable
+fun CustomerItem(customer: Customer) {
+    ListItem {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+//            backgroundColor = colorResource(id = )
+        ) {
+            Row {
+                Text(text = customer.name)
+            }
+        }
+    }
+}
+
+
+//@Preview(name = "app-bar")
 @Composable
 fun AppBarPrev() {
     AppBar(title = "Title", rightIcon = Icons.Filled.Person, leftIcon = Icons.Filled.Menu)
 }
 
 @ExperimentalMaterialApi
-@Preview(name = "animal-info-card")
+//@Preview(name = "animal-info-card")
 @Composable
 fun AnimalInfoItemPrev() {
     val context = LocalContext.current
