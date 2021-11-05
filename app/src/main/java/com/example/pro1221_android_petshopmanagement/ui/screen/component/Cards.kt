@@ -15,7 +15,10 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -24,13 +27,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.ui.model.AnimalInfo
 import com.example.pro1221_android_petshopmanagement.ui.model.Customer
-
+import com.example.pro1221_android_petshopmanagement.ui.theme.Shapes
 
 @Composable
 fun AppBar(title: String, leftIcon: ImageVector, rightIcon: ImageVector) {
@@ -48,8 +52,14 @@ fun AppBar(title: String, leftIcon: ImageVector, rightIcon: ImageVector) {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(imageVector = rightIcon, contentDescription = null)
             }
-        })
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = colorResource(id = R.color.maccaroni_and_cheese)
+        )
+    )
 }
+
+
 
 @ExperimentalMaterialApi
 @Composable
@@ -141,7 +151,7 @@ fun AnimalInfoItem(animalInfo: AnimalInfo) {
     }
 }
 
-@Preview
+//@Preview
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CustomerItemPrev() {
@@ -163,12 +173,52 @@ fun CustomerItem(customer: Customer) {
     ListItem {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-//            backgroundColor = colorResource(id = )
+                .fillMaxWidth(),
+            backgroundColor = colorResource(id = R.color.copper),
+            elevation = 5.dp,
+            shape = RoundedCornerShape(15.dp)
         ) {
-            Row {
-                Text(text = customer.name)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, start = 16.dp, bottom = 16.dp, end = 16.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = rememberImagePainter(
+                            data = customer.image
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(48.dp)
+                            .height(48.dp)
+                            .clip(CircleShape)
+                            .border(width = 2.dp, shape = CircleShape, color = Color.Gray)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column {
+                        Text(
+                            text = customer.name,
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 16.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Địa chỉ: ${customer.address}",
+                            color = Color.White
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Số điện thoại: ${customer.phoneNumber}",
+                    color = Color.White
+                )
             }
         }
     }
@@ -199,6 +249,8 @@ fun AnimalInfoItemPrev() {
         )
     )
 }
+
+
 
 
 
