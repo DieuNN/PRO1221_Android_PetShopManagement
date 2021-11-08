@@ -1,5 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.ui.screen
 
+import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -43,7 +44,7 @@ fun LoginMainView(navController: NavController) {
         color = Color.Transparent
     )
 
-    val context = LocalContext.current
+    val context = LocalContext.current as Activity
 
     // scroll state
     val scrollState = rememberScrollState()
@@ -132,8 +133,9 @@ fun LoginMainView(navController: NavController) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Button(
                 onClick = {
-                          context.startActivity(Intent(context, MainActivity::class.java))
-                          }, modifier = Modifier
+                    context.startActivity(Intent(context, MainActivity::class.java))
+                    context.finish()
+                }, modifier = Modifier
                     .width(140.dp)
                     .height(48.dp),
                 colors = ButtonDefaults.buttonColors(colorResource(id = R.color.copper))
@@ -172,7 +174,7 @@ fun LoginMainView(navController: NavController) {
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun Preview() {
     LoginMainView(navController = rememberNavController())

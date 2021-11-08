@@ -1,13 +1,12 @@
 package com.example.pro1221_android_petshopmanagement.ui.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
@@ -22,9 +21,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -67,6 +68,20 @@ fun SignUpScreen(navController: NavController) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
+        TopAppBar(
+            backgroundColor = Color.White,
+            elevation = 0.dp
+        ) {
+            IconButton(
+                onClick = {
+                    navController.navigate(Screen.LoginScreen.route) {
+                        popUpTo(0)
+                    }
+                }
+            ) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+            }
+        }
         Text(
             text = "Đăng ký",
             modifier = Modifier.fillMaxWidth(),
@@ -149,5 +164,10 @@ fun SignUpScreen(navController: NavController) {
             )
         }
     }
+}
 
+@Preview
+@Composable
+fun SignUpScreenPrev() {
+    SignUpScreen(navController = rememberNavController())
 }

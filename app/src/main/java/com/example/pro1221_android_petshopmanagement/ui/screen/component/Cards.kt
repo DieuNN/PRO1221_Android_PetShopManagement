@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -13,9 +14,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,21 +27,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.ui.model.AnimalInfo
+import com.example.pro1221_android_petshopmanagement.ui.model.Animal
 import com.example.pro1221_android_petshopmanagement.ui.model.Customer
-import com.example.pro1221_android_petshopmanagement.ui.theme.Shapes
+import com.example.pro1221_android_petshopmanagement.ui.model.Pet
 
 @Composable
 fun AppBar(title: String, leftIcon: ImageVector, rightIcon: ImageVector) {
     CenterAlignedTopAppBar(
-        title = { Text(text = title) },
+        title = { Text(text = title, fontSize = 22.sp, fontWeight = FontWeight.Bold) },
         navigationIcon = {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
@@ -60,10 +63,9 @@ fun AppBar(title: String, leftIcon: ImageVector, rightIcon: ImageVector) {
 }
 
 
-
 @ExperimentalMaterialApi
 @Composable
-fun AnimalInfoItem(animalInfo: AnimalInfo) {
+fun AnimalInfoItem(animalInfo: Animal) {
     val context = LocalContext.current
     ListItem() {
         var expandedState by remember {
@@ -151,7 +153,7 @@ fun AnimalInfoItem(animalInfo: AnimalInfo) {
     }
 }
 
-//@Preview
+//@Preview(name = "customer card")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CustomerItemPrev() {
@@ -237,7 +239,7 @@ fun AppBarPrev() {
 fun AnimalInfoItemPrev() {
     val context = LocalContext.current
     AnimalInfoItem(
-        animalInfo = AnimalInfo(
+        animalInfo = Animal(
             name = "Doge",
             kind = "Doge",
             updateTime = "Update time: 20/12/2021",
@@ -249,6 +251,212 @@ fun AnimalInfoItemPrev() {
         )
     )
 }
+
+
+@Composable
+fun ConfirmDialog(
+    isOpen: MutableState<Boolean> = mutableStateOf(false),
+    onConfirmButtonClick: () -> Unit
+) {
+    var openState by remember {
+        isOpen
+    }
+
+    if (openState) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { /*TODO*/ },
+            containerColor = colorResource(id = R.color.maccaroni_and_cheese),
+            title = {
+                Text(
+                    text = "Xóa thú nuôi này?",
+                    fontSize = 24.sp
+                )
+            },
+            text = {
+                Text(
+                    text = "Xóa sẽ khiến thú nuôi biến mất hoàn toàn và không thể lấy lại. Xác nhận xóa?"
+                )
+            },
+            confirmButton = {
+                androidx.compose.material3.TextButton(
+                    onClick = { onConfirmButtonClick }
+                ) {
+                    Text(
+                        text = "Xóa",
+                        color = Color.Red,
+                        fontSize = 14.sp,
+                        fontStyle = FontStyle.Normal,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            },
+            dismissButton = {
+                androidx.compose.material3.TextButton(onClick = { openState = false }) {
+                    Text(
+                        text = "Hủy",
+                        color = Color.Black,
+                        fontSize = 14.sp,
+                        fontStyle = FontStyle.Normal,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun PetInfoCard(pet: Pet) {
+    val context = LocalContext.current
+    ListItem() {
+        var expandedState by remember {
+            mutableStateOf(false)
+        }
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 400,
+                        easing = LinearOutSlowInEasing
+                    )
+                ),
+            shape = RoundedCornerShape(15.dp),
+            elevation = 5.dp,
+            backgroundColor = colorResource(id = R.color.copper),
+            onClick = {
+                expandedState = !expandedState
+            }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+            ) {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Image(
+                        painter = rememberImagePainter(
+                            data = pet.image
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(48.dp)
+                            .height(48.dp)
+                            .clip(CircleShape)
+                            .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column {
+                        Text(
+                            text = pet.name,
+                            style = MaterialTheme.typography.caption,
+                            fontSize = 16.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = pet.updateTime,
+                            color = Color.White,
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+
+                if (expandedState) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Image(
+                            painter = rememberImagePainter(
+                                data = pet.image
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(162.dp)
+                        )
+                    }
+                    Row(Modifier.fillMaxWidth()) {
+                        Column {
+                            Text(
+                                text = "Giá: ${pet.price}",
+                                color = Color.White,
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = pet.detail,
+                                color = Color.White,
+                            )
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                end = 8.dp
+                            ),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        androidx.compose.material3.OutlinedButton(
+                            onClick = { /*TODO*/ },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorResource(id = R.color.white),
+
+                                ),
+                            border = BorderStroke(width = 0.dp, color = Color.White)
+                        ) {
+                            Text(
+                                text = "Sửa thông tin",
+                                fontWeight = FontWeight.Bold,
+                                color = colorResource(id = R.color.copper)
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        androidx.compose.material3.OutlinedButton(
+                            onClick = { /*TODO*/ },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorResource(id = R.color.maccaroni_and_cheese),
+
+                                ),
+                            border = BorderStroke(width = 0.dp, color = Color.White)
+                        ) {
+                            Text(
+                                text = "Bán",
+                                fontWeight = FontWeight.Bold,
+                                color = colorResource(id = R.color.copper)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PetPrev() {
+    PetInfoCard(
+        pet = Pet(
+            name = "Pet name",
+            detail = "Chó hay Chó nhà, " +
+                    "là một loài động vật thuộc chi Chó," +
+                    " tạo nên một phần tiến hóa của sói," +
+                    " đồng thời là loài động vật ăn thịt trên cạn có số lượng lớn nhất.",
+            image = BitmapFactory.decodeResource(
+                (LocalContext.current).resources,
+                R.drawable.sample_doge_img
+            ),
+            isSold = false,
+            updateTime = "20/12/2002",
+            id = 1,
+            kind = "Doge",
+            price = 100000
+        )
+    )
+}
+
+
 
 
 

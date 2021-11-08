@@ -7,7 +7,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.pro1221_android_petshopmanagement.ui.model.AnimalInfo
+import com.example.pro1221_android_petshopmanagement.ui.model.Animal
 import com.example.pro1221_android_petshopmanagement.ui.screen.component.AnimalInfoItem
 
 class MainActivity : ComponentActivity() {
@@ -33,5 +33,5 @@ fun ComposablePreview(){
 @ExperimentalAnimationApi
 @Composable
 fun MainContent() {
-    AnimalInfoItem(animalInfo = AnimalInfo())
+    AnimalInfoItem(animalInfo = Animal())
 }
