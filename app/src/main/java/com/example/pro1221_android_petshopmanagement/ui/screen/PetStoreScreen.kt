@@ -13,7 +13,7 @@ import java.util.stream.Collectors
 
 
 @Composable
-fun PetStoreSreen(pets: MutableList<Pet>) {
+fun PetStoreScreen(pets: MutableList<Pet>) {
     var soldPets = pets.stream().filter{!it.isSold}.collect(Collectors.toList())
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -27,5 +27,5 @@ fun PetStoreSreen(pets: MutableList<Pet>) {
 @Preview(showBackground = true)
 @Composable
 fun PetStoreScreenPrev() {
-    PetStoreSreen(FakeDataReposotory.getPets(LocalContext.current))
+    PetStoreScreen(FakeDataReposotory.getPets(LocalContext.current))
 }

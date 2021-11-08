@@ -66,7 +66,6 @@ fun AppBar(title: String, leftIcon: ImageVector, rightIcon: ImageVector) {
 @ExperimentalMaterialApi
 @Composable
 fun AnimalInfoItem(animalInfo: Animal) {
-    val context = LocalContext.current
     ListItem() {
         var expandedState by remember {
             mutableStateOf(false)
@@ -589,6 +588,105 @@ fun KindOfAnimalItemPrev() {
             "Turtle",
             BitmapFactory.decodeResource(context.resources, R.drawable.sample_doge_img)
         )
+    )
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun PetRankItem(pet: Pet, index: Int) {
+    ListItem {
+        var expanded by remember {
+            mutableStateOf(false)
+        }
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 400,
+                        easing = LinearOutSlowInEasing
+                    )
+                ),
+            backgroundColor = colorResource(id = R.color.copper),
+            onClick = {
+                expanded = !expanded
+            },
+            shape = RoundedCornerShape(15.dp),
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Card(
+                        modifier = Modifier
+                            .width(48.dp)
+                            .height(48.dp),
+                        shape = CircleShape,
+                        backgroundColor = colorResource(id = R.color.maccaroni_and_cheese)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = index.toString(),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = pet.name,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        color = Color.White
+                    )
+
+                }
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Image(
+                        painter = rememberImagePainter(data = pet.image),
+                        contentDescription = null
+                    )
+                }
+                if (expanded) {
+                    Column {
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Giá bán: ${pet.price}",
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = "Ngày bán: ${pet.updateTime}", color = Color.White)
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
+@ExperimentalMaterialApi
+@Preview
+@Composable
+fun PetRankItemPrev() {
+    val ctx = LocalContext.current
+    PetRankItem(
+        Pet(
+            name = "Doge",
+            image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+            price = 1000,
+            id = 10,
+            kind = "Dog",
+            detail = "This is doge detail example",
+            updateTime = "20/12/2002",
+            isSold = true
+        ),
+        index = 1
     )
 }
 
