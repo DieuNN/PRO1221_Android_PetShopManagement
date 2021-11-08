@@ -2,16 +2,15 @@ package com.example.pro1221_android_petshopmanagement.ui.screen
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
@@ -36,6 +35,9 @@ import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.ui.activity.MainActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+@ExperimentalAnimationApi
+@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun LoginMainView(navController: NavController) {
     // remove status bar color
@@ -65,8 +67,6 @@ fun LoginMainView(navController: NavController) {
         if (passwordVisibilityState) painterResource(id = R.drawable.ic_baseline_visibility_24) else painterResource(
             id = R.drawable.ic_baseline_visibility_off_24
         )
-    // nav controler
-    val navControler = rememberNavController()
 
     Column(
         modifier = Modifier
@@ -170,11 +170,13 @@ fun LoginMainView(navController: NavController) {
                 navController.navigate(route = Screen.SignUpScreen.route)
             }, color = colorResource(id = R.color.maccaroni_and_cheese))
         }
-
     }
+
 }
 
-//@Preview
+@ExperimentalMaterialApi
+@OptIn(ExperimentalAnimationApi::class)
+@Preview
 @Composable
 fun Preview() {
     LoginMainView(navController = rememberNavController())

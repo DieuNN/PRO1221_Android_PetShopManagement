@@ -1,5 +1,7 @@
 package com.example.pro1221_android_petshopmanagement.ui.screen
 
+import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -61,7 +63,7 @@ fun SignUpScreen(navController: NavController) {
             id = R.drawable.ic_baseline_visibility_off_24
         )
     // context
-    val context = LocalContext.current
+    val context = LocalContext.current as? Activity
 
     Column(
         modifier = Modifier
@@ -74,9 +76,7 @@ fun SignUpScreen(navController: NavController) {
         ) {
             IconButton(
                 onClick = {
-                    navController.navigate(Screen.LoginScreen.route) {
-                        popUpTo(0)
-                    }
+                    context?.onBackPressed()
                 }
             ) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
@@ -155,9 +155,8 @@ fun SignUpScreen(navController: NavController) {
                 text = { Text(text = "Đăng ký") },
                 icon = { Icon(Icons.Filled.ArrowForward, "") },
                 onClick = {
-                    navController.navigate(route = Screen.LoginScreen.route) {
-                        popUpTo(0)
-                    }
+                    Log.d("isNavControlerNull", "SignUpScreen: $navController")
+//                    navController.navigate(route = Screen.SignUpScreen.route)
                 },
                 containerColor = colorResource(id = R.color.copper),
                 contentColor = colorResource(id = R.color.white)

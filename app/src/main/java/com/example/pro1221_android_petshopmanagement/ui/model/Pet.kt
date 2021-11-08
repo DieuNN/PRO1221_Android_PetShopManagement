@@ -11,6 +11,4 @@ data class Pet(
     var updateTime:String = "",
     var image:Bitmap? = null,
     var price:Int = 0
-
-
 )
