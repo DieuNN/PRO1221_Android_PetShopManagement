@@ -1,10 +1,13 @@
-package com.example.pro1221_android_petshopmanagement.ui.screen
+package com.example.pro1221_android_petshopmanagement.ui.screen.navigation
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import com.example.pro1221_android_petshopmanagement.ui.screen.LoginMainView
+import com.example.pro1221_android_petshopmanagement.ui.screen.Screen
+import com.example.pro1221_android_petshopmanagement.ui.screen.SignUpScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController

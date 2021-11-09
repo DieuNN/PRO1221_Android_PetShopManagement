@@ -17,7 +17,6 @@ import java.util.stream.Collectors
 
 @ExperimentalMaterialApi
 @Composable
-// FIXME: 11/8/21 No image on list
 fun PetRankingScreen(pets: MutableList<Pet>) {
     var petSortedByPrice =
         pets.stream().sorted { pet1, pet2 -> -pet1.price.compareTo(pet2.price) }

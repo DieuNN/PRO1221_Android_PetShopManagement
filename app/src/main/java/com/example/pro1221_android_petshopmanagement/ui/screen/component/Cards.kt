@@ -38,13 +38,25 @@ import com.example.pro1221_android_petshopmanagement.ui.model.Animal
 import com.example.pro1221_android_petshopmanagement.ui.model.Customer
 import com.example.pro1221_android_petshopmanagement.ui.model.Kind
 import com.example.pro1221_android_petshopmanagement.ui.model.Pet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
-fun AppBar(title: String, leftIcon: ImageVector, rightIcon: ImageVector) {
+fun AppBar(
+    title: String,
+    leftIcon: ImageVector,
+    rightIcon: ImageVector,
+    scaffoldState: ScaffoldState,
+    scope:CoroutineScope
+) {
     CenterAlignedTopAppBar(
         title = { Text(text = title, fontSize = 22.sp, fontWeight = FontWeight.Bold) },
         navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                scope.launch {
+                    scaffoldState.drawerState.open()
+                }
+            }) {
                 Icon(
                     imageVector = leftIcon,
                     contentDescription = null
@@ -229,7 +241,7 @@ fun CustomerItem(customer: Customer) {
 //@Preview(name = "app-bar")
 @Composable
 fun AppBarPrev() {
-    AppBar(title = "Title", rightIcon = Icons.Filled.Person, leftIcon = Icons.Filled.Menu)
+    AppBar(title = "Title", rightIcon = Icons.Filled.Person, leftIcon = Icons.Filled.Menu, scaffoldState = rememberScaffoldState(), scope = rememberCoroutineScope())
 }
 
 @ExperimentalMaterialApi
@@ -411,21 +423,21 @@ fun PetInfoCard(pet: Pet) {
                                     color = colorResource(id = R.color.copper)
                                 )
                             }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        androidx.compose.material3.OutlinedButton(
-                            onClick = { /*TODO*/ },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = colorResource(id = R.color.maccaroni_and_cheese),
+                            Spacer(modifier = Modifier.width(8.dp))
+                            androidx.compose.material3.OutlinedButton(
+                                onClick = { /*TODO*/ },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = colorResource(id = R.color.maccaroni_and_cheese),
 
-                                ),
-                            border = BorderStroke(width = 0.dp, color = Color.White)
-                        ) {
-                            Text(
-                                text = "Bán",
-                                fontWeight = FontWeight.Bold,
-                                color = colorResource(id = R.color.copper)
-                            )
-                        }
+                                    ),
+                                border = BorderStroke(width = 0.dp, color = Color.White)
+                            ) {
+                                Text(
+                                    text = "Bán",
+                                    fontWeight = FontWeight.Bold,
+                                    color = colorResource(id = R.color.copper)
+                                )
+                            }
                         }
                     } else {
                         Row(
@@ -642,14 +654,16 @@ fun PetRankItem(pet: Pet, index: Int) {
                     )
 
                 }
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Image(
-                        painter = rememberImagePainter(data = pet.image),
-                        contentDescription = null
-                    )
-                }
+                Spacer(modifier = Modifier.height(8.dp))
                 if (expanded) {
                     Column {
+                        Image(
+                            painter = rememberImagePainter(data = pet.image),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp)
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Spacer(modifier = Modifier.height(8.dp))
