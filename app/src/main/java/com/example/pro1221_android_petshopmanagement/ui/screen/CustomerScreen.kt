@@ -29,7 +29,7 @@ fun CustomerScreenPrev() {
 @ExperimentalMaterialApi
 @Composable
 fun CustomerScreen(customerList:MutableList<Customer>) {
-    LazyColumn(
+    LazyColumn(contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp )
     ) {
         items(customerList.size) {index ->

@@ -1,9 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,17 +15,17 @@ import java.util.stream.Collectors
 
 @Composable
 fun PetStoreScreen(pets: MutableList<Pet>) {
-    var soldPets = pets.stream().filter{!it.isSold}.collect(Collectors.toList())
-    Column {
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(soldPets.size) { index ->
-                PetInfoCard(pet = soldPets[index])
-            }
+    var soldPets = pets.stream().filter { !it.isSold }.collect(Collectors.toList())
+
+    LazyColumn(
+        contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(soldPets.size) { index ->
+            PetInfoCard(pet = soldPets[index])
         }
     }
+
 }
 
 @Preview(showBackground = true)

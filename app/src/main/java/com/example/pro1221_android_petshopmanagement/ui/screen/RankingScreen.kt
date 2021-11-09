@@ -3,6 +3,7 @@ package com.example.pro1221_android_petshopmanagement.ui.screen
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ fun PetRankingScreen(pets: MutableList<Pet>) {
         pets.stream().sorted { pet1, pet2 -> -pet1.price.compareTo(pet2.price) }
             .collect(Collectors.toList())
     LazyColumn(
+        contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(petSortedByPrice.size) { index ->

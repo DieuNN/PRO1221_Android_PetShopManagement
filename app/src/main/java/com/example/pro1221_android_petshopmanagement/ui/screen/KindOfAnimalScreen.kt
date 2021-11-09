@@ -1,6 +1,7 @@
 package com.example.pro1221_android_petshopmanagement.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -15,9 +16,10 @@ import com.example.pro1221_android_petshopmanagement.ui.screen.component.KindOfA
 @Composable
 fun KindOfAnimalScreen(kinds: MutableList<Kind>) {
     LazyColumn(
+        contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(kinds.size) {index ->
+        items(kinds.size) { index ->
             KindOfAnimalItem(kind = kinds[index])
         }
     }
