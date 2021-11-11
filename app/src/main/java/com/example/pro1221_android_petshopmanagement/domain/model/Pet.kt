@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "table_pet")
 data class Pet(
     @PrimaryKey(autoGenerate = true)
-    var id:Int = 0,
+    var id:Int? = null,
     var name:String = "",
     var kind:String = "",
     var detail:String = "",

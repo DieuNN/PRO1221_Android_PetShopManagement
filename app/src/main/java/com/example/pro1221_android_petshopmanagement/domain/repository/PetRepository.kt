@@ -13,4 +13,6 @@ interface PetRepository  {
     suspend fun deletePet(pet: Pet)
 
     suspend fun getPetById(id:Int)
+
+    suspend fun soldPet(id: Int)
 }

@@ -25,4 +25,8 @@ class PetRepositoryImpl(private val petDao: PetDao) : PetRepository {
     override suspend fun getPetById(id: Int) {
         petDao.getPetById(id = id)
     }
+
+    override suspend fun soldPet(id: Int) {
+        petDao.soldPet(id = id)
+    }
 }

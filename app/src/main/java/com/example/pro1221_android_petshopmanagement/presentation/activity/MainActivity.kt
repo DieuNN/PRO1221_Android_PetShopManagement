@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.colorResource
@@ -28,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
+    @ExperimentalMaterial3Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -37,6 +39,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
+@ExperimentalMaterial3Api
 @Preview
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi

@@ -34,10 +34,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.repository.PetRepositoryImpl
 import com.example.pro1221_android_petshopmanagement.domain.model.Animal
 import com.example.pro1221_android_petshopmanagement.ui.model.Customer
 import com.example.pro1221_android_petshopmanagement.ui.model.Kind
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
+import com.example.pro1221_android_petshopmanagement.domain.repository.PetRepository
+import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetEvent
+import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -47,7 +51,7 @@ fun AppBar(
     leftIcon: ImageVector,
     rightIcon: ImageVector,
     scaffoldState: ScaffoldState,
-    scope:CoroutineScope
+    scope: CoroutineScope
 ) {
     CenterAlignedTopAppBar(
         title = { Text(text = title, fontSize = 22.sp, fontWeight = FontWeight.Bold) },
@@ -241,7 +245,13 @@ fun CustomerItem(customer: Customer) {
 //@Preview(name = "app-bar")
 @Composable
 fun AppBarPrev() {
-    AppBar(title = "Title", rightIcon = Icons.Filled.Person, leftIcon = Icons.Filled.Menu, scaffoldState = rememberScaffoldState(), scope = rememberCoroutineScope())
+    AppBar(
+        title = "Title",
+        rightIcon = Icons.Filled.Person,
+        leftIcon = Icons.Filled.Menu,
+        scaffoldState = rememberScaffoldState(),
+        scope = rememberCoroutineScope()
+    )
 }
 
 @ExperimentalMaterialApi
@@ -318,8 +328,9 @@ fun ConfirmDialog(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PetInfoCard(pet: Pet, onDelete:(Pet) -> Unit, ) {
+fun PetInfoCard(pet: Pet, viewModel: PetViewModel) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     ListItem() {
         var expandedState by remember {
             mutableStateOf(false)
@@ -425,7 +436,12 @@ fun PetInfoCard(pet: Pet, onDelete:(Pet) -> Unit, ) {
                             }
                             Spacer(modifier = Modifier.width(8.dp))
                             androidx.compose.material3.OutlinedButton(
-                                onClick = { /*TODO*/ },
+                                onClick = {
+                                    // FIXME: 11/12/21 Change this to set sold, not delete
+                                    scope.launch {
+                                        viewModel.onEvent(PetEvent.DeletePet(pet))
+                                    }
+                                },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.maccaroni_and_cheese),
 
@@ -449,7 +465,7 @@ fun PetInfoCard(pet: Pet, onDelete:(Pet) -> Unit, ) {
                             horizontalArrangement = Arrangement.End
                         ) {
                             androidx.compose.material3.OutlinedButton(
-                                onClick = { /*TODO*/ },
+                                onClick = {  },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.white),
 
@@ -662,7 +678,7 @@ fun PetRankItem(pet: Pet, index: Int) {
 
 
 @ExperimentalMaterialApi
-@Preview
+//@Preview
 @Composable
 fun PetRankItemPrev() {
     val ctx = LocalContext.current

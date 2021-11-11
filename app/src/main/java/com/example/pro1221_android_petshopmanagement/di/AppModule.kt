@@ -53,11 +53,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUseCase(petRepository: PetRepository) : PetUseCases = PetUseCases(
+    fun providePetUseCase(petRepository: PetRepository) : PetUseCases = PetUseCases(
         addPet = AddPet(petRepository = petRepository),
         deletePet = DeletePet(petRepository = petRepository),
         getPetById =  GetPetById(petRepository = petRepository),
         getPets = GetPets(petRepository = petRepository),
-        updatePet = UpdatePet(petRepository = petRepository)
+        updatePet = UpdatePet(petRepository = petRepository),
+        soldPet = SetPetSold(petRepository = petRepository)
     )
 }

@@ -100,6 +100,10 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling:1.0.5"
     kapt("org.xerial:sqlite-jdbc:3.34.0")
 
+    // hilt navigation
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
+
 
 
 }

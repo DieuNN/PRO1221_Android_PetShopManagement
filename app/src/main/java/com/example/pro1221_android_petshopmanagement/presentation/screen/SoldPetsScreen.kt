@@ -7,8 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.ui.model.FakeDataReposotory
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
+import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import com.example.pro1221_android_petshopmanagement.ui.screen.component.PetInfoCard
 import java.util.stream.Collectors
 
@@ -22,7 +24,7 @@ fun SoldPetsScreen(pets: MutableList<Pet>) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(soldPets.size) { index ->
-            PetInfoCard(pet = soldPets[index], {})
+            PetInfoCard(pet = soldPets[index], viewModel = hiltViewModel(), )
         }
     }
 }

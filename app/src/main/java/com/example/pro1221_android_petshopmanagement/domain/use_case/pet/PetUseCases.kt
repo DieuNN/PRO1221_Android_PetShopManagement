@@ -5,5 +5,6 @@ data class PetUseCases(
     var deletePet: DeletePet,
     var getPetById: GetPetById,
     var getPets: GetPets,
-    var updatePet: UpdatePet
+    var updatePet: UpdatePet,
+    var soldPet: SetPetSold
 )

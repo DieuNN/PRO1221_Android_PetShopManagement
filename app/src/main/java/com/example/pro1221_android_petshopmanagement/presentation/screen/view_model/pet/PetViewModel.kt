@@ -8,6 +8,7 @@ import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 import com.example.pro1221_android_petshopmanagement.domain.use_case.pet.PetUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,10 +18,14 @@ class PetViewModel @Inject constructor(
     private val petUseCases: PetUseCases
 ) : ViewModel() {
     private val _petState = mutableStateOf(emptyList<Pet>())
-    val petState:State<List<Pet>> = _petState
+    val petState: State<List<Pet>> = _petState
 
-    private var job:Job? = null
-    private var deletedPet:Pet? = null
+    private var job: Job? = null
+    private var deletedPet: Pet? = null
+
+    init {
+        getPets()
+    }
 
     fun onEvent(event: PetEvent) {
         if (event is PetEvent.DeletePet) {
@@ -38,10 +43,8 @@ class PetViewModel @Inject constructor(
     fun getPets() {
         job?.cancel()
 
-        job = viewModelScope.launch {
-            petUseCases.getPets().onEach {
-                _petState.value = it
-            }
-        }
+        job = petUseCases.getPets().onEach {
+            _petState.value = it
+        }.launchIn(viewModelScope)
     }
 }

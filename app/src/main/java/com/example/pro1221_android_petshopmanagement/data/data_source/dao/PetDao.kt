@@ -22,5 +22,8 @@ interface PetDao {
     @Query("select * from table_pet where id = :id")
     suspend fun getPetById(id:Int) : Pet
 
+    @Query("update table_pet set isSold = 1 where id =:id")
+    suspend fun soldPet(id: Int)
+
 
 }
