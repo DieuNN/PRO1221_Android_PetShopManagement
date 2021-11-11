@@ -22,7 +22,9 @@ import com.example.pro1221_android_petshopmanagement.ui.screen.component.AppBar
 import com.example.pro1221_android_petshopmanagement.ui.screen.component.Drawer
 import com.example.pro1221_android_petshopmanagement.ui.screen.navigation.DrawerNavigation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {

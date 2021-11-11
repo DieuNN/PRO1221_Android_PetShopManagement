@@ -37,7 +37,7 @@ import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.domain.model.Animal
 import com.example.pro1221_android_petshopmanagement.ui.model.Customer
 import com.example.pro1221_android_petshopmanagement.ui.model.Kind
-import com.example.pro1221_android_petshopmanagement.ui.model.Pet
+import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -254,7 +254,7 @@ fun AnimalInfoItemPrev() {
             name = "Doge",
             kind = "Doge",
             updateTime = "Update time: 20/12/2021",
-            image = BitmapFactory.decodeResource(context.resources, R.drawable.sample_doge_img),
+            image = null,
             detail = "Chó hay Chó nhà, " +
                     "là một loài động vật thuộc chi Chó," +
                     " tạo nên một phần tiến hóa của sói," +
@@ -318,7 +318,7 @@ fun ConfirmDialog(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PetInfoCard(pet: Pet) {
+fun PetInfoCard(pet: Pet, onDelete:(Pet) -> Unit, ) {
     val context = LocalContext.current
     ListItem() {
         var expandedState by remember {
@@ -470,29 +470,6 @@ fun PetInfoCard(pet: Pet) {
     }
 }
 
-//@Preview
-@Composable
-fun PetPrev() {
-    PetInfoCard(
-        pet = Pet(
-            name = "Pet name",
-            detail = "Chó hay Chó nhà, " +
-                    "là một loài động vật thuộc chi Chó," +
-                    " tạo nên một phần tiến hóa của sói," +
-                    " đồng thời là loài động vật ăn thịt trên cạn có số lượng lớn nhất.",
-            image = BitmapFactory.decodeResource(
-                (LocalContext.current).resources,
-                R.drawable.sample_doge_img
-            ),
-            isSold = false,
-            updateTime = "20/12/2002",
-            id = 1,
-            kind = "Doge",
-            price = 100000
-        )
-    )
-}
-
 
 @Composable
 fun ConfirmExitDialog(
@@ -598,7 +575,7 @@ fun KindOfAnimalItemPrev() {
         kind = Kind(
             0,
             "Turtle",
-            BitmapFactory.decodeResource(context.resources, R.drawable.sample_doge_img)
+            null
         )
     )
 }
@@ -692,7 +669,7 @@ fun PetRankItemPrev() {
     PetRankItem(
         Pet(
             name = "Doge",
-            image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+            image = null,
             price = 1000,
             id = 10,
             kind = "Dog",

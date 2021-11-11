@@ -3,6 +3,7 @@ package com.example.pro1221_android_petshopmanagement.ui.model
 import android.content.Context
 import android.graphics.BitmapFactory
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 
 class FakeDataReposotory {
     companion object {
@@ -110,7 +111,7 @@ class FakeDataReposotory {
             return mutableListOf(
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -120,7 +121,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -130,7 +131,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -140,7 +141,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -150,7 +151,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -160,7 +161,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -170,7 +171,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -179,7 +180,7 @@ class FakeDataReposotory {
                     isSold = true
                 ), Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -189,7 +190,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -199,7 +200,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -209,7 +210,7 @@ class FakeDataReposotory {
                 ),
                 Pet(
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img),
+                    image = null,
                     price = 1000,
                     id = 10,
                     kind = "Dog",
@@ -225,45 +226,45 @@ class FakeDataReposotory {
                 Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ),
                 Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ),
                 Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ), Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ), Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ), Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ), Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ), Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ), Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 ), Kind(
                     id = 0,
                     name = "Doge",
-                    image = BitmapFactory.decodeResource(ctx.resources, R.drawable.sample_doge_img)
+                    image = null
                 )
             )
         }
