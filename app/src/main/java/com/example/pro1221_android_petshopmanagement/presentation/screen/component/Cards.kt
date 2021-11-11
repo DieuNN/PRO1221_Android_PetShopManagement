@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.ui.model.Animal
+import com.example.pro1221_android_petshopmanagement.domain.model.Animal
 import com.example.pro1221_android_petshopmanagement.ui.model.Customer
 import com.example.pro1221_android_petshopmanagement.ui.model.Kind
 import com.example.pro1221_android_petshopmanagement.ui.model.Pet
