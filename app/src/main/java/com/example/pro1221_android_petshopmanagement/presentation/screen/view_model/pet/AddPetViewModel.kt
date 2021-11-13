@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
-import com.example.pro1221_android_petshopmanagement.domain.use_case.pet.PetUseCases
+import com.example.pro1221_android_petshopmanagement.domain.use_case.PetUseCases
 import com.example.pro1221_android_petshopmanagement.presentation.util.AddPetEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

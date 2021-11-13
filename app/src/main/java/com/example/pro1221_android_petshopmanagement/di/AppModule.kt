@@ -7,6 +7,8 @@ import com.example.pro1221_android_petshopmanagement.data.repository.AnimalRepos
 import com.example.pro1221_android_petshopmanagement.data.repository.PetRepositoryImpl
 import com.example.pro1221_android_petshopmanagement.domain.repository.AnimalRepository
 import com.example.pro1221_android_petshopmanagement.domain.repository.PetRepository
+import com.example.pro1221_android_petshopmanagement.domain.use_case.AnimalUseCases
+import com.example.pro1221_android_petshopmanagement.domain.use_case.PetUseCases
 import com.example.pro1221_android_petshopmanagement.domain.use_case.animal.*
 import com.example.pro1221_android_petshopmanagement.domain.use_case.pet.*
 import dagger.Module

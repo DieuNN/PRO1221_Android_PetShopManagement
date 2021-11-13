@@ -1,6 +1,5 @@
 package com.example.pro1221_android_petshopmanagement.ui.screen
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,9 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
-import com.example.pro1221_android_petshopmanagement.ui.screen.component.PetRankItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.PetRankItem
 import java.util.stream.Collectors
 
 @ExperimentalMaterialApi

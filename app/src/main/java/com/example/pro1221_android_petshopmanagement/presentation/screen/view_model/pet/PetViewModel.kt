@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
-import com.example.pro1221_android_petshopmanagement.domain.use_case.pet.PetUseCases
+import com.example.pro1221_android_petshopmanagement.domain.use_case.PetUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -28,14 +28,22 @@ class PetViewModel @Inject constructor(
     }
 
     fun onEvent(event: PetEvent) {
-        if (event is PetEvent.DeletePet) {
-            viewModelScope.launch {
-                petUseCases.deletePet(event.pet)
-                deletedPet = event.pet
+        when (event) {
+            is PetEvent.DeletePet -> {
+                viewModelScope.launch {
+                    petUseCases.deletePet(event.pet)
+                    deletedPet = event.pet
+                }
             }
-        } else {
-            viewModelScope.launch {
-                petUseCases.addPet(deletedPet!!)
+            is PetEvent.SetPetSold -> {
+                viewModelScope.launch {
+                    event.pet.id?.let { petUseCases.soldPet (it) }
+                }
+            }
+            else -> {
+                viewModelScope.launch {
+                    petUseCases.addPet(deletedPet!!)
+                }
             }
         }
     }

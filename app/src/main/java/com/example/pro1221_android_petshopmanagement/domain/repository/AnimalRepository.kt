@@ -1,16 +1,16 @@
 package com.example.pro1221_android_petshopmanagement.domain.repository
 
-import com.example.pro1221_android_petshopmanagement.domain.model.Animal
+import com.example.pro1221_android_petshopmanagement.domain.model.AnimalInfo
 import kotlinx.coroutines.flow.Flow
 
 interface AnimalRepository {
-    fun getAnimals(): Flow<List<Animal>>
+    fun getAnimals(): Flow<List<AnimalInfo>>
 
-    suspend fun addAnimal(animal: Animal)
+    suspend fun addAnimal(animal: AnimalInfo)
 
-    suspend fun updateAnimal(animal: Animal)
+    suspend fun updateAnimal(animal: AnimalInfo)
 
-    suspend fun deleteAnimal(animal: Animal)
+    suspend fun deleteAnimal(animal: AnimalInfo)
 
-    suspend fun getAnimalById(id: Int):Animal
+    suspend fun getAnimalById(id: Int):AnimalInfo
 }

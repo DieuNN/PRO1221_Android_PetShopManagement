@@ -18,11 +18,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.domain.model.Pet
-import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.BottomSheetAddPet
-import com.example.pro1221_android_petshopmanagement.ui.screen.component.PetInfoCard
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.PetInfoCard
 import kotlinx.coroutines.launch
 import kotlin.streams.toList
 
@@ -30,7 +28,7 @@ import kotlin.streams.toList
 @ExperimentalMaterialApi
 @ExperimentalMaterial3Api
 @Composable
-fun PetStoreScreen(pets: MutableList<Pet>, petViewModel: PetViewModel = hiltViewModel()) {
+fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
     val soldPets = petViewModel.petState.value.stream().filter { !it.isSold }.toList()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -70,7 +68,8 @@ fun PetStoreScreen(pets: MutableList<Pet>, petViewModel: PetViewModel = hiltView
             items(soldPets.size) { index ->
                 PetInfoCard(
                     pet = soldPets[index],
-                    petViewModel
+                    viewModel = petViewModel,
+                    bottomSheetScaffoldState = scaffoldState
                 )
             }
         }

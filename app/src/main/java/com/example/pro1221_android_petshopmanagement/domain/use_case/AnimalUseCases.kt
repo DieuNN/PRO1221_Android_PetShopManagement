@@ -1,4 +1,6 @@
-package com.example.pro1221_android_petshopmanagement.domain.use_case.animal
+    package com.example.pro1221_android_petshopmanagement.domain.use_case
+
+import com.example.pro1221_android_petshopmanagement.domain.use_case.animal.*
 
 data class AnimalUseCases(
     val addAnimal: AddAnimal,

@@ -1,4 +1,4 @@
-package com.example.pro1221_android_petshopmanagement.ui.screen.component
+package com.example.pro1221_android_petshopmanagement.presentation.screen.component
 
 import android.app.Activity
 import android.graphics.BitmapFactory
@@ -29,21 +29,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.data.repository.PetRepositoryImpl
-import com.example.pro1221_android_petshopmanagement.domain.model.Animal
-import com.example.pro1221_android_petshopmanagement.ui.model.Customer
-import com.example.pro1221_android_petshopmanagement.ui.model.Kind
+import com.example.pro1221_android_petshopmanagement.domain.model.AnimalInfo
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
-import com.example.pro1221_android_petshopmanagement.domain.repository.PetRepository
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
+import com.example.pro1221_android_petshopmanagement.ui.collections.parseLongTimeToString
+import com.example.pro1221_android_petshopmanagement.ui.model.Customer
+import com.example.pro1221_android_petshopmanagement.ui.model.Kind
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 
 @Composable
 fun AppBar(
@@ -81,7 +80,7 @@ fun AppBar(
 
 @ExperimentalMaterialApi
 @Composable
-fun AnimalInfoItem(animalInfo: Animal) {
+fun AnimalInfoItem(animalInfo: AnimalInfo) {
     ListItem() {
         var expandedState by remember {
             mutableStateOf(false)
@@ -260,7 +259,7 @@ fun AppBarPrev() {
 fun AnimalInfoItemPrev() {
     val context = LocalContext.current
     AnimalInfoItem(
-        animalInfo = Animal(
+        animalInfo = AnimalInfo(
             name = "Doge",
             kind = "Doge",
             updateTime = "Update time: 20/12/2021",
@@ -328,9 +327,20 @@ fun ConfirmDialog(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PetInfoCard(pet: Pet, viewModel: PetViewModel) {
+fun PetInfoCard(
+    pet: Pet,
+    viewModel: PetViewModel,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState()
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    var updateDate = ""
+    try {
+        updateDate = parseLongTimeToString(pet.updateTime.toLong())
+    } catch (e: NumberFormatException) {
+        updateDate = "!"
+    }
     ListItem() {
         var expandedState by remember {
             mutableStateOf(false)
@@ -379,7 +389,7 @@ fun PetInfoCard(pet: Pet, viewModel: PetViewModel) {
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = pet.updateTime,
+                            text = "Ngày cập nhật: $updateDate",
                             color = Color.White,
                         )
                     }
@@ -437,9 +447,8 @@ fun PetInfoCard(pet: Pet, viewModel: PetViewModel) {
                             Spacer(modifier = Modifier.width(8.dp))
                             androidx.compose.material3.OutlinedButton(
                                 onClick = {
-                                    // FIXME: 11/12/21 Change this to set sold, not delete
                                     scope.launch {
-                                        viewModel.onEvent(PetEvent.DeletePet(pet))
+                                        viewModel.onEvent(PetEvent.SetPetSold(pet))
                                     }
                                 },
                                 colors = ButtonDefaults.buttonColors(
@@ -465,7 +474,17 @@ fun PetInfoCard(pet: Pet, viewModel: PetViewModel) {
                             horizontalArrangement = Arrangement.End
                         ) {
                             androidx.compose.material3.OutlinedButton(
-                                onClick = {  },
+                                onClick = {
+                                    // FIXME: 11/13/21 snackbar disappeard too quick
+                                    viewModel.onEvent(PetEvent.DeletePet(pet = pet))
+                                    scope.launch {
+                                        scaffoldState.snackbarHostState.showSnackbar(
+                                            message = "Deleted",
+                                            duration = SnackbarDuration.Long,
+                                            actionLabel = "Undo?"
+                                        )
+                                    }
+                                },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.white),
 
@@ -591,7 +610,7 @@ fun KindOfAnimalItemPrev() {
         kind = Kind(
             0,
             "Turtle",
-            null
+            "null"
         )
     )
 }

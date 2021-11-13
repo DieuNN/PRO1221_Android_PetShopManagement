@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pro1221_android_petshopmanagement.ui.model.Customer
 import com.example.pro1221_android_petshopmanagement.ui.model.FakeDataReposotory
-import com.example.pro1221_android_petshopmanagement.ui.screen.component.CustomerItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.CustomerItem
 
 @ExperimentalMaterialApi
 @Preview

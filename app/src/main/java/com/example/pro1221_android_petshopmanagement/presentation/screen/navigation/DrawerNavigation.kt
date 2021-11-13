@@ -15,15 +15,18 @@ import com.example.pro1221_android_petshopmanagement.ui.screen.*
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DrawerNavigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = DrawerNavigationItem.PetStoreScreen.route) {
+    NavHost(
+        navController = navController,
+        startDestination = DrawerNavigationItem.PetStoreScreen.route
+    ) {
         composable(route = DrawerNavigationItem.PetStoreScreen.route) {
-            PetStoreScreen(pets = FakeDataReposotory.getPets(LocalContext.current))
+            PetStoreScreen()
         }
         composable(route = DrawerNavigationItem.SoldPetScreen.route) {
-            SoldPetsScreen(pets = FakeDataReposotory.getPets(LocalContext.current))
+            SoldPetsScreen()
         }
         composable(route = DrawerNavigationItem.KindOfAnimalScreen.route) {
-            KindOfAnimalScreen( FakeDataReposotory.getKinds(LocalContext.current))
+            KindOfAnimalScreen(FakeDataReposotory.getKinds(LocalContext.current))
         }
         composable(route = DrawerNavigationItem.CustomerScreen.route) {
             CustomerScreen(FakeDataReposotory.getCustomer(LocalContext.current))
@@ -31,7 +34,7 @@ fun DrawerNavigation(navController: NavHostController) {
 
         // TODO: ADD how to take care of animals
         composable(route = DrawerNavigationItem.PetStoreScreen.route) {
-            PetStoreScreen(pets = FakeDataReposotory.getPets(LocalContext.current))
+            PetStoreScreen()
         }
 
         composable(route = DrawerNavigationItem.RankingScreen.route) {
