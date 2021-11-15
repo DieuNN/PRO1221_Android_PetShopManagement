@@ -1,5 +1,7 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet
 
+import android.graphics.Bitmap
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -27,6 +29,9 @@ class AddPetViewModel @Inject constructor(
     private val _detail = mutableStateOf("")
     var detail: State<String> = _detail
 
+    private var _image: MutableState<Bitmap?> = mutableStateOf(null)
+    var image: State<Bitmap?> = _image
+
     suspend fun onEvent(event: AddPetEvent) {
         when (event) {
             is AddPetEvent.EnteredName -> {
@@ -44,13 +49,16 @@ class AddPetViewModel @Inject constructor(
             is AddPetEvent.EnteredKind -> {
                 _kind.value = event.kind
             }
+            is AddPetEvent.EnteredImage -> {
+                _image.value = event.image
+            }
             is AddPetEvent.SavePet -> {
                 viewModelScope.launch {
                     petUseCases.addPet(
                         Pet(
                             detail = detail.value,
                             id = null,
-                            image = null,
+                            image = image.value,
                             isSold = false,
                             kind = kind.value,
                             name = name.value,

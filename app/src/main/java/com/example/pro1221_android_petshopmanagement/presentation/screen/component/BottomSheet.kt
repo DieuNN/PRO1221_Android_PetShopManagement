@@ -1,10 +1,20 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen.component
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.widget.Toast
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -14,21 +24,26 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.AddPetViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.util.AddPetEvent
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+
 
 // FIXME: 11/12/21 Fix this one
 //@ExperimentalMaterialApi
@@ -54,39 +69,82 @@ import kotlinx.coroutines.launch
 
 //@Preview
 @Composable
-fun BottomSheetImage() {
-    val painterState: ImagePainter? = null
+fun BottomSheetPetImage(context: Context, addPetViewModel: AddPetViewModel, scope: CoroutineScope) {
+    var imageBitmap: MutableState<Bitmap?> = remember {
+        mutableStateOf<Bitmap?>(null)
+    }
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val launcher: ManagedActivityResultLauncher<String, Uri?> = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        imageUri = it
+    }
+
+    imageUri?.let {
+        imageBitmap.value = if (Build.VERSION.SDK_INT < 28) {
+            MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+        } else {
+            val source = ImageDecoder.createSource(context.contentResolver, it)
+            ImageDecoder.decodeBitmap(source)
+        }
+    }
+
+    val tempBitmap: ImageBitmap? = imageBitmap.value?.asImageBitmap()
+
+    SideEffect {
+        scope.launch {
+            imageBitmap.value?.let {
+                addPetViewModel.onEvent(AddPetEvent.EnteredImage(it))
+            }
+        }
+    }
+
+    // FIXME: 11/15/21 fix if possible
     Box(
         Modifier
             .width(120.dp)
             .height(128.dp)
     ) {
-        Image(
-            modifier = Modifier
-                .width(120.dp)
-                .height(120.dp)
-                .clip(CircleShape),
-            // FIXME: 11/12/21 Try to fix this
-            painter = if (painterState == null) {
-                rememberImagePainter(
-                    data = null
-                )
-            } else {
-                rememberImagePainter(
-                    data = null
-                )
-            },
-            contentDescription = null,
-        )
+        if (tempBitmap != null) {
+            Image(
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(120.dp)
+                    .clip(CircleShape),
+                bitmap = tempBitmap,
+                contentDescription = null,
+            )
+        }
         Row(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.End
         ) {
-            BottomSheetFAB()
+            FABPickImage(onImagePick = {
+                launcher.launch("image/*")
+            })
         }
     }
+}
 
+@Composable
+fun FABPickImage(onImagePick: () -> Unit) {
+
+
+    androidx.compose.material3.FloatingActionButton(
+        onClick = onImagePick,
+        containerColor = colorResource(id = R.color.maccaroni_and_cheese),
+        modifier = Modifier
+            .width(44.dp)
+            .height(44.dp),
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_outline_edit_24),
+            contentDescription = null
+        )
+    }
 }
 
 //@Preview
@@ -106,40 +164,6 @@ fun BottomSheetFAB() {
     }
 }
 
-
-//@Composable
-//fun BottomSheetInputPet(label: String, viewModel: AddPetViewModel = hiltViewModel()) {
-//    val textState = viewModel.detail
-//
-//    OutlinedTextField(
-//        value = name,
-//        onValueChange = {
-//            scope.launch {
-//                addPetViewModel.onEvent(AddPetEvent.EnteredName(it))
-//            }
-//        },
-//        modifier = Modifier.fillMaxWidth(),
-//        textStyle = MaterialTheme.typography.h6,
-//        label = {
-//            Text(
-//                text = "Tên",
-//                fontSize = 16.sp,
-//                fontWeight = FontWeight.Medium,
-//            )
-//        },
-//        shape = RoundedCornerShape(32.dp),
-//        colors = TextFieldDefaults.outlinedTextFieldColors(
-//            focusedBorderColor = Color.Black.copy(.4f),
-//            focusedLabelColor = Color.Black,
-//            cursorColor = Color.Black,
-//            unfocusedBorderColor = Color.Black.copy(.25f)
-//        )
-//    )
-//
-//
-//}
-
-
 @ExperimentalMaterialApi
 @Composable
 fun BottomSheetHeaderAddPet(
@@ -149,6 +173,8 @@ fun BottomSheetHeaderAddPet(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    // focus manager to hide keyboard when input done
+    val focusManager: FocusManager = LocalFocusManager.current
     Card(
         elevation = 0.dp,
         shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
@@ -199,15 +225,31 @@ fun BottomSheetHeaderAddPet(
                                     Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show()
                                     return@launch
                                 }
+                                viewModel.image.value == null -> {
+                                    Toast.makeText(context, "image is null", Toast.LENGTH_SHORT)
+                                        .show()
+                                    return@launch
+                                }
                             }
 
-                            // add pet to database and reset text field
+                            // add pet to database and reset field
                             viewModel.onEvent(AddPetEvent.SavePet)
                             viewModel.onEvent(AddPetEvent.EnteredName(""))
-                            viewModel.onEvent(AddPetEvent.EnteredName(""))
-                            viewModel.onEvent(AddPetEvent.EnteredName(""))
-                            viewModel.onEvent(AddPetEvent.EnteredName(""))
+                            viewModel.onEvent(AddPetEvent.EnteredDetail(""))
+                            viewModel.onEvent(AddPetEvent.EnteredPrice(0))
+                            viewModel.onEvent(AddPetEvent.EnteredKind(""))
+                            // reset image
+                            viewModel.onEvent(
+                                AddPetEvent.EnteredImage(
+                                    Bitmap.createBitmap(
+                                        1,
+                                        1,
+                                        Bitmap.Config.ARGB_8888
+                                    )
+                                )
+                            )
                             bottomSheetScaffoldState.bottomSheetState.collapse()
+                            focusManager.clearFocus()
                         }
                     }
 
@@ -230,13 +272,21 @@ fun BottomSheetHeaderAddPet(
 @Composable
 fun BottomSheetAddPet(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    addPetViewModel: AddPetViewModel = hiltViewModel()
+    addPetViewModel: AddPetViewModel = hiltViewModel(),
+    scope: CoroutineScope = rememberCoroutineScope()
 ) {
     val name = addPetViewModel.name.value
     val kind = addPetViewModel.kind.value
     val price = addPetViewModel.price.value
     val detail = addPetViewModel.detail.value
-    val scope = rememberCoroutineScope()
+
+    // focus manager
+    val focusManager = LocalFocusManager.current
+
+    // context
+    val context = LocalContext.current
+
+
     Column {
         Spacer(modifier = Modifier.height(32.dp))
         BottomSheetHeaderAddPet(
@@ -246,7 +296,7 @@ fun BottomSheetAddPet(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            BottomSheetImage()
+            BottomSheetPetImage(context = context, addPetViewModel = addPetViewModel, scope = scope)
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
@@ -300,11 +350,15 @@ fun BottomSheetAddPet(
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
             value = price.toString(),
             onValueChange = {
                 scope.launch {
-                    addPetViewModel.onEvent(AddPetEvent.EnteredPrice(it.toInt()))
+                    addPetViewModel.onEvent(AddPetEvent.EnteredPrice(it.trim().toInt()))
                 }
             },
             modifier = Modifier.fillMaxWidth(),

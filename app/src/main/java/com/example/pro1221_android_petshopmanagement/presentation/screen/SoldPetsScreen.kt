@@ -1,4 +1,4 @@
-package com.example.pro1221_android_petshopmanagement.ui.screen
+package com.example.pro1221_android_petshopmanagement.presentation.screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

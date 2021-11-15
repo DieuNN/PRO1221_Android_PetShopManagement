@@ -52,7 +52,7 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
             )
         },
         sheetContent = {
-            BottomSheetAddPet(bottomSheetScaffoldState = scaffoldState)
+            BottomSheetAddPet(bottomSheetScaffoldState = scaffoldState, scope = scope)
         },
         sheetGesturesEnabled = true,
         scaffoldState = scaffoldState,

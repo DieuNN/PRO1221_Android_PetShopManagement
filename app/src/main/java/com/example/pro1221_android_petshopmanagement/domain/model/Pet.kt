@@ -1,5 +1,7 @@
 package com.example.pro1221_android_petshopmanagement.domain.model
 
+import android.graphics.Bitmap
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,6 +14,7 @@ data class Pet(
     var detail:String = "",
     var isSold:Boolean = false,
     var updateTime:String = "",
-    var image:ByteArray? = null,
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    var image:Bitmap? = null,
     var price:Int = 0
 )

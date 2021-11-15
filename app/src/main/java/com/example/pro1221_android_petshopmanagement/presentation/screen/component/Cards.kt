@@ -37,7 +37,7 @@ import com.example.pro1221_android_petshopmanagement.domain.model.AnimalInfo
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
-import com.example.pro1221_android_petshopmanagement.ui.collections.parseLongTimeToString
+import com.example.pro1221_android_petshopmanagement.common.collections.parseLongTimeToString
 import com.example.pro1221_android_petshopmanagement.ui.model.Customer
 import com.example.pro1221_android_petshopmanagement.ui.model.Kind
 import kotlinx.coroutines.CoroutineScope
@@ -475,15 +475,16 @@ fun PetInfoCard(
                         ) {
                             androidx.compose.material3.OutlinedButton(
                                 onClick = {
-                                    // FIXME: 11/13/21 snackbar disappeard too quick
-                                    viewModel.onEvent(PetEvent.DeletePet(pet = pet))
+                                    // FIXME: 11/13/21 snackbar disappeared too quick
                                     scope.launch {
                                         scaffoldState.snackbarHostState.showSnackbar(
                                             message = "Deleted",
-                                            duration = SnackbarDuration.Long,
-                                            actionLabel = "Undo?"
+                                            actionLabel = "Undo",
+                                            duration = SnackbarDuration.Short
                                         )
+                                        viewModel.onEvent(PetEvent.DeletePet(pet = pet))
                                     }
+
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.white),
