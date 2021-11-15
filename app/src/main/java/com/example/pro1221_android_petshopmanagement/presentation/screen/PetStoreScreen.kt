@@ -1,9 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,6 +10,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -29,11 +27,21 @@ import kotlin.streams.toList
 @ExperimentalMaterial3Api
 @Composable
 fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
-    val soldPets = petViewModel.petState.value.stream().filter { !it.isSold }.toList()
+    val forSalePets = petViewModel.petState.value.stream().filter { !it.isSold }.toList()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val scope = rememberCoroutineScope()
+
+    if (forSalePets.isEmpty()) {
+        Column(
+            Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Trống!")
+        }
+    }
 
     BottomSheetScaffold(
         floatingActionButton = {
@@ -65,9 +73,9 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
             contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(soldPets.size) { index ->
+            items(forSalePets.size) { index ->
                 PetInfoCard(
-                    pet = soldPets[index],
+                    pet = forSalePets[index],
                     viewModel = petViewModel,
                     bottomSheetScaffoldState = scaffoldState
                 )

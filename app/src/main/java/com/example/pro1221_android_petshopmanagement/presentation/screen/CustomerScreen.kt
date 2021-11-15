@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.pro1221_android_petshopmanagement.ui.model.Customer
+import com.example.pro1221_android_petshopmanagement.domain.model.Customer
 import com.example.pro1221_android_petshopmanagement.ui.model.FakeDataReposotory
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.CustomerItem
 

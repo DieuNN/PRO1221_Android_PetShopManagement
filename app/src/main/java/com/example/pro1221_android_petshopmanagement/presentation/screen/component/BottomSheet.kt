@@ -70,8 +70,8 @@ import kotlinx.coroutines.launch
 //@Preview
 @Composable
 fun BottomSheetPetImage(context: Context, addPetViewModel: AddPetViewModel, scope: CoroutineScope) {
-    var imageBitmap: MutableState<Bitmap?> = remember {
-        mutableStateOf<Bitmap?>(null)
+    val imageBitmap: MutableState<Bitmap?> = remember {
+        mutableStateOf(null)
     }
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
@@ -147,23 +147,6 @@ fun FABPickImage(onImagePick: () -> Unit) {
     }
 }
 
-//@Preview
-@Composable
-fun BottomSheetFAB() {
-    androidx.compose.material3.FloatingActionButton(
-        onClick = { /*TODO*/ },
-        containerColor = colorResource(id = R.color.maccaroni_and_cheese),
-        modifier = Modifier
-            .width(44.dp)
-            .height(44.dp),
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_outline_edit_24),
-            contentDescription = null
-        )
-    }
-}
-
 @ExperimentalMaterialApi
 @Composable
 fun BottomSheetHeaderAddPet(
@@ -208,6 +191,7 @@ fun BottomSheetHeaderAddPet(
                     onClick = {
                         scope.launch {
                             //validate empty
+                            // FIXME: 11/16/21 Change this to VNese
                             when {
                                 viewModel.name.value.isBlank() -> {
                                     Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show()
@@ -405,13 +389,6 @@ fun BottomSheetAddPet(
         )
         Spacer(modifier = Modifier.height(8.dp))
     }
-}
-
-@ExperimentalMaterialApi
-//@Preview
-@Composable
-fun AddPetBottomSheetPrev() {
-    BottomSheetAddPet(bottomSheetScaffoldState = rememberBottomSheetScaffoldState())
 }
 
 

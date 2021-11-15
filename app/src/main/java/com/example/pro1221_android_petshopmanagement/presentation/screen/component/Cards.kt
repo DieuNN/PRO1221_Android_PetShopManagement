@@ -38,7 +38,7 @@ import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import com.example.pro1221_android_petshopmanagement.common.collections.parseLongTimeToString
-import com.example.pro1221_android_petshopmanagement.ui.model.Customer
+import com.example.pro1221_android_petshopmanagement.domain.model.Customer
 import com.example.pro1221_android_petshopmanagement.ui.model.Kind
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

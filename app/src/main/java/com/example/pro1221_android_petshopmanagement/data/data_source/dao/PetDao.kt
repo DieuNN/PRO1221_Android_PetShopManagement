@@ -10,7 +10,7 @@ interface PetDao {
     @Query("SELECT * FROM table_pet")
     fun getPets(): Flow<List<Pet>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = REPLACE)
     suspend fun addPet(pet: Pet)
 
     @Update

@@ -3,6 +3,7 @@ package com.example.pro1221_android_petshopmanagement.ui.model
 import android.content.Context
 import android.graphics.BitmapFactory
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.domain.model.Customer
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 
 class FakeDataReposotory {
