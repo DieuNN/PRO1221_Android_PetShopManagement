@@ -30,7 +30,6 @@ fun parseLongTimeToString(time: Long): String {
         val format = SimpleDateFormat("dd/MM/yyyy")
         return format.format(date)
     } catch (e: Exception) {
-
     }
     return "!"
 }

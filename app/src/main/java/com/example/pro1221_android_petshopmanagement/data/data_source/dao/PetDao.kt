@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PetDao {
     @Query("SELECT * FROM table_pet")
-    fun getPets():Flow<List<Pet>>
+    fun getPets(): Flow<List<Pet>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addPet(pet: Pet)
@@ -20,10 +20,14 @@ interface PetDao {
     suspend fun deletePet(pet: Pet)
 
     @Query("select * from table_pet where id = :id")
-    suspend fun getPetById(id:Int) : Pet
+    suspend fun getPetById(id: Int): Pet
 
     @Query("update table_pet set isSold = 1 where id =:id")
     suspend fun soldPet(id: Int)
 
+    @Query("update table_pet set updateTime =:updateTime where id=:id")
+    suspend fun updatePetUpdateTime(id: Int, updateTime: String)
 
+    @Insert(onConflict = REPLACE)
+    suspend fun restorePet(pet: Pet)
 }

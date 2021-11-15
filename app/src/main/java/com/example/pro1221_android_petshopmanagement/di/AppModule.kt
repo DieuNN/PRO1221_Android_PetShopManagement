@@ -61,6 +61,8 @@ object AppModule {
         getPetById =  GetPetById(petRepository = petRepository),
         getPets = GetPets(petRepository = petRepository),
         updatePet = UpdatePet(petRepository = petRepository),
-        soldPet = SetPetSold(petRepository = petRepository)
+        soldPet = SetPetSold(petRepository = petRepository),
+        updatePetTime = UpdatePetTime(petRepository = petRepository),
+        restorePet = RestorePet(petRepository = petRepository)
     )
 }

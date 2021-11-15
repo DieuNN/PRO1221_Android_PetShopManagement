@@ -1,5 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet
 
+import android.os.SystemClock
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -21,7 +22,6 @@ class PetViewModel @Inject constructor(
     val petState: State<List<Pet>> = _petState
 
     private var job: Job? = null
-    private var deletedPet: Pet? = null
 
     init {
         getPets()
@@ -32,7 +32,6 @@ class PetViewModel @Inject constructor(
             is PetEvent.DeletePet -> {
                 viewModelScope.launch {
                     petUseCases.deletePet(event.pet)
-                    deletedPet = event.pet
                 }
             }
             is PetEvent.SetPetSold -> {
@@ -40,9 +39,14 @@ class PetViewModel @Inject constructor(
                     event.pet.id?.let { petUseCases.soldPet (it) }
                 }
             }
-            else -> {
+            is PetEvent.SetUpdateTime -> {
                 viewModelScope.launch {
-                    petUseCases.addPet(deletedPet!!)
+                    event.id.let { petUseCases.updatePetTime(it, System.currentTimeMillis().toString()) }
+                }
+            }
+            is PetEvent.RestorePet -> {
+                viewModelScope.launch {
+                    petUseCases.addPet(event.pet)
                 }
             }
         }

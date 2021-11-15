@@ -29,4 +29,13 @@ class PetRepositoryImpl(private val petDao: PetDao) : PetRepository {
     override suspend fun soldPet(id: Int) {
         petDao.soldPet(id = id)
     }
+
+    override suspend fun updatePetUpdateTime(id: Int, updateTime: String) {
+        petDao.updatePetUpdateTime(id = id, updateTime = updateTime)
+    }
+
+    override suspend fun restorePet(pet: Pet) {
+        petDao.restorePet(pet = pet)
+    }
+
 }

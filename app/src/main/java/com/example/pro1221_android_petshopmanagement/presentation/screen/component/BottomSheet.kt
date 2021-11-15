@@ -45,7 +45,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-// FIXME: 11/12/21 Fix this one
+// TODO: 11/12/21 Fix this one
 //@ExperimentalMaterialApi
 //@Composable
 //fun BottomSheetAddCustomer(bottomSheetScaffoldState: BottomSheetScaffoldState) {

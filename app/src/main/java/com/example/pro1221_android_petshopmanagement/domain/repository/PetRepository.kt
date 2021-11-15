@@ -15,4 +15,9 @@ interface PetRepository  {
     suspend fun getPetById(id:Int)
 
     suspend fun soldPet(id: Int)
+
+    suspend fun updatePetUpdateTime(id: Int, updateTime: String)
+
+    suspend fun restorePet(pet: Pet)
+
 }

@@ -449,6 +449,12 @@ fun PetInfoCard(
                                 onClick = {
                                     scope.launch {
                                         viewModel.onEvent(PetEvent.SetPetSold(pet))
+                                        viewModel.onEvent(
+                                            PetEvent.SetUpdateTime(
+                                                pet.id!!,
+                                                System.currentTimeMillis().toString()
+                                            )
+                                        )
                                     }
                                 },
                                 colors = ButtonDefaults.buttonColors(
@@ -477,14 +483,19 @@ fun PetInfoCard(
                                 onClick = {
                                     // FIXME: 11/13/21 snackbar disappeared too quick
                                     scope.launch {
-                                        scaffoldState.snackbarHostState.showSnackbar(
-                                            message = "Deleted",
-                                            actionLabel = "Undo",
-                                            duration = SnackbarDuration.Short
-                                        )
+                                        val deletedResult =
+                                            scaffoldState.snackbarHostState.showSnackbar(
+                                                message = "Đã xóa ${pet.name}",
+                                                actionLabel = "Hủy",
+                                                duration = SnackbarDuration.Short
+                                            )
                                         viewModel.onEvent(PetEvent.DeletePet(pet = pet))
-                                    }
+                                        val deletedPet = pet
 
+                                        if (deletedResult == SnackbarResult.ActionPerformed) {
+                                            viewModel.onEvent(PetEvent.RestorePet(deletedPet))
+                                        }
+                                    }
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.white),
