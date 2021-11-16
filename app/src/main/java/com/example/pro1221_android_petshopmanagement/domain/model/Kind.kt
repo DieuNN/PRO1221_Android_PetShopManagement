@@ -1,10 +1,17 @@
-package com.example.pro1221_android_petshopmanagement.ui.model
+package com.example.pro1221_android_petshopmanagement.domain.model
 
 import android.graphics.Bitmap
+import androidx.room.ColumnInfo
+import androidx.room.ColumnInfo.BLOB
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "table_kind")
 data class Kind(
-    var id:Int = 0,
-    var name:String = "",
-    var description:String = "",
-    var image:Bitmap? = null
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = 0,
+    var name: String = "",
+    var description: String = "",
+    @ColumnInfo(typeAffinity = BLOB)
+    var image: Bitmap? = null
 )

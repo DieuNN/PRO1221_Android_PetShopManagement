@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.pro1221_android_petshopmanagement.presentation.screen.KindOfAnimalScreen
 import com.example.pro1221_android_petshopmanagement.presentation.screen.PetStoreScreen
 import com.example.pro1221_android_petshopmanagement.presentation.screen.SoldPetsScreen
 import com.example.pro1221_android_petshopmanagement.ui.model.FakeDataReposotory

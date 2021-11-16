@@ -24,7 +24,6 @@ class Converters {
 }
 
 fun parseLongTimeToString(time: Long): String {
-    // FIXME: 11/13/21 Change this in soldPetsScreen
     try {
         val date = Date(time)
         val format = SimpleDateFormat("dd/MM/yyyy")

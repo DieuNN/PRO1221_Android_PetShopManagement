@@ -11,7 +11,10 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -101,7 +104,6 @@ fun BottomSheetPetImage(context: Context, addPetViewModel: AddPetViewModel, scop
         }
     }
 
-    // FIXME: 11/15/21 fix if possible
     Box(
         Modifier
             .width(120.dp)
@@ -191,26 +193,43 @@ fun BottomSheetHeaderAddPet(
                     onClick = {
                         scope.launch {
                             //validate empty
-                            // FIXME: 11/16/21 Change this to VNese
+                            // FIXME: 11/16/21 Error when type ','
                             when {
                                 viewModel.name.value.isBlank() -> {
-                                    Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Bạn chưa nhập tên thú!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     return@launch
                                 }
                                 viewModel.detail.value.isBlank() -> {
-                                    Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Bạn chưa nhập giá giá tiền!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     return@launch
                                 }
                                 viewModel.kind.value.isBlank() -> {
-                                    Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Bạn chưa chọn loài!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     return@launch
                                 }
                                 viewModel.price.value.toString().isBlank() -> {
-                                    Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Giá đang trống!", Toast.LENGTH_SHORT)
+                                        .show()
                                     return@launch
                                 }
                                 viewModel.image.value == null -> {
-                                    Toast.makeText(context, "image is null", Toast.LENGTH_SHORT)
+                                    Toast.makeText(
+                                        context,
+                                        "Bạn chưa chọn ảnh!",
+                                        Toast.LENGTH_SHORT
+                                    )
                                         .show()
                                     return@launch
                                 }
@@ -225,11 +244,7 @@ fun BottomSheetHeaderAddPet(
                             // reset image
                             viewModel.onEvent(
                                 AddPetEvent.EnteredImage(
-                                    Bitmap.createBitmap(
-                                        1,
-                                        1,
-                                        Bitmap.Config.ARGB_8888
-                                    )
+                                    null
                                 )
                             )
                             bottomSheetScaffoldState.bottomSheetState.collapse()
@@ -271,7 +286,10 @@ fun BottomSheetAddPet(
     val context = LocalContext.current
 
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
         Spacer(modifier = Modifier.height(32.dp))
         BottomSheetHeaderAddPet(
             title = "Thêm thú mới",
@@ -334,6 +352,7 @@ fun BottomSheetAddPet(
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
+            // FIXME: 11/16/21 Crash when input ',', change data type to double instead of int
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
@@ -387,7 +406,6 @@ fun BottomSheetAddPet(
                 unfocusedBorderColor = Color.Black.copy(.25f)
             )
         )
-        Spacer(modifier = Modifier.height(8.dp))
     }
 }
 

@@ -33,6 +33,7 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
     )
     val scope = rememberCoroutineScope()
 
+    // FIXME: 11/16/21 It doesn't show
     if (forSalePets.isEmpty()) {
         Column(
             Modifier.fillMaxSize(),
@@ -61,6 +62,7 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
         },
         sheetContent = {
             BottomSheetAddPet(bottomSheetScaffoldState = scaffoldState, scope = scope)
+            Spacer(modifier = Modifier.height(32.dp))
         },
         sheetGesturesEnabled = true,
         scaffoldState = scaffoldState,

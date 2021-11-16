@@ -5,18 +5,22 @@ import androidx.room.Room
 import com.example.pro1221_android_petshopmanagement.data.data_source.AppDatabase
 import com.example.pro1221_android_petshopmanagement.data.repository.AnimalRepositoryImpl
 import com.example.pro1221_android_petshopmanagement.data.repository.CustomerRepositoryImpl
+import com.example.pro1221_android_petshopmanagement.data.repository.KindRepositoryImpl
 import com.example.pro1221_android_petshopmanagement.data.repository.PetRepositoryImpl
 import com.example.pro1221_android_petshopmanagement.domain.repository.AnimalRepository
 import com.example.pro1221_android_petshopmanagement.domain.repository.CustomerRepository
+import com.example.pro1221_android_petshopmanagement.domain.repository.KindRepository
 import com.example.pro1221_android_petshopmanagement.domain.repository.PetRepository
 import com.example.pro1221_android_petshopmanagement.domain.use_case.AnimalUseCases
 import com.example.pro1221_android_petshopmanagement.domain.use_case.CustomerUseCase
+import com.example.pro1221_android_petshopmanagement.domain.use_case.KindUseCase
 import com.example.pro1221_android_petshopmanagement.domain.use_case.PetUseCases
 import com.example.pro1221_android_petshopmanagement.domain.use_case.animal.*
 import com.example.pro1221_android_petshopmanagement.domain.use_case.customer.AddCustomer
 import com.example.pro1221_android_petshopmanagement.domain.use_case.customer.DeleteCustomer
 import com.example.pro1221_android_petshopmanagement.domain.use_case.customer.GetCustomer
 import com.example.pro1221_android_petshopmanagement.domain.use_case.customer.GetCustomers
+import com.example.pro1221_android_petshopmanagement.domain.use_case.kind.*
 import com.example.pro1221_android_petshopmanagement.domain.use_case.pet.*
 import dagger.Module
 import dagger.Provides
@@ -54,6 +58,11 @@ object AppModule {
     fun provideCustomerRepository(appDatabase: AppDatabase): CustomerRepository =
         CustomerRepositoryImpl(customerDao = appDatabase.customerDao)
 
+    @Provides
+    @Singleton
+    fun provideKindRepository(appDatabase: AppDatabase): KindRepository =
+        KindRepositoryImpl(kindDao = appDatabase.kindDao)
+
     // provides use cases
     @Provides
     @Singleton
@@ -80,11 +89,22 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCustomerUseCase(customerRepository: CustomerRepository):CustomerUseCase = CustomerUseCase(
-        addCustomer = AddCustomer(customerRepository = customerRepository),
-        deleteCustomer = DeleteCustomer(customerRepository = customerRepository),
-        getCustomer = GetCustomer(customerRepository = customerRepository),
-        getCustomers = GetCustomers(customerRepository = customerRepository)
+    fun provideCustomerUseCase(customerRepository: CustomerRepository): CustomerUseCase =
+        CustomerUseCase(
+            addCustomer = AddCustomer(customerRepository = customerRepository),
+            deleteCustomer = DeleteCustomer(customerRepository = customerRepository),
+            getCustomer = GetCustomer(customerRepository = customerRepository),
+            getCustomers = GetCustomers(customerRepository = customerRepository)
+        )
+
+    @Provides
+    @Singleton
+    fun provideKindUseCase(kindRepository: KindRepository) :KindUseCase = KindUseCase(
+        addKind = AddKind(kindRepository = kindRepository),
+        deleteKind = DeleteKind(kindRepository = kindRepository),
+        getKind = GetKind(kindRepository = kindRepository),
+        getKinds = GetKinds(kindRepository = kindRepository),
+        updateKind = UpdateKind(kindRepository = kindRepository),
     )
 
 
