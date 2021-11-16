@@ -593,25 +593,7 @@ fun PetRankItem(pet: Pet, index: Int) {
 }
 
 
-@ExperimentalMaterialApi
-//@Preview
-@Composable
-fun PetRankItemPrev() {
-    val ctx = LocalContext.current
-    PetRankItem(
-        Pet(
-            name = "Doge",
-            image = null,
-            price = 1000,
-            id = 10,
-            kind = "Dog",
-            detail = "This is doge detail example",
-            updateTime = "20/12/2002",
-            isSold = true
-        ),
-        index = 1
-    )
-}
+
 
 
 

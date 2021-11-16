@@ -21,7 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.AppBar
 import com.example.pro1221_android_petshopmanagement.ui.screen.component.Drawer
-import com.example.pro1221_android_petshopmanagement.ui.screen.navigation.DrawerNavigation
+import com.example.pro1221_android_petshopmanagement.presentation.screen.navigation.DrawerNavigation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -97,6 +97,7 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
             DrawerItem(
                 title = "Cách chăm sóc các loại thú",
+                // FIXME: idk
                 isSelected = false,
                 scaffoldState = scaffoldState,
                 // TODO: Add this

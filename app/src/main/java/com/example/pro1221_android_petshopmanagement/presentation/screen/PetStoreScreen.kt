@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.BottomSheetAddPet
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddPet
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.PetInfoCard
 import kotlinx.coroutines.launch
 import kotlin.streams.toList

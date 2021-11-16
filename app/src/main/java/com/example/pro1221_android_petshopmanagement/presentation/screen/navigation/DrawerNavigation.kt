@@ -1,4 +1,4 @@
-package com.example.pro1221_android_petshopmanagement.ui.screen.navigation
+package com.example.pro1221_android_petshopmanagement.presentation.screen.navigation
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +28,7 @@ fun DrawerNavigation(navController: NavHostController) {
             SoldPetsScreen()
         }
         composable(route = DrawerNavigationItem.KindOfAnimalScreen.route) {
-            KindOfAnimalScreen(FakeDataReposotory.getKinds(LocalContext.current))
+            KindOfAnimalScreen()
         }
         composable(route = DrawerNavigationItem.CustomerScreen.route) {
             CustomerScreen(FakeDataReposotory.getCustomer(LocalContext.current))
@@ -40,7 +40,7 @@ fun DrawerNavigation(navController: NavHostController) {
         }
 
         composable(route = DrawerNavigationItem.RankingScreen.route) {
-            PetRankingScreen(pets = FakeDataReposotory.getPets(LocalContext.current))
+            PetRankingScreen(mutableListOf())
         }
     }
 }
