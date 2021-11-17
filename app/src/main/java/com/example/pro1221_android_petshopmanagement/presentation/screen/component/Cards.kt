@@ -1,5 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen.component
 
+import android.app.Activity
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -25,8 +26,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.common.collections.parseLongTimeToString
@@ -62,7 +65,7 @@ fun AppBar(
             }
         },
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {  }) {
                 Icon(imageVector = rightIcon, contentDescription = null)
             }
         },
@@ -325,7 +328,8 @@ fun PetInfoCard(
                             horizontalArrangement = Arrangement.End
                         ) {
                             androidx.compose.material3.OutlinedButton(
-                                onClick = { /*TODO*/ },
+                                // FIXME: Change this
+                                onClick = {  },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.white),
 
@@ -558,9 +562,31 @@ fun PetRankItem(pet: Pet, index: Int) {
     }
 }
 
-@Composable
-fun ConfirmExitDialog() {
 
+@Composable
+fun ConfirmExitDialog(
+    shouldShow:Boolean = false
+) {
+    val context = LocalContext.current as Activity?
+    var isOpen by remember {
+        mutableStateOf(true)
+    }
+    androidx.compose.material3.AlertDialog(
+        title = { Text(text = "Xác nhận thoát", fontSize = 24.sp) },
+        text = { Text(text = "Xác nhận đồng bộ dữ liệu và thoát?") },
+        onDismissRequest = { isOpen = false },
+        confirmButton = {
+            TextButton(onClick = { context?.finishAffinity() }) {
+                Text(text = "Thoát")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { isOpen = false }) {
+                Text(text = "Hủy")
+            }
+        },
+        containerColor = colorResource(id = R.color.maccaroni_and_cheese)
+    )
 }
 
 

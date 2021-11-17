@@ -1,27 +1,23 @@
-package com.example.pro1221_android_petshopmanagement.ui.screen.component
+package com.example.pro1221_android_petshopmanagement.presentation.screen.component
 
-import android.util.Log
+import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.ui.screen.DrawerNavigationItem
-import com.example.pro1221_android_petshopmanagement.ui.screen.Screen
+import com.example.pro1221_android_petshopmanagement.presentation.screen.DrawerNavigationItem
 import kotlinx.coroutines.launch
 
 
@@ -29,6 +25,31 @@ import kotlinx.coroutines.launch
 fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+
+    // FIXME: Sync before exit app
+    val context = LocalContext.current as Activity?
+    val isOpen = remember {
+        mutableStateOf(false)
+    }
+    if(isOpen.value) {
+        androidx.compose.material3.AlertDialog(
+            title = { Text(text = "Xác nhận thoát", fontSize = 24.sp) },
+            text = { Text(text = "Xác nhận đồng bộ dữ liệu và thoát?") },
+            onDismissRequest = {
+            },
+            confirmButton = {
+                TextButton(onClick = { context?.finishAffinity() }) {
+                    Text(text = "Thoát")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { isOpen.value = false }) {
+                    Text(text = "Hủy")
+                }
+            },
+            containerColor = colorResource(id = R.color.maccaroni_and_cheese)
+        )
+    }
 
     Card(
         modifier = Modifier
@@ -97,14 +118,12 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
             Spacer(modifier = Modifier.height(8.dp))
             DrawerItem(
                 title = "Cách chăm sóc các loại thú",
-                // FIXME: idk
-                isSelected = false,
+                // FIXME: add this
+                isSelected = currentRoute == DrawerNavigationItem.PetInfoScreen.route,
                 scaffoldState = scaffoldState,
-                // TODO: Add this
                 drawerNavigation = DrawerNavigationItem.SoldPetScreen,
-                // TODO: Change this
                 onItemClick = {
-                    navController.navigate(route = DrawerNavigationItem.SoldPetScreen.route) {
+                    navController.navigate(route = DrawerNavigationItem.PetInfoScreen.route) {
                         popUpTo(0)
                     }
                 }
@@ -124,14 +143,8 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
                 title = "Đăng xuất",
                 isSelected = false,
                 scaffoldState = scaffoldState,
-                // TODO: Add this,
-                drawerNavigation = DrawerNavigationItem.SoldPetScreen,
-                // TODO: Change this
-                onItemClick = {
-                    navController.navigate(route = DrawerNavigationItem.SoldPetScreen.route) {
-                        popUpTo(0)
-                    }
-                }
+                drawerNavigation = DrawerNavigationItem.CustomerScreen,
+                onItemClick = { isOpen.value = true }
             )
         }
     }
@@ -166,12 +179,11 @@ fun DrawerItem(
     isSelected: Boolean,
     scaffoldState: ScaffoldState,
     drawerNavigation: DrawerNavigationItem,
-    onItemClick: (DrawerNavigationItem) -> Unit
+    onItemClick: (DrawerNavigationItem) -> Unit,
 ) {
     var backgroundColor =
         if (isSelected) colorResource(id = R.color.copper) else colorResource(id = R.color.maccaroni_and_cheese)
     val scope = rememberCoroutineScope()
-    val test = rememberNavController()
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -184,7 +196,7 @@ fun DrawerItem(
             scope.launch {
                 scaffoldState.drawerState.close()
             }
-        }
+        },
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),

@@ -45,7 +45,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 
-// FIXME: Optimize code
 
 
 @ExperimentalMaterialApi
@@ -129,7 +128,6 @@ fun BottomSheetAddPet(
                         onClick = {
                             scope.launch {
                                 //validate empty
-                                // FIXME: 11/16/21 Error when type ','
                                 when {
                                     addPetViewModel.name.value.isBlank() -> {
                                         Toast.makeText(
@@ -296,7 +294,6 @@ fun BottomSheetAddPet(
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
-            // FIXME: 11/16/21 Crash when input ',', change data type to double instead of int
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,

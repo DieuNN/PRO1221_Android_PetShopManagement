@@ -37,19 +37,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.animal.AddAnimalInfoViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.AddCustomerViewModel
+import com.example.pro1221_android_petshopmanagement.presentation.util.AddAnimalInfoEvent
 import com.example.pro1221_android_petshopmanagement.presentation.util.AddCustomerEvent
-import com.example.pro1221_android_petshopmanagement.presentation.util.AddKindEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BottomSheetAddCustomer(
+fun BottomSheetAddAnimalInfo (
     bottomSheetScaffoldState: BottomSheetScaffoldState,
-    addCustomerViewModel: AddCustomerViewModel = hiltViewModel(),
+    addAnimalInfoViewModel: AddAnimalInfoViewModel = hiltViewModel(),
     scope: CoroutineScope
-) {
+){
     val context = LocalContext.current
     val focus = LocalFocusManager.current
     val imageBitmap: MutableState<Bitmap?> = remember {
@@ -77,14 +78,14 @@ fun BottomSheetAddCustomer(
     SideEffect {
         scope.launch {
             imageBitmap.value?.let {
-                addCustomerViewModel.onEvent(AddCustomerEvent.EnteredImage(it))
+                addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredImage(it))
             }
         }
     }
 
-    val name = addCustomerViewModel.name
-    val address = addCustomerViewModel.address
-    val phoneNumber = addCustomerViewModel.phoneNumber
+    val name = addAnimalInfoViewModel.name
+    val detail = addAnimalInfoViewModel.detail
+    val kind = addAnimalInfoViewModel.kind
 
     Column {
         CenterAlignedTopAppBar(
@@ -97,7 +98,7 @@ fun BottomSheetAddCustomer(
             ),
             title = {
                 Text(
-                    text = "Thêm khách hàng mới",
+                    text = "Thêm thông tin thú mới",
                     fontWeight = FontWeight.Bold,
                     fontSize = 22.sp
                 )
@@ -116,30 +117,30 @@ fun BottomSheetAddCustomer(
                 IconButton(onClick = {
                     scope.launch {
                         when {
-                            addCustomerViewModel.name.value.isBlank() -> {
+                            addAnimalInfoViewModel.name.value.isBlank() -> {
                                 Toast.makeText(context, "Bạn chưa nhập tên!", Toast.LENGTH_SHORT).show()
                                 return@launch
                             }
-                            addCustomerViewModel.address.value.isBlank() -> {
-                                Toast.makeText(context, "Địa chỉ đang trống!", Toast.LENGTH_SHORT).show()
+                            addAnimalInfoViewModel.detail.value.isBlank() -> {
+                                Toast.makeText(context, "Bạn chưa thêm chi tiết!", Toast.LENGTH_SHORT).show()
                                 return@launch
                             }
-                            addCustomerViewModel.image.value == null -> {
+                            addAnimalInfoViewModel.image.value == null -> {
                                 Toast.makeText(context, "Bạn chưa chọn hình ảnh!", Toast.LENGTH_SHORT).show()
                                 return@launch
                             }
-                            addCustomerViewModel.phoneNumber.value.isBlank() -> {
-                                Toast.makeText(context, "Số điện thoại đang trống!", Toast.LENGTH_SHORT).show()
+                            addAnimalInfoViewModel.kind.value.isBlank() -> {
+                                Toast.makeText(context, "Bạn chưa nhập loài!", Toast.LENGTH_SHORT).show()
                             }
                         }
 
                         // add to database
-                        addCustomerViewModel.onEvent(AddCustomerEvent.SaveCustomer)
+                        addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.SaveAnimalInfo)
                         // clear
-                        addCustomerViewModel.onEvent(AddCustomerEvent.EnteredImage(null))
-                        addCustomerViewModel.onEvent(AddCustomerEvent.EnteredName(""))
-                        addCustomerViewModel.onEvent(AddCustomerEvent.EnteredAddress(""))
-                        addCustomerViewModel.onEvent(AddCustomerEvent.EnteredPhoneNumber(""))
+                        addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredImage(null))
+                        addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredName(""))
+                        addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredDetail(""))
+                        addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredKind(""))
 
                         tempBitmap = null
                         imageBitmap.value = null
@@ -191,7 +192,7 @@ fun BottomSheetAddCustomer(
             value = name.value,
             onValueChange = {
                 scope.launch {
-                    addCustomerViewModel.onEvent(AddCustomerEvent.EnteredName(it))
+                    addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredName(it))
                 }
             },
             modifier = Modifier.fillMaxWidth(),
@@ -213,17 +214,17 @@ fun BottomSheetAddCustomer(
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = address.value,
+            value = kind.value,
             onValueChange = {
                 scope.launch {
-                    addCustomerViewModel.onEvent(AddCustomerEvent.EnteredAddress(it))
+                    addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredKind(it))
                 }
             },
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.h6,
             label = {
                 Text(
-                    text = "Địa chỉ",
+                    text = "Loài",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                 )
@@ -239,10 +240,10 @@ fun BottomSheetAddCustomer(
 
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = phoneNumber.value,
+            value = detail.value,
             onValueChange = {
                 scope.launch {
-                    addCustomerViewModel.onEvent(AddCustomerEvent.EnteredPhoneNumber(it))
+                    addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredDetail(it))
                 }
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
@@ -250,7 +251,7 @@ fun BottomSheetAddCustomer(
             textStyle = MaterialTheme.typography.h6,
             label = {
                 Text(
-                    text = "Số điện thoại",
+                    text = "Chi tiết",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                 )
@@ -265,6 +266,3 @@ fun BottomSheetAddCustomer(
         )
     }
 }
-
-
-

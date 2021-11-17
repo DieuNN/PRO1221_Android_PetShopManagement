@@ -7,7 +7,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.pro1221_android_petshopmanagement.presentation.screen.*
-import com.example.pro1221_android_petshopmanagement.ui.screen.*
 
 @ExperimentalMaterial3Api
 @OptIn(ExperimentalMaterialApi::class)
@@ -29,12 +28,9 @@ fun DrawerNavigation(navController: NavHostController) {
         composable(route = DrawerNavigationItem.CustomerScreen.route) {
             CustomerScreen()
         }
-
-        // TODO: ADD how to take care of animals
-        composable(route = DrawerNavigationItem.PetStoreScreen.route) {
-            PetStoreScreen()
+        composable(route = DrawerNavigationItem.PetInfoScreen.route) {
+            PetInfoScreen()
         }
-
         composable(route = DrawerNavigationItem.RankingScreen.route) {
             PetRankingScreen()
         }

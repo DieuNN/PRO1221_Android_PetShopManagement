@@ -33,7 +33,7 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
     )
     val scope = rememberCoroutineScope()
 
-    // FIXME: 11/16/21 It doesn't show
+    // FIXME: Doesn't show
     if (forSalePets.isEmpty()) {
         Column(
             Modifier.fillMaxSize(),

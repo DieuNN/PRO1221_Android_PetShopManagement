@@ -2,7 +2,6 @@ package com.example.pro1221_android_petshopmanagement.presentation.screen.view_m
 
 import com.example.pro1221_android_petshopmanagement.domain.model.AnimalInfo
 
-sealed class AnimalEvent {
-    data class DeleteAnimal(val animal: AnimalInfo) : AnimalEvent()
-    object RestoreAnimal : AnimalEvent()
+sealed class AnimalInfoEvent {
+    data class DeleteAnimalInfo(val animal: AnimalInfo) : AnimalInfoEvent()
 }

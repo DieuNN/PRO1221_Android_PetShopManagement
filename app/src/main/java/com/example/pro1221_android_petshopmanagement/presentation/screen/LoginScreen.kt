@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.activity.MainActivity
+import com.example.pro1221_android_petshopmanagement.presentation.screen.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @ExperimentalAnimationApi

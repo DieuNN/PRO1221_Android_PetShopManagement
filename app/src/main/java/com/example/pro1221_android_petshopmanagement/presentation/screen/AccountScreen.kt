@@ -1,4 +1,4 @@
-package com.example.pro1221_android_petshopmanagement.ui.screen
+package com.example.pro1221_android_petshopmanagement.presentation.screen
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
