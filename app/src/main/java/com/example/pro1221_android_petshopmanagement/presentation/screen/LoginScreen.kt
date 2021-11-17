@@ -2,7 +2,6 @@ package com.example.pro1221_android_petshopmanagement.ui.screen
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -32,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.ui.activity.MainActivity
+import com.example.pro1221_android_petshopmanagement.presentation.activity.MainActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @ExperimentalAnimationApi

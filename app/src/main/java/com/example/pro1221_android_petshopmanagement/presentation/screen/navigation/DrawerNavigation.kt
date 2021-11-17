@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.pro1221_android_petshopmanagement.presentation.screen.CustomerScreen
 import com.example.pro1221_android_petshopmanagement.presentation.screen.KindOfAnimalScreen
 import com.example.pro1221_android_petshopmanagement.presentation.screen.PetStoreScreen
 import com.example.pro1221_android_petshopmanagement.presentation.screen.SoldPetsScreen
@@ -31,7 +32,7 @@ fun DrawerNavigation(navController: NavHostController) {
             KindOfAnimalScreen()
         }
         composable(route = DrawerNavigationItem.CustomerScreen.route) {
-            CustomerScreen(FakeDataReposotory.getCustomer(LocalContext.current))
+            CustomerScreen()
         }
 
         // TODO: ADD how to take care of animals

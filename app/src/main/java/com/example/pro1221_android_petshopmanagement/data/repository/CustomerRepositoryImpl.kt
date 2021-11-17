@@ -15,11 +15,11 @@ class CustomerRepositoryImpl(private val customerDao: CustomerDao) : CustomerRep
         customerDao.addCustomer(customer = customer)
     }
 
-    override fun getCustomer(): Flow<List<Customer>> {
+    override fun getCustomers(): Flow<List<Customer>> {
         return customerDao.getCustomers()
     }
 
-    override  fun getCustomer(id: Int): Customer {
+    override  fun getCustomers(id: Int): Customer {
         return customerDao.getCustomer(id = id)
     }
 

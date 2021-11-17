@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 class GetCustomers(private val customerRepository: CustomerRepository) {
     operator fun invoke(): Flow<List<Customer>> =
-        customerRepository.getCustomer()
+        customerRepository.getCustomers()
 }

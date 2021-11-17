@@ -25,7 +25,7 @@ class AddCustomerViewModel @Inject constructor(
     var name: State<String> = _name
 
     private val _address = mutableStateOf("")
-    var address: State<String> = _name
+    var address: State<String> = _address
 
     private val _phoneNumber = mutableStateOf("")
     var phoneNumber: State<String> = _phoneNumber

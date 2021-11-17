@@ -22,6 +22,10 @@ class CustomerViewModel @Inject constructor(
 
     private var job: Job? = null
 
+    init {
+        getCustomers()
+    }
+
     fun onEvent(event: CustomerEvent) {
         when (event) {
             is CustomerEvent.DeleteCustomer -> {
