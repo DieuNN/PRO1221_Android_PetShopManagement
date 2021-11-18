@@ -17,13 +17,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddKind
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.KindOfAnimalItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.kind.KindViewModel
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
 fun KindOfAnimalScreen(kindViewModel: KindViewModel = hiltViewModel()) {
-    var kinds = kindViewModel.kindState.value
+    val kinds = kindViewModel.kindState.value
     val scope = rememberCoroutineScope()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -62,12 +63,16 @@ fun KindOfAnimalScreen(kindViewModel: KindViewModel = hiltViewModel()) {
         sheetGesturesEnabled = true,
         sheetElevation = 0.dp
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(kinds.size) { index: Int ->
-                KindOfAnimalItem(kind = kinds[index])
+        if (kinds.isEmpty()) {
+            ShowEmptyListWarning(text = "Danh sách đang trống! Thử thêm mới bằng nút ấn phía dưới!")
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(kinds.size) { index: Int ->
+                    KindOfAnimalItem(kind = kinds[index])
+                }
             }
         }
     }

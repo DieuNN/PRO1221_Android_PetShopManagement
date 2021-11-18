@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class Screen(val route: String) {
     object LoginScreen : Screen(route = "login_screen")
     object SignUpScreen : Screen(route = "sign_up_screen")
-
+    object AccountScreen : Screen(route = "account_screen")
 
 }
 
@@ -18,4 +18,5 @@ sealed class DrawerNavigationItem(var route: String, var icon:ImageVector, var t
     object CustomerScreen : DrawerNavigationItem(route = "customer_screen", Icons.Filled.CheckCircle, "Customer")
     object PetInfoScreen : DrawerNavigationItem(route = "pet_info_screen", Icons.Filled.CheckCircle, title = "PetInfo")
     object RankingScreen : DrawerNavigationItem(route = "ranking_screen", Icons.Filled.CheckCircle, "Ranking")
+
 }

@@ -1,6 +1,7 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen.component
 
 import android.app.Activity
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -26,10 +27,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.common.collections.parseLongTimeToString
@@ -37,6 +40,9 @@ import com.example.pro1221_android_petshopmanagement.domain.model.AnimalInfo
 import com.example.pro1221_android_petshopmanagement.domain.model.Customer
 import com.example.pro1221_android_petshopmanagement.domain.model.Kind
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
+import com.example.pro1221_android_petshopmanagement.presentation.activity.AccountActivity
+import com.example.pro1221_android_petshopmanagement.presentation.screen.DrawerNavigationItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.Screen
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -48,8 +54,10 @@ fun AppBar(
     leftIcon: ImageVector,
     rightIcon: ImageVector,
     scaffoldState: ScaffoldState,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    navController: NavController
 ) {
+    val context = LocalContext.current as? Activity
     CenterAlignedTopAppBar(
         title = { Text(text = title, fontSize = 22.sp, fontWeight = FontWeight.Bold) },
         navigationIcon = {
@@ -65,7 +73,9 @@ fun AppBar(
             }
         },
         actions = {
-            IconButton(onClick = {  }) {
+            IconButton(onClick = {
+                context?.startActivity(Intent(context, AccountActivity::class.java))
+            }) {
                 Icon(imageVector = rightIcon, contentDescription = null)
             }
         },
@@ -329,7 +339,7 @@ fun PetInfoCard(
                         ) {
                             androidx.compose.material3.OutlinedButton(
                                 // FIXME: Change this
-                                onClick = {  },
+                                onClick = { },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.white),
 
@@ -565,7 +575,7 @@ fun PetRankItem(pet: Pet, index: Int) {
 
 @Composable
 fun ConfirmExitDialog(
-    shouldShow:Boolean = false
+    shouldShow: Boolean = false
 ) {
     val context = LocalContext.current as Activity?
     var isOpen by remember {
@@ -587,6 +597,25 @@ fun ConfirmExitDialog(
         },
         containerColor = colorResource(id = R.color.maccaroni_and_cheese)
     )
+}
+
+@Composable
+fun ShowEmptyListWarning(text: String) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+
+        ) {
+        Text(
+            text = text,
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
 }
 
 

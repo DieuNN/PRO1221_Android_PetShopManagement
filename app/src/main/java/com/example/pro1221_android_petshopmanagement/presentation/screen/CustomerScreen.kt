@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.CustomerItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddCustomer
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.CustomerViewModel
 import kotlinx.coroutines.launch
@@ -40,14 +41,14 @@ fun CustomerScreen(customerViewModel: CustomerViewModel = hiltViewModel()) {
         floatingActionButton = {
             androidx.compose.material3.FloatingActionButton(
                 onClick = {
-                scope.launch {
-                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                        bottomSheetScaffoldState.bottomSheetState.expand()
-                    } else {
-                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    scope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
                     }
-                }
-            },
+                },
                 containerColor = colorResource(id = R.color.copper)
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
@@ -59,12 +60,16 @@ fun CustomerScreen(customerViewModel: CustomerViewModel = hiltViewModel()) {
         sheetGesturesEnabled = true,
         sheetElevation = 0.dp
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(customerList.size) { index: Int ->
-                CustomerItem(customer = customerList[index])
+        if (customerList.isEmpty()) {
+            ShowEmptyListWarning(text = "Danh sách đang trống! Thử thêm mới bằng nút ấn phía dưới!")
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(customerList.size) { index: Int ->
+                    CustomerItem(customer = customerList[index])
+                }
             }
         }
     }

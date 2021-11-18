@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.domain.model.AnimalInfo
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.AnimalInfoItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddAnimalInfo
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.animal.AnimalInfoViewModel
 import kotlinx.coroutines.launch
@@ -62,12 +63,16 @@ fun PetInfoScreen(animalInfoViewModel: AnimalInfoViewModel = hiltViewModel()) {
         },
     )
     {
-        LazyColumn(
-            contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(animalsInfo.size) {index: Int -> 
-                AnimalInfoItem(animalInfo = animalsInfo[index])
+        if (animalsInfo.isEmpty()) {
+            ShowEmptyListWarning(text = "Danh sách đang trống! Thử thêm mới bằng nút ấn phía dưới!")
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(animalsInfo.size) { index: Int ->
+                    AnimalInfoItem(animalInfo = animalsInfo[index])
+                }
             }
         }
     }

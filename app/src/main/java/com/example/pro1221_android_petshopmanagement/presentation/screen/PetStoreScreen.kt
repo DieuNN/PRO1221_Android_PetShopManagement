@@ -9,6 +9,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +21,7 @@ import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddPet
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.PetInfoCard
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
 import kotlinx.coroutines.launch
 import kotlin.streams.toList
 
@@ -34,15 +37,7 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
     val scope = rememberCoroutineScope()
 
     // FIXME: Doesn't show
-    if (forSalePets.isEmpty()) {
-        Column(
-            Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Trống!")
-        }
-    }
+
 
     BottomSheetScaffold(
         floatingActionButton = {
@@ -71,16 +66,21 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
         sheetElevation = 0.dp
     ) {
         Spacer(modifier = Modifier.height(8.dp))
-        LazyColumn(
-            contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(forSalePets.size) { index ->
-                PetInfoCard(
-                    pet = forSalePets[index],
-                    viewModel = petViewModel,
-                    bottomSheetScaffoldState = scaffoldState
-                )
+
+        if (forSalePets.isEmpty()) {
+            ShowEmptyListWarning(text = "Danh sách đang trống! Thử thêm mới bằng nút ấn phía dưới!")
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(forSalePets.size) { index ->
+                    PetInfoCard(
+                        pet = forSalePets[index],
+                        viewModel = petViewModel,
+                        bottomSheetScaffoldState = scaffoldState
+                    )
+                }
             }
         }
     }

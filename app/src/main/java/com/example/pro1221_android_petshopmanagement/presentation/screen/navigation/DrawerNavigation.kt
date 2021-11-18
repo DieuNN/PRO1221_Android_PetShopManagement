@@ -34,5 +34,8 @@ fun DrawerNavigation(navController: NavHostController) {
         composable(route = DrawerNavigationItem.RankingScreen.route) {
             PetRankingScreen()
         }
+        composable(route = Screen.AccountScreen.route) {
+            AccountScreen()
+        }
     }
 }
