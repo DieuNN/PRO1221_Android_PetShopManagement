@@ -16,7 +16,7 @@ sealed class DrawerNavigationItem(var route: String, var icon:ImageVector, var t
     object SoldPetScreen : DrawerNavigationItem(route = "sold_pet_screen", Icons.Filled.CheckCircle, "Sold")
     object KindOfAnimalScreen : DrawerNavigationItem(route = "kind_of_animal_screen", Icons.Filled.CheckCircle, "Kind")
     object CustomerScreen : DrawerNavigationItem(route = "customer_screen", Icons.Filled.CheckCircle, "Customer")
-    object PetInfoScreen : DrawerNavigationItem(route = "pet_info_screen", Icons.Filled.CheckCircle, title = "PetInfo")
+    object AnimalInfoScreen : DrawerNavigationItem(route = "animal_info_screen", Icons.Filled.CheckCircle, title = "PetInfo")
     object RankingScreen : DrawerNavigationItem(route = "ranking_screen", Icons.Filled.CheckCircle, "Ranking")
 
 }

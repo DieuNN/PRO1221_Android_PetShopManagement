@@ -30,4 +30,7 @@ interface PetDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun restorePet(pet: Pet)
+
+    @Query("update table_pet set customerName =:customerName where id =:id")
+    suspend fun setCustomerName(customerName:String, id:Int)
 }

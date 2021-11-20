@@ -28,8 +28,8 @@ fun DrawerNavigation(navController: NavHostController) {
         composable(route = DrawerNavigationItem.CustomerScreen.route) {
             CustomerScreen()
         }
-        composable(route = DrawerNavigationItem.PetInfoScreen.route) {
-            PetInfoScreen()
+        composable(route = DrawerNavigationItem.AnimalInfoScreen.route) {
+            AnimalInfoScreen()
         }
         composable(route = DrawerNavigationItem.RankingScreen.route) {
             PetRankingScreen()

@@ -31,6 +31,8 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
     val isOpen = remember {
         mutableStateOf(false)
     }
+
+    // Confirm Exit dialog
     if(isOpen.value) {
         androidx.compose.material3.AlertDialog(
             title = { Text(text = "Xác nhận thoát", fontSize = 24.sp) },
@@ -39,12 +41,12 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
             },
             confirmButton = {
                 TextButton(onClick = { context?.finishAffinity() }) {
-                    Text(text = "Thoát")
+                    Text(text = "Thoát", color = Color.Black)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { isOpen.value = false }) {
-                    Text(text = "Hủy")
+                    Text(text = "Hủy", color = Color.Black)
                 }
             },
             containerColor = colorResource(id = R.color.maccaroni_and_cheese)
@@ -95,6 +97,7 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
                     }
                 }
             )
+            Spacer(modifier = Modifier.height(8.dp))
             DrawerDivider()
             Spacer(modifier = Modifier.height(8.dp))
             DrawerItemHeader(text = "Khách hàng")
@@ -119,11 +122,11 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
             DrawerItem(
                 title = "Cách chăm sóc các loại thú",
                 // FIXME: add this
-                isSelected = currentRoute == DrawerNavigationItem.PetInfoScreen.route,
+                isSelected = currentRoute == DrawerNavigationItem.AnimalInfoScreen.route,
                 scaffoldState = scaffoldState,
                 drawerNavigation = DrawerNavigationItem.SoldPetScreen,
                 onItemClick = {
-                    navController.navigate(route = DrawerNavigationItem.PetInfoScreen.route) {
+                    navController.navigate(route = DrawerNavigationItem.AnimalInfoScreen.route) {
                         popUpTo(0)
                     }
                 }

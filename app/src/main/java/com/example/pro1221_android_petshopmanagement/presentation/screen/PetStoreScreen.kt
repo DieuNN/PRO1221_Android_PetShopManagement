@@ -22,6 +22,7 @@ import com.example.pro1221_android_petshopmanagement.presentation.screen.view_mo
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddPet
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.PetInfoCard
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
+import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.CustomerViewModel
 import kotlinx.coroutines.launch
 import kotlin.streams.toList
 
@@ -29,7 +30,7 @@ import kotlin.streams.toList
 @ExperimentalMaterialApi
 @ExperimentalMaterial3Api
 @Composable
-fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
+fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel(), customerViewModel: CustomerViewModel = hiltViewModel()) {
     val forSalePets = petViewModel.petState.value.stream().filter { !it.isSold }.toList()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -77,7 +78,8 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel()) {
                 items(forSalePets.size) { index ->
                     PetInfoCard(
                         pet = forSalePets[index],
-                        viewModel = petViewModel,
+                        petViewModel = petViewModel,
+                        customerViewModel = customerViewModel,
                         bottomSheetScaffoldState = scaffoldState
                     )
                 }

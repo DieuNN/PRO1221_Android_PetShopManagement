@@ -9,12 +9,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.PetInfoCard
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
+import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.CustomerViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import kotlin.streams.toList
 
 @ExperimentalMaterialApi
 @Composable
-fun SoldPetsScreen(petViewModel: PetViewModel = hiltViewModel()) {
+fun SoldPetsScreen(petViewModel: PetViewModel = hiltViewModel(), customerViewModel: CustomerViewModel = hiltViewModel()) {
     val soldPets = petViewModel.petState.value.stream().filter { it.isSold }.toList()
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -31,7 +32,8 @@ fun SoldPetsScreen(petViewModel: PetViewModel = hiltViewModel()) {
                 items(soldPets.size) { index ->
                     PetInfoCard(
                         pet = soldPets[index],
-                        viewModel = petViewModel,
+                        petViewModel = petViewModel,
+                        customerViewModel = customerViewModel,
                         scaffoldState = scaffoldState
                     )
                 }

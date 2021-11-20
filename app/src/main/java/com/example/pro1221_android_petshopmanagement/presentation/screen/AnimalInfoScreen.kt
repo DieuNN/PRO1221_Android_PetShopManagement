@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PetInfoScreen(animalInfoViewModel: AnimalInfoViewModel = hiltViewModel()) {
+fun AnimalInfoScreen(animalInfoViewModel: AnimalInfoViewModel = hiltViewModel()) {
     val animalsInfo = animalInfoViewModel.animalState.value
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)

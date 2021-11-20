@@ -1,5 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.ui.activity
 
+import android.app.LauncherActivity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -45,7 +46,6 @@ class LauncherScreen : ComponentActivity() {
 
 
 @ExperimentalAnimationApi
-@Preview(showBackground = true)
 @Composable
 fun LauncherScreenMainView() {
     AppIconAppearanceAnimate(modifier = Modifier)

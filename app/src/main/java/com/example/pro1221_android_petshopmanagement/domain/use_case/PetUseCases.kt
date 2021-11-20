@@ -10,5 +10,6 @@ data class PetUseCases(
     var updatePet: UpdatePet,
     var soldPet: SetPetSold,
     var updatePetTime: UpdatePetTime,
-    var restorePet: RestorePet
+    var restorePet: RestorePet,
+    var setCustomerName: SetCustomerName
 )

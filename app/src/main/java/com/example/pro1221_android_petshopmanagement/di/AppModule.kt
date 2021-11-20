@@ -84,7 +84,8 @@ object AppModule {
         updatePet = UpdatePet(petRepository = petRepository),
         soldPet = SetPetSold(petRepository = petRepository),
         updatePetTime = UpdatePetTime(petRepository = petRepository),
-        restorePet = RestorePet(petRepository = petRepository)
+        restorePet = RestorePet(petRepository = petRepository),
+        setCustomerName = SetCustomerName(petRepository = petRepository)
     )
 
     @Provides
@@ -99,7 +100,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideKindUseCase(kindRepository: KindRepository) :KindUseCase = KindUseCase(
+    fun provideKindUseCase(kindRepository: KindRepository): KindUseCase = KindUseCase(
         addKind = AddKind(kindRepository = kindRepository),
         deleteKind = DeleteKind(kindRepository = kindRepository),
         getKind = GetKind(kindRepository = kindRepository),

@@ -38,4 +38,7 @@ class PetRepositoryImpl(private val petDao: PetDao) : PetRepository {
         petDao.restorePet(pet = pet)
     }
 
+    override suspend fun setCustomerName(customerName: String, id: Int) {
+        petDao.setCustomerName(customerName = customerName, id = id)
+    }
 }

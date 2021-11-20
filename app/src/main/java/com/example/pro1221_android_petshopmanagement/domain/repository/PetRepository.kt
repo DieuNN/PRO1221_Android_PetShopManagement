@@ -20,4 +20,6 @@ interface PetRepository  {
 
     suspend fun restorePet(pet: Pet)
 
+    suspend fun setCustomerName(customerName:String, id: Int)
+
 }

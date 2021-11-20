@@ -16,5 +16,6 @@ data class Pet(
     var updateTime:String = "",
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var image:Bitmap? = null,
-    var price:Int = 0
+    var price:Int = 0,
+    var customerName:String? = null
 )

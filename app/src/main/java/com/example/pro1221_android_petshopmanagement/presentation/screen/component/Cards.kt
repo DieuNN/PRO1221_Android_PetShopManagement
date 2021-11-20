@@ -2,6 +2,7 @@ package com.example.pro1221_android_petshopmanagement.presentation.screen.compon
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -11,9 +12,12 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.IconButton
@@ -26,12 +30,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
@@ -41,8 +45,7 @@ import com.example.pro1221_android_petshopmanagement.domain.model.Customer
 import com.example.pro1221_android_petshopmanagement.domain.model.Kind
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 import com.example.pro1221_android_petshopmanagement.presentation.activity.AccountActivity
-import com.example.pro1221_android_petshopmanagement.presentation.screen.DrawerNavigationItem
-import com.example.pro1221_android_petshopmanagement.presentation.screen.Screen
+import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.CustomerViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -237,7 +240,8 @@ fun CustomerItem(customer: Customer) {
 @Composable
 fun PetInfoCard(
     pet: Pet,
-    viewModel: PetViewModel,
+    petViewModel: PetViewModel,
+    customerViewModel: CustomerViewModel,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState()
 ) {
@@ -248,9 +252,94 @@ fun PetInfoCard(
     } catch (e: NumberFormatException) {
         "!"
     }
+    val isCustomerPickerShowing = remember {
+        mutableStateOf(false)
+    }
+    val isPickingCustomerDone = remember {
+        mutableStateOf(false)
+    }
+
     ListItem {
         var expandedState by remember {
             mutableStateOf(false)
+        }
+
+        if (isCustomerPickerShowing.value) {
+            val customersViewModel: CustomerViewModel = hiltViewModel()
+            val customers = customersViewModel.customerState.value
+            val customerName = remember {
+                mutableStateOf("")
+            }
+            androidx.compose.material3.AlertDialog(
+                containerColor = Color.White,
+                onDismissRequest = { },
+                confirmButton = {},
+                title = {
+                    CenterAlignedTopAppBar(
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = colorResource(id = R.color.maccaroni_and_cheese)
+                        ),
+                        title = {
+                            Text(text = "Chọn khách hàng")
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                isCustomerPickerShowing.value = false
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    )
+                },
+                text = {
+
+                    LazyColumn(
+                        contentPadding = PaddingValues(bottom = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(customers.size) { index: Int ->
+                            print(customers.size)
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(64.dp),
+                                onClick = {
+                                    isCustomerPickerShowing.value = false
+                                    customerName.value = customers[index].name
+                                    scope.launch {
+                                        petViewModel.onEvent(
+                                            PetEvent.SetCustomerName(
+                                                customerName.value,
+                                                pet.id!!
+                                            )
+                                        )
+                                        isPickingCustomerDone.value = true
+                                    }
+                                },
+                                elevation = 3.dp,
+                                backgroundColor = colorResource(id = R.color.copper)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(start = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Text(
+                                        text = customers[index].name,
+                                        fontSize = 22.sp,
+                                        fontStyle = FontStyle.Normal,
+                                        color = Color.White
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            )
         }
         Card(
             modifier = Modifier
@@ -268,6 +357,7 @@ fun PetInfoCard(
                 expandedState = !expandedState
             }
         ) {
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -323,6 +413,11 @@ fun PetInfoCard(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
+                                text = "Loài: ${pet.kind}",
+                                color = Color.White,
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
                                 text = pet.detail,
                                 color = Color.White,
                             )
@@ -355,19 +450,22 @@ fun PetInfoCard(
                             Spacer(modifier = Modifier.width(8.dp))
                             androidx.compose.material3.OutlinedButton(
                                 onClick = {
-                                    scope.launch {
-                                        viewModel.onEvent(PetEvent.SetPetSold(pet))
-                                        viewModel.onEvent(
-                                            PetEvent.SetUpdateTime(
-                                                pet.id!!,
-                                                System.currentTimeMillis().toString()
+                                    isCustomerPickerShowing.value = true
+                                    if (isPickingCustomerDone.value) {
+                                        scope.launch {
+                                            petViewModel.onEvent(PetEvent.SetPetSold(pet))
+                                            petViewModel.onEvent(
+                                                PetEvent.SetUpdateTime(
+                                                    pet.id!!,
+                                                    System.currentTimeMillis().toString()
+                                                )
                                             )
-                                        )
-                                        Toast.makeText(
-                                            context,
-                                            "Đã bán thành công! Xem chi tiết ở mục thú đã bán!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                            Toast.makeText(
+                                                context,
+                                                "Đã bán thành công! Xem chi tiết ở mục thú đã bán!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
                                     }
                                 },
                                 colors = ButtonDefaults.buttonColors(
@@ -394,6 +492,7 @@ fun PetInfoCard(
                         ) {
                             androidx.compose.material3.OutlinedButton(
                                 onClick = {
+                                    expandedState = false
                                     scope.launch {
                                         val deletedResult =
                                             scaffoldState.snackbarHostState.showSnackbar(
@@ -401,10 +500,10 @@ fun PetInfoCard(
                                                 actionLabel = "Hủy",
                                                 duration = SnackbarDuration.Short
                                             )
-                                        viewModel.onEvent(PetEvent.DeletePet(pet = pet))
+                                        petViewModel.onEvent(PetEvent.DeletePet(pet = pet))
 
                                         if (deletedResult == SnackbarResult.ActionPerformed) {
-                                            viewModel.onEvent(PetEvent.RestorePet(pet))
+                                            petViewModel.onEvent(PetEvent.RestorePet(pet))
                                         }
                                     }
                                 },
@@ -574,32 +673,6 @@ fun PetRankItem(pet: Pet, index: Int) {
 
 
 @Composable
-fun ConfirmExitDialog(
-    shouldShow: Boolean = false
-) {
-    val context = LocalContext.current as Activity?
-    var isOpen by remember {
-        mutableStateOf(true)
-    }
-    androidx.compose.material3.AlertDialog(
-        title = { Text(text = "Xác nhận thoát", fontSize = 24.sp) },
-        text = { Text(text = "Xác nhận đồng bộ dữ liệu và thoát?") },
-        onDismissRequest = { isOpen = false },
-        confirmButton = {
-            TextButton(onClick = { context?.finishAffinity() }) {
-                Text(text = "Thoát")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = { isOpen = false }) {
-                Text(text = "Hủy")
-            }
-        },
-        containerColor = colorResource(id = R.color.maccaroni_and_cheese)
-    )
-}
-
-@Composable
 fun ShowEmptyListWarning(text: String) {
     Column(
         Modifier
@@ -616,6 +689,17 @@ fun ShowEmptyListWarning(text: String) {
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun DialogPickCustomer(
+
+    customerViewModel: CustomerViewModel = hiltViewModel(),
+    petViewModel: PetViewModel = hiltViewModel(),
+    petId: Int
+) {
+
 }
 
 
