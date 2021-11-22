@@ -80,7 +80,8 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel(), customerViewMod
                         pet = forSalePets[index],
                         petViewModel = petViewModel,
                         customerViewModel = customerViewModel,
-                        bottomSheetScaffoldState = scaffoldState
+                        bottomSheetScaffoldState = scaffoldState,
+                        onDelete = {}
                     )
                 }
             }

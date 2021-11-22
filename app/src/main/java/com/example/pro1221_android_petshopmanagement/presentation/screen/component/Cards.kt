@@ -50,6 +50,7 @@ import com.example.pro1221_android_petshopmanagement.presentation.screen.view_mo
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlin.system.measureTimeMillis
 
 @Composable
 fun AppBar(
@@ -243,10 +244,11 @@ fun PetInfoCard(
     petViewModel: PetViewModel,
     customerViewModel: CustomerViewModel,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
-    bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState()
+    bottomSheetScaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
+    scope: CoroutineScope = rememberCoroutineScope(),
+    onDelete: () -> Unit
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
     val updateDate = try {
         parseLongTimeToString(pet.updateTime.toLong())
     } catch (e: NumberFormatException) {
@@ -307,17 +309,31 @@ fun PetInfoCard(
                                     .fillMaxWidth()
                                     .height(64.dp),
                                 onClick = {
-                                    isCustomerPickerShowing.value = false
-                                    customerName.value = customers[index].name
                                     scope.launch {
+                                        customerName.value = customers[index].name
+                                        isPickingCustomerDone.value = true
+                                        petViewModel.onEvent(
+                                            PetEvent.SetPetSold(pet)
+                                        )
+                                        petViewModel.onEvent(
+                                            PetEvent.SetUpdateTime(
+                                                id = pet.id!!,
+                                                System.currentTimeMillis().toString()
+                                            )
+                                        )
                                         petViewModel.onEvent(
                                             PetEvent.SetCustomerName(
                                                 customerName.value,
                                                 pet.id!!
                                             )
                                         )
-                                        isPickingCustomerDone.value = true
                                     }
+                                    isCustomerPickerShowing.value = false
+                                    Toast.makeText(
+                                        context,
+                                        "Bán thành công! Xem ở mục thú đã bán!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 },
                                 elevation = 3.dp,
                                 backgroundColor = colorResource(id = R.color.copper)
@@ -418,9 +434,16 @@ fun PetInfoCard(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = pet.detail,
+                                text = "Ghi chú: ${pet.detail}",
                                 color = Color.White,
                             )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            if (pet.isSold) {
+                                Text(
+                                    text = "Khách hàng: ${pet.customerName}",
+                                    color = Color.White
+                                )
+                            }
                         }
                     }
                     if (!pet.isSold) {
@@ -433,8 +456,12 @@ fun PetInfoCard(
                             horizontalArrangement = Arrangement.End
                         ) {
                             androidx.compose.material3.OutlinedButton(
-                                // FIXME: Change this
-                                onClick = { },
+                                // FIXME: Add this
+                                onClick = {
+                                    scope.launch {
+                                        bottomSheetScaffoldState.bottomSheetState.expand()
+                                    }
+                                },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.white),
 
@@ -491,22 +518,7 @@ fun PetInfoCard(
                             horizontalArrangement = Arrangement.End
                         ) {
                             androidx.compose.material3.OutlinedButton(
-                                onClick = {
-                                    expandedState = false
-                                    scope.launch {
-                                        val deletedResult =
-                                            scaffoldState.snackbarHostState.showSnackbar(
-                                                message = "Đã xóa ${pet.name}",
-                                                actionLabel = "Hủy",
-                                                duration = SnackbarDuration.Short
-                                            )
-                                        petViewModel.onEvent(PetEvent.DeletePet(pet = pet))
-
-                                        if (deletedResult == SnackbarResult.ActionPerformed) {
-                                            petViewModel.onEvent(PetEvent.RestorePet(pet))
-                                        }
-                                    }
-                                },
+                                onClick = onDelete,
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = colorResource(id = R.color.white),
 

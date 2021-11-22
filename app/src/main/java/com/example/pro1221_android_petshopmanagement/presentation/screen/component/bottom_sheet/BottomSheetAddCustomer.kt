@@ -117,19 +117,29 @@ fun BottomSheetAddCustomer(
                     scope.launch {
                         when {
                             addCustomerViewModel.name.value.isBlank() -> {
-                                Toast.makeText(context, "Bạn chưa nhập tên!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Bạn chưa nhập tên!", Toast.LENGTH_SHORT)
+                                    .show()
                                 return@launch
                             }
                             addCustomerViewModel.address.value.isBlank() -> {
-                                Toast.makeText(context, "Địa chỉ đang trống!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Địa chỉ đang trống!", Toast.LENGTH_SHORT)
+                                    .show()
                                 return@launch
                             }
                             addCustomerViewModel.image.value == null -> {
-                                Toast.makeText(context, "Bạn chưa chọn hình ảnh!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Bạn chưa chọn hình ảnh!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 return@launch
                             }
                             addCustomerViewModel.phoneNumber.value.isBlank() -> {
-                                Toast.makeText(context, "Số điện thoại đang trống!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Số điện thoại đang trống!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
 
@@ -186,83 +196,87 @@ fun BottomSheetAddCustomer(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = name.value,
-            onValueChange = {
-                scope.launch {
-                    addCustomerViewModel.onEvent(AddCustomerEvent.EnteredName(it))
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.h6,
-            label = {
-                Text(
-                    text = "Tên",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = name.value,
+                    onValueChange = {
+                        scope.launch {
+                            addCustomerViewModel.onEvent(AddCustomerEvent.EnteredName(it))
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = MaterialTheme.typography.h6,
+                    label = {
+                        Text(
+                            text = "Tên",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    },
+                    shape = RoundedCornerShape(32.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Black.copy(.4f),
+                        focusedLabelColor = Color.Black,
+                        cursorColor = Color.Black,
+                        unfocusedBorderColor = Color.Black.copy(.25f)
+                    )
                 )
-            },
-            shape = RoundedCornerShape(32.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.Black.copy(.4f),
-                focusedLabelColor = Color.Black,
-                cursorColor = Color.Black,
-                unfocusedBorderColor = Color.Black.copy(.25f)
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = address.value,
-            onValueChange = {
-                scope.launch {
-                    addCustomerViewModel.onEvent(AddCustomerEvent.EnteredAddress(it))
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.h6,
-            label = {
-                Text(
-                    text = "Địa chỉ",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = address.value,
+                    onValueChange = {
+                        scope.launch {
+                            addCustomerViewModel.onEvent(AddCustomerEvent.EnteredAddress(it))
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = MaterialTheme.typography.h6,
+                    label = {
+                        Text(
+                            text = "Địa chỉ",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    },
+                    shape = RoundedCornerShape(32.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Black.copy(.4f),
+                        focusedLabelColor = Color.Black,
+                        cursorColor = Color.Black,
+                        unfocusedBorderColor = Color.Black.copy(.25f)
+                    )
                 )
-            },
-            shape = RoundedCornerShape(32.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.Black.copy(.4f),
-                focusedLabelColor = Color.Black,
-                cursorColor = Color.Black,
-                unfocusedBorderColor = Color.Black.copy(.25f)
-            )
-        )
 
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = phoneNumber.value,
-            onValueChange = {
-                scope.launch {
-                    addCustomerViewModel.onEvent(AddCustomerEvent.EnteredPhoneNumber(it))
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.h6,
-            label = {
-                Text(
-                    text = "Số điện thoại",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = phoneNumber.value,
+                    onValueChange = {
+                        scope.launch {
+                            addCustomerViewModel.onEvent(AddCustomerEvent.EnteredPhoneNumber(it))
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = MaterialTheme.typography.h6,
+                    label = {
+                        Text(
+                            text = "Số điện thoại",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    },
+                    shape = RoundedCornerShape(32.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Black.copy(.4f),
+                        focusedLabelColor = Color.Black,
+                        cursorColor = Color.Black,
+                        unfocusedBorderColor = Color.Black.copy(.25f)
+                    )
                 )
-            },
-            shape = RoundedCornerShape(32.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.Black.copy(.4f),
-                focusedLabelColor = Color.Black,
-                cursorColor = Color.Black,
-                unfocusedBorderColor = Color.Black.copy(.25f)
-            )
-        )
+            }
+        }
     }
 }
 

@@ -46,11 +46,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BottomSheetAddAnimalInfo (
+fun BottomSheetAddAnimalInfo(
     bottomSheetScaffoldState: BottomSheetScaffoldState,
     addAnimalInfoViewModel: AddAnimalInfoViewModel = hiltViewModel(),
     scope: CoroutineScope
-){
+) {
     val context = LocalContext.current
     val focus = LocalFocusManager.current
     val imageBitmap: MutableState<Bitmap?> = remember {
@@ -118,19 +118,29 @@ fun BottomSheetAddAnimalInfo (
                     scope.launch {
                         when {
                             addAnimalInfoViewModel.name.value.isBlank() -> {
-                                Toast.makeText(context, "Bạn chưa nhập tên!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Bạn chưa nhập tên!", Toast.LENGTH_SHORT)
+                                    .show()
                                 return@launch
                             }
                             addAnimalInfoViewModel.detail.value.isBlank() -> {
-                                Toast.makeText(context, "Bạn chưa thêm chi tiết!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Bạn chưa thêm chi tiết!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 return@launch
                             }
                             addAnimalInfoViewModel.image.value == null -> {
-                                Toast.makeText(context, "Bạn chưa chọn hình ảnh!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "Bạn chưa chọn hình ảnh!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 return@launch
                             }
                             addAnimalInfoViewModel.kind.value.isBlank() -> {
-                                Toast.makeText(context, "Bạn chưa nhập loài!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Bạn chưa nhập loài!", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
 
@@ -187,82 +197,86 @@ fun BottomSheetAddAnimalInfo (
                 }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = name.value,
-            onValueChange = {
-                scope.launch {
-                    addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredName(it))
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.h6,
-            label = {
-                Text(
-                    text = "Tên",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = name.value,
+                    onValueChange = {
+                        scope.launch {
+                            addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredName(it))
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = MaterialTheme.typography.h6,
+                    label = {
+                        Text(
+                            text = "Tên",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    },
+                    shape = RoundedCornerShape(32.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Black.copy(.4f),
+                        focusedLabelColor = Color.Black,
+                        cursorColor = Color.Black,
+                        unfocusedBorderColor = Color.Black.copy(.25f)
+                    )
                 )
-            },
-            shape = RoundedCornerShape(32.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.Black.copy(.4f),
-                focusedLabelColor = Color.Black,
-                cursorColor = Color.Black,
-                unfocusedBorderColor = Color.Black.copy(.25f)
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = kind.value,
-            onValueChange = {
-                scope.launch {
-                    addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredKind(it))
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.h6,
-            label = {
-                Text(
-                    text = "Loài",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = kind.value,
+                    onValueChange = {
+                        scope.launch {
+                            addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredKind(it))
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = MaterialTheme.typography.h6,
+                    label = {
+                        Text(
+                            text = "Loài",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    },
+                    shape = RoundedCornerShape(32.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Black.copy(.4f),
+                        focusedLabelColor = Color.Black,
+                        cursorColor = Color.Black,
+                        unfocusedBorderColor = Color.Black.copy(.25f)
+                    )
                 )
-            },
-            shape = RoundedCornerShape(32.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.Black.copy(.4f),
-                focusedLabelColor = Color.Black,
-                cursorColor = Color.Black,
-                unfocusedBorderColor = Color.Black.copy(.25f)
-            )
-        )
 
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = detail.value,
-            onValueChange = {
-                scope.launch {
-                    addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredDetail(it))
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            modifier = Modifier.fillMaxWidth(),
-            textStyle = MaterialTheme.typography.h6,
-            label = {
-                Text(
-                    text = "Chi tiết",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = detail.value,
+                    onValueChange = {
+                        scope.launch {
+                            addAnimalInfoViewModel.onEvent(AddAnimalInfoEvent.EnteredDetail(it))
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = MaterialTheme.typography.h6,
+                    label = {
+                        Text(
+                            text = "Chi tiết",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                        )
+                    },
+                    shape = RoundedCornerShape(32.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Black.copy(.4f),
+                        focusedLabelColor = Color.Black,
+                        cursorColor = Color.Black,
+                        unfocusedBorderColor = Color.Black.copy(.25f)
+                    )
                 )
-            },
-            shape = RoundedCornerShape(32.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.Black.copy(.4f),
-                focusedLabelColor = Color.Black,
-                cursorColor = Color.Black,
-                unfocusedBorderColor = Color.Black.copy(.25f)
-            )
-        )
+            }
+        }
     }
 }
