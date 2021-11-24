@@ -23,8 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.domain.model.Kind
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddKind
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.KindOfAnimalItem
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.KindOfAnimalItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.kind.KindEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.kind.KindViewModel
 import kotlinx.coroutines.launch

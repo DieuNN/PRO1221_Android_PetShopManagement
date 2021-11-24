@@ -20,8 +20,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddPet
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.PetInfoCard
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.PetInfoCard
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.CustomerViewModel
 import kotlinx.coroutines.launch
 import kotlin.streams.toList

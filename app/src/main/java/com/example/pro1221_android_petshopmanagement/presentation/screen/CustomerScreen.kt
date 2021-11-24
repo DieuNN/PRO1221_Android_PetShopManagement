@@ -20,13 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.domain.model.Customer
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.CustomerItem
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.KindOfAnimalItem
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddCustomer
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.CustomerItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.CustomerEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.CustomerViewModel
-import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.kind.KindEvent
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState")

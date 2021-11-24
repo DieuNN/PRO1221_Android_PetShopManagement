@@ -1,6 +1,5 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -12,7 +11,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -21,7 +19,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.IconButton
@@ -31,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -45,6 +41,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.kind.KindViewModel
@@ -52,7 +49,6 @@ import com.example.pro1221_android_petshopmanagement.presentation.screen.view_mo
 import com.example.pro1221_android_petshopmanagement.presentation.util.AddPetEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.lang.NumberFormatException
 
 
 @ExperimentalMaterialApi
@@ -260,66 +256,130 @@ fun BottomSheetAddPet(
                 mutableStateOf(false)
             }
             if (isPickKindDialogShowing.value) {
-                androidx.compose.material3.AlertDialog(
-                    containerColor = Color.White,
-                    onDismissRequest = { },
-                    confirmButton = {},
-                    title = {
-                        CenterAlignedTopAppBar(
-                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                containerColor = colorResource(id = R.color.maccaroni_and_cheese)
-                            ),
-                            title = {
-                                Text(text = "Chọn loài")
-                            },
-                            navigationIcon = {
-                                IconButton(onClick = { isPickKindDialogShowing.value = false }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Close,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-                        )
-                    },
-                    text = {
-
-                        LazyColumn(
-                            contentPadding = PaddingValues(bottom = 8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            items(kinds.size) { index: Int ->
-                                Card(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(32.dp),
-                                    onClick = {
-                                        scope.launch {
-                                            addPetViewModel.onEvent(AddPetEvent.EnteredKind(kinds[index].name))
-                                            isPickKindDialogShowing.value = false
-                                        }
-                                    },
-                                    elevation = 3.dp,
-                                    backgroundColor = colorResource(id = R.color.copper)
-                                ) {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(start = 8.dp),
-                                        verticalAlignment = CenterVertically,
-                                    ) {
-                                        Text(
-                                            text = kinds[index].name,
-                                            fontSize = 22.sp,
-                                            fontStyle = FontStyle.Normal,
-                                            color = Color.White
+                Dialog(onDismissRequest = { isPickKindDialogShowing.value = false }) {
+                    Card(shape = RoundedCornerShape(24.dp)) {
+                        Column {
+                            CenterAlignedTopAppBar(
+                                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                                    containerColor = colorResource(id = R.color.maccaroni_and_cheese)
+                                ),
+                                title = {
+                                    Text(text = "Chọn loài")
+                                },
+                                navigationIcon = {
+                                    IconButton(onClick = {
+                                        isPickKindDialogShowing.value = false
+                                    }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Close,
+                                            contentDescription = null
                                         )
                                     }
                                 }
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            LazyColumn(
+                                contentPadding = PaddingValues(bottom = 16.dp, start = 8.dp, end = 8.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                items(kinds.size) { index: Int ->
+                                    Card(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(32.dp),
+                                        onClick = {
+                                            scope.launch {
+                                                addPetViewModel.onEvent(
+                                                    AddPetEvent.EnteredKind(
+                                                        kinds[index].name
+                                                    )
+                                                )
+                                                isPickKindDialogShowing.value = false
+                                            }
+                                        },
+                                        elevation = 3.dp,
+                                        backgroundColor = colorResource(id = R.color.copper)
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(start = 8.dp),
+                                            verticalAlignment = CenterVertically,
+                                        ) {
+                                            Text(
+                                                text = kinds[index].name,
+                                                fontSize = 22.sp,
+                                                fontStyle = FontStyle.Normal,
+                                                color = Color.White
+                                            )
+                                        }
+                                    }
+                                }
                             }
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
                     }
-                )
+                }
+//                androidx.compose.material3.AlertDialog(
+//                    containerColor = Color.White,
+//                    onDismissRequest = { },
+//                    confirmButton = {},
+//                    title = {
+//                        CenterAlignedTopAppBar(
+//                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+//                                containerColor = colorResource(id = R.color.maccaroni_and_cheese)
+//                            ),
+//                            title = {
+//                                Text(text = "Chọn loài")
+//                            },
+//                            navigationIcon = {
+//                                IconButton(onClick = { isPickKindDialogShowing.value = false }) {
+//                                    Icon(
+//                                        imageVector = Icons.Default.Close,
+//                                        contentDescription = null
+//                                    )
+//                                }
+//                            }
+//                        )
+//                    },
+//                    text = {
+//
+//                        LazyColumn(
+//                            contentPadding = PaddingValues(bottom = 8.dp),
+//                            verticalArrangement = Arrangement.spacedBy(8.dp)
+//                        ) {
+//                            items(kinds.size) { index: Int ->
+//                                Card(
+//                                    modifier = Modifier
+//                                        .fillMaxWidth()
+//                                        .height(32.dp),
+//                                    onClick = {
+//                                        scope.launch {
+//                                            addPetViewModel.onEvent(AddPetEvent.EnteredKind(kinds[index].name))
+//                                            isPickKindDialogShowing.value = false
+//                                        }
+//                                    },
+//                                    elevation = 3.dp,
+//                                    backgroundColor = colorResource(id = R.color.copper)
+//                                ) {
+//                                    Row(
+//                                        modifier = Modifier
+//                                            .fillMaxWidth()
+//                                            .padding(start = 8.dp),
+//                                        verticalAlignment = CenterVertically,
+//                                    ) {
+//                                        Text(
+//                                            text = kinds[index].name,
+//                                            fontSize = 22.sp,
+//                                            fontStyle = FontStyle.Normal,
+//                                            color = Color.White
+//                                        )
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                )
             }
             Column {
                 OutlinedTextField(

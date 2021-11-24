@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.PetInfoCard
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.PetInfoCard
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.customer.CustomerViewModel
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetEvent
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.pet.PetViewModel

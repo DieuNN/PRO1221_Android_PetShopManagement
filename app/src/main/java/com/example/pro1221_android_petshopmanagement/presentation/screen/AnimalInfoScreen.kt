@@ -15,10 +15,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.domain.model.AnimalInfo
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.AnimalInfoItem
-import com.example.pro1221_android_petshopmanagement.presentation.screen.component.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.bottom_sheet.BottomSheetAddAnimalInfo
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.AnimalInfoItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ShowEmptyListWarning
 import com.example.pro1221_android_petshopmanagement.presentation.screen.view_model.animal.AnimalInfoViewModel
 import kotlinx.coroutines.launch
 
