@@ -382,30 +382,6 @@ fun BottomSheetAddPet(
                         )
                     }
                 }
-//                OutlinedTextField(
-//                    value = kind,
-//                    onValueChange = {
-//                        scope.launch {
-//                            addPetViewModel.onEvent(AddPetEvent.EnteredKind(it))
-//                        }
-//                    },
-//                    modifier = Modifier.fillMaxWidth(),
-//                    textStyle = MaterialTheme.typography.h6,
-//                    label = {
-//                        Text(
-//                            text = "Loài",
-//                            fontSize = 16.sp,
-//                            fontWeight = FontWeight.Medium,
-//                        )
-//                    },
-//                    shape = RoundedCornerShape(32.dp),
-//                    colors = TextFieldDefaults.outlinedTextFieldColors(
-//                        focusedBorderColor = Color.Black.copy(.4f),
-//                        focusedLabelColor = Color.Black,
-//                        cursorColor = Color.Black,
-//                        unfocusedBorderColor = Color.Black.copy(.25f)
-//                    )
-//                )
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedTextField(
                     keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),

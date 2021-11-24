@@ -21,7 +21,7 @@
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.PRO1221_Android_PetShopManagement.NoActionBar" />
         <activity
-            android:name=".ui.activity.LauncherScreen"
+            android:name=".presentation.activity.LauncherScreen"
             android:exported="true"
             android:label="@string/title_activity_launcher_screen"
             android:theme="@style/Theme.PRO1221_Android_PetShopManagement.NoActionBar">

@@ -1,5 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.domain.repository
 
+import android.graphics.Bitmap
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 import kotlinx.coroutines.flow.Flow
 
@@ -8,7 +9,7 @@ interface PetRepository  {
 
     suspend fun addPet(pet: Pet)
 
-    suspend fun updatePet(pet: Pet)
+    suspend fun updatePet(id: Int, petName:String, petImage:Bitmap,petPrice:Int , petKind:String, petDetail:String)
 
     suspend fun deletePet(pet: Pet)
 

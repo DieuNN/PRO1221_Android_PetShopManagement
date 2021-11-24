@@ -1,6 +1,5 @@
-package com.example.pro1221_android_petshopmanagement.ui.activity
+package com.example.pro1221_android_petshopmanagement.presentation.activity
 
-import android.app.LauncherActivity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -21,8 +20,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.ui.activity.LoginActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.DelicateCoroutinesApi
 

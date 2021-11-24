@@ -1,5 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.data.repository
 
+import android.graphics.Bitmap
 import com.example.pro1221_android_petshopmanagement.data.data_source.dao.PetDao
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 import com.example.pro1221_android_petshopmanagement.domain.repository.PetRepository
@@ -14,8 +15,15 @@ class PetRepositoryImpl(private val petDao: PetDao) : PetRepository {
         petDao.addPet(pet = pet)
     }
 
-    override suspend fun updatePet(pet: Pet) {
-        petDao.updatePet(pet = pet)
+    override suspend fun updatePet(
+        id: Int,
+        petName: String,
+        petImage: Bitmap,
+        petPrice: Int,
+        petKind: String,
+        petDetail: String
+    ) {
+        petDao.updatePet(id, petName, petImage, petKind = petKind, petDetail = petDetail, petPrice = petPrice)
     }
 
     override suspend fun deletePet(pet: Pet) {

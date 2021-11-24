@@ -1,5 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.data.data_source.dao
 
+import android.graphics.Bitmap
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
@@ -13,8 +14,8 @@ interface PetDao {
     @Insert(onConflict = REPLACE)
     suspend fun addPet(pet: Pet)
 
-    @Update
-    suspend fun updatePet(pet: Pet)
+    @Query("update table_pet set name = :petName, image = :petImage,price =:petPrice , kind = :petKind, detail = :petDetail where id = :id")
+    suspend fun updatePet(id: Int, petName:String, petImage:Bitmap,petPrice:Int , petKind:String, petDetail:String)
 
     @Delete
     suspend fun deletePet(pet: Pet)

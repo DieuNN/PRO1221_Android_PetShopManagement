@@ -37,7 +37,6 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel(), customerViewMod
     )
     val scope = rememberCoroutineScope()
 
-    // FIXME: Doesn't show
 
 
     BottomSheetScaffold(
