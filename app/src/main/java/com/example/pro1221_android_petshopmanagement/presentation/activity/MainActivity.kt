@@ -20,6 +20,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getGoogleSignInConfigure
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.Drawer
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.AppBar
 import com.example.pro1221_android_petshopmanagement.presentation.screen.navigation.DrawerNavigation
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
     @ExperimentalMaterial3Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("MainActivity", "onCreate: ${mAuth.currentUser?.uid}")
         setContent {
             MainContent()
         }
@@ -50,6 +52,7 @@ class MainActivity : ComponentActivity() {
             }
             setPositiveButton("Thoát") { _, _ ->
                 mAuth.signOut()
+                getGoogleSignInConfigure(context = this@MainActivity).signOut()
                 Log.d("MainActivity", "onCreate: Signed Out")
                 finishAffinity()
             }

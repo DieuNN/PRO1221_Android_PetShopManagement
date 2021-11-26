@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getGoogleSignInConfigure
 import com.example.pro1221_android_petshopmanagement.presentation.screen.DrawerNavigationItem
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     // FIXME: Sync before exit app
-    val context = LocalContext.current as Activity?
+    val context = LocalContext.current as Activity
     val isConfirmExitDialogShowing = remember {
         mutableStateOf(false)
     }
@@ -45,7 +46,8 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
                 TextButton(onClick = {
                     val mAuth = FirebaseAuth.getInstance()
                     mAuth.signOut()
-                    context?.finishAffinity()
+                    getGoogleSignInConfigure(context = context).signOut()
+                    context.finishAffinity()
                 }) {
                     Text(text = "Thoát", color = Color.Black)
                 }

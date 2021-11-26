@@ -3,7 +3,6 @@ package com.example.pro1221_android_petshopmanagement.ui.screen
 import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -23,12 +22,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.signInWithGoogle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -138,13 +136,15 @@ fun SignUpScreen(navController: NavController) {
         Row(horizontalArrangement = Arrangement.Start) {
             Text(text = "Hoặc đăng ký bằng", style = MaterialTheme.typography.h6, fontSize = 14.sp)
             Spacer(modifier = Modifier.width(8.dp))
-            Image(
-                modifier = Modifier
-                    .width(32.dp)
-                    .height(32.dp),
-                painter = painterResource(id = R.drawable.google_logo),
-                contentDescription = null
-            )
+            IconButton(onClick = { signInWithGoogle(context = context as Activity) }) {
+                Image(
+                    modifier = Modifier
+                        .width(32.dp)
+                        .height(32.dp),
+                    painter = painterResource(id = R.drawable.google_logo),
+                    contentDescription = null
+                )
+            }
         }
         Row(
             Modifier.fillMaxSize(),
@@ -163,10 +163,4 @@ fun SignUpScreen(navController: NavController) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun SignUpScreenPrev() {
-    SignUpScreen(navController = rememberNavController())
 }

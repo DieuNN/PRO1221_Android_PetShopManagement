@@ -22,7 +22,7 @@ fun getCurrentUser(): FirebaseUser? {
 }
 
 // must be hardcode lmao
-fun getConfigureGoogleSignIn(context: Context): GoogleSignInClient {
+fun getGoogleSignInConfigure(context: Context): GoogleSignInClient {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestIdToken("573584192313-j3e53i722d1cspt13vpdbdn7m572q381.apps.googleusercontent.com")
         .requestEmail()
@@ -31,7 +31,7 @@ fun getConfigureGoogleSignIn(context: Context): GoogleSignInClient {
 }
 
 fun signInWithGoogle(context: Context) {
-    (context as? Activity)?.startActivityForResult(getConfigureGoogleSignIn(context = context).signInIntent, RC_SIGN_IN)
+    (context as? Activity)?.startActivityForResult(getGoogleSignInConfigure(context = context).signInIntent, RC_SIGN_IN)
 }
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -45,7 +45,7 @@ fun firebaseAuthWithGoogle(idToken: String, context: Context) {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d("LoginActivity", "signInWithCredential:success")
                 (context).startActivity(Intent(context, MainActivity::class.java))
-                context.finishAffinity()
+//                context.finishAffinity()
             } else {
                 // If sign in fails, display a message to the user.
                 Log.w("LoginActivity", "signInWithCredential:failure", task.exception)
