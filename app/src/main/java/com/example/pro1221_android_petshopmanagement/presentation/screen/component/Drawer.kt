@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.presentation.screen.DrawerNavigationItem
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 
@@ -28,24 +29,29 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
 
     // FIXME: Sync before exit app
     val context = LocalContext.current as Activity?
-    val isOpen = remember {
+    val isConfirmExitDialogShowing = remember {
         mutableStateOf(false)
     }
 
     // Confirm Exit dialog
-    if(isOpen.value) {
+    if (isConfirmExitDialogShowing.value) {
         androidx.compose.material3.AlertDialog(
             title = { Text(text = "Xác nhận thoát", fontSize = 24.sp) },
             text = { Text(text = "Xác nhận đồng bộ dữ liệu và thoát?") },
             onDismissRequest = {
+                isConfirmExitDialogShowing.value = false
             },
             confirmButton = {
-                TextButton(onClick = { context?.finishAffinity() }) {
+                TextButton(onClick = {
+                    val mAuth = FirebaseAuth.getInstance()
+                    mAuth.signOut()
+                    context?.finishAffinity()
+                }) {
                     Text(text = "Thoát", color = Color.Black)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { isOpen.value = false }) {
+                TextButton(onClick = { isConfirmExitDialogShowing.value = false }) {
                     Text(text = "Hủy", color = Color.Black)
                 }
             },
@@ -147,7 +153,7 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
                 isSelected = false,
                 scaffoldState = scaffoldState,
                 drawerNavigation = DrawerNavigationItem.CustomerScreen,
-                onItemClick = { isOpen.value = true }
+                onItemClick = { isConfirmExitDialogShowing.value = true }
             )
         }
     }

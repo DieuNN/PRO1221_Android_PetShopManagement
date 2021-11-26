@@ -173,7 +173,7 @@ fun DialogEditPetInfo(
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(32.dp),
+                                        .height(64.dp),
                                     onClick = {
                                         petKind = kindViewModel.kindState.value[index].name
                                         scope.launch {

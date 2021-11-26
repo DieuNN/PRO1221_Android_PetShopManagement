@@ -12,6 +12,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -21,12 +22,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getCurrentUser
 import com.example.pro1221_android_petshopmanagement.ui.activity.LoginActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 
 class LauncherScreen : ComponentActivity() {
+    @OptIn(ExperimentalMaterialApi::class)
     @DelicateCoroutinesApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +37,15 @@ class LauncherScreen : ComponentActivity() {
         setContent {
             LauncherScreenMainView()
             Handler(Looper.getMainLooper()).postDelayed({
-                startActivity(
-                    Intent(this, LoginActivity::class.java)
-                )
-                finish()
+                if (getCurrentUser() == null) {
+                    startActivity(
+                        Intent(this, LoginActivity::class.java)
+                    )
+                    finishAffinity()
+                } else {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finishAffinity()
+                }
             }, 8500)
         }
     }

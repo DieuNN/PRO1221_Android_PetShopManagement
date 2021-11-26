@@ -1,6 +1,7 @@
 package com.example.pro1221_android_petshopmanagement.presentation.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
@@ -23,13 +24,15 @@ import com.example.pro1221_android_petshopmanagement.presentation.screen.compone
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.AppBar
 import com.example.pro1221_android_petshopmanagement.presentation.screen.navigation.DrawerNavigation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
+    private val mAuth = FirebaseAuth.getInstance()
+
     @ExperimentalMaterial3Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +45,13 @@ class MainActivity : ComponentActivity() {
         AlertDialog.Builder(this).apply {
             setTitle("Xác nhận thoát")
             setMessage("Xác nhận đồng bộ dữ liệu và thoát?")
-            setNegativeButton("Hủy") {dialog, _ ->
+            setNegativeButton("Hủy") { dialog, _ ->
                 dialog.dismiss()
             }
-            setPositiveButton("Thoát") { _,_ ->
-               this@MainActivity.finishAffinity()
-                exitProcess(0)
+            setPositiveButton("Thoát") { _, _ ->
+                mAuth.signOut()
+                Log.d("MainActivity", "onCreate: Signed Out")
+                finishAffinity()
             }
         }.create().show()
     }

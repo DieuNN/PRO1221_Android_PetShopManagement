@@ -25,12 +25,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.signInWithGoogle
 import com.example.pro1221_android_petshopmanagement.presentation.activity.MainActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -148,13 +147,17 @@ fun LoginMainView(navController: NavController) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Image(
-                painter = painterResource(id = R.drawable.google_logo),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(32.dp)
-                    .height(32.dp)
-            )
+            IconButton(onClick = {
+                signInWithGoogle(context = context)
+            }) {
+                Image(
+                    painter = painterResource(id = R.drawable.google_logo),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(32.dp)
+                        .height(32.dp)
+                )
+            }
         }
         Spacer(modifier = Modifier.width(64.dp))
         Row(
@@ -171,12 +174,4 @@ fun LoginMainView(navController: NavController) {
         }
     }
 
-}
-
-@ExperimentalMaterialApi
-@OptIn(ExperimentalAnimationApi::class)
-@Preview
-@Composable
-fun Preview() {
-    LoginMainView(navController = rememberNavController())
 }

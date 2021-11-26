@@ -86,8 +86,6 @@ fun PetRankItem(pet: Pet, index: Int) {
                                 .height(100.dp)
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-
-                        Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = "Giá bán: ${pet.price}",
                             color = Color.White,
@@ -99,6 +97,8 @@ fun PetRankItem(pet: Pet, index: Int) {
                             text = "Ngày bán: ${parseLongTimeToString(pet.updateTime.toLong())}",
                             color = Color.White
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = "Được bán cho: ${pet.customerName}", color = Color.White)
                     }
                 }
             }

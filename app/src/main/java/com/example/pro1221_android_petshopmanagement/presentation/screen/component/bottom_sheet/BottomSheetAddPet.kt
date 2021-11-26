@@ -286,7 +286,7 @@ fun BottomSheetAddPet(
                                     Card(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .height(32.dp),
+                                            .height(64.dp),
                                         onClick = {
                                             scope.launch {
                                                 addPetViewModel.onEvent(
