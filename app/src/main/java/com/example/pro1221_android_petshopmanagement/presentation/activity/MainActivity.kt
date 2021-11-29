@@ -20,7 +20,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getAnimalInfoAsList
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getGoogleSignInConfigure
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.putDataTest
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.receiveData
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.Drawer
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.AppBar
 import com.example.pro1221_android_petshopmanagement.presentation.screen.navigation.DrawerNavigation
@@ -41,6 +44,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainContent()
         }
+        putDataTest("", this)
+        receiveData()
+        Log.d("MainActivity", "onCreate: ${getAnimalInfoAsList(this)}")
     }
 
     override fun onBackPressed() {

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "573584192313",
+    "firebase_url": "https://mypetshop-35dce-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "mypetshop-35dce",
     "storage_bucket": "mypetshop-35dce.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "573584192313-sdfn52vjfinboudjooj1o5fpe4fb4d8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pro1221_android_petshopmanagement",
+            "certificate_hash": "d85292ee91e09c3526478b8ac8a3a5bfa8301514"
+          }
+        },
         {
           "client_id": "573584192313-j3e53i722d1cspt13vpdbdn7m572q381.apps.googleusercontent.com",
           "client_type": 3

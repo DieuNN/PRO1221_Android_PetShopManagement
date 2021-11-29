@@ -2,7 +2,6 @@ package com.example.pro1221_android_petshopmanagement.common.collections
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.compose.runtime.MutableState
 import androidx.room.TypeConverter
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat

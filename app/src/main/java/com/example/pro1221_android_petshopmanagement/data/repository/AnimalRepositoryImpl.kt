@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class AnimalRepositoryImpl(private val animalDao: AnimalDao) : AnimalRepository {
     override fun getAnimals(): Flow<List<AnimalInfo>> {
-        return animalDao.getAnimals()
+        return animalDao.getAnimalsAsFlow()
     }
 
     override suspend fun addAnimal(animal: AnimalInfo) {

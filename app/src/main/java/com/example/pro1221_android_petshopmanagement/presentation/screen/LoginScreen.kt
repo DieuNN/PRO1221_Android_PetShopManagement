@@ -29,6 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.common.collections.isValidEmail
+import com.example.pro1221_android_petshopmanagement.common.collections.isValidPassword
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.loginWithEmailAndPassword
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.signInWithGoogle
 import com.example.pro1221_android_petshopmanagement.presentation.activity.MainActivity
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -51,6 +54,11 @@ fun LoginMainView(navController: NavController) {
     // email input state
     var emailInputState by remember {
         mutableStateOf("")
+    }
+
+    // is Error state
+    var isValidEmail by remember {
+        mutableStateOf(true)
     }
 
     // password input state and visibility state
@@ -95,8 +103,14 @@ fun LoginMainView(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(id = R.string.email)) },
             value = emailInputState,
-            onValueChange = { emailInputState = it }
+            onValueChange = {
+                emailInputState = it
+                isValidEmail = true
+            }
         )
+        if (!isValidEmail) {
+            Text(text = "Email không đúng", color = Color.Red)
+        }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -131,8 +145,24 @@ fun LoginMainView(navController: NavController) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Button(
                 onClick = {
-                    context.startActivity(Intent(context, MainActivity::class.java))
-                    context.finish()
+                    isValidEmail = isValidEmail(email = emailInputState)
+                    if (!validateLoginInfo(
+                            email = emailInputState,
+                            password = passwordInputState
+                        )
+                    ) {
+                        return@Button
+                    } else {
+                        loginWithEmailAndPassword(
+                            email = emailInputState,
+                            password = passwordInputState,
+                            context = context,
+                            onSuccessful = {
+                                context.startActivity(Intent(context, MainActivity::class.java))
+                                context.finishAffinity()
+                            },
+                        )
+                    }
                 }, modifier = Modifier
                     .width(140.dp)
                     .height(48.dp),
@@ -173,5 +203,8 @@ fun LoginMainView(navController: NavController) {
             }, color = colorResource(id = R.color.maccaroni_and_cheese))
         }
     }
+}
 
+fun validateLoginInfo(email: String, password: String): Boolean {
+    return isValidEmail(email = email) && isValidPassword(password = password)
 }

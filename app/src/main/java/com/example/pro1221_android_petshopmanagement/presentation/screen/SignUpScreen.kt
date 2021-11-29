@@ -1,7 +1,6 @@
 package com.example.pro1221_android_petshopmanagement.ui.screen
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,7 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.common.collections.isValidEmail
+import com.example.pro1221_android_petshopmanagement.common.collections.isValidPassword
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.signInWithGoogle
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.signUpWithEmailAndPassword
+import com.example.pro1221_android_petshopmanagement.presentation.screen.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -36,6 +39,18 @@ fun SignUpScreen(navController: NavController) {
     systemUiController.setSystemBarsColor(
         color = Color.Transparent
     )
+
+    // isError state
+    var isEmailValid by remember {
+        mutableStateOf(true)
+    }
+    var isPasswordValid by remember {
+        mutableStateOf(true)
+    }
+    var isPasswordMatch by remember {
+        mutableStateOf(true)
+    }
+
     // state
     var emailInputState by remember {
         mutableStateOf("")
@@ -61,7 +76,7 @@ fun SignUpScreen(navController: NavController) {
             id = R.drawable.ic_baseline_visibility_off_24
         )
     // context
-    val context = LocalContext.current as? Activity
+    val context = LocalContext.current as Activity
 
     Column(
         modifier = Modifier
@@ -74,7 +89,7 @@ fun SignUpScreen(navController: NavController) {
         ) {
             IconButton(
                 onClick = {
-                    context?.onBackPressed()
+                    context.onBackPressed()
                 }
             ) {
                 Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
@@ -92,14 +107,23 @@ fun SignUpScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(id = R.string.email)) },
             value = emailInputState,
-            onValueChange = { emailInputState = it }
+            onValueChange = {
+                emailInputState = it
+                isEmailValid = true
+            },
         )
+        if (!isEmailValid) {
+            Text(text = "Không đúng định dạng email!", color = Color.Red)
+        }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = stringResource(id = R.string.password)) },
             value = passwordInputState,
-            onValueChange = { passwordInputState = it },
+            onValueChange = {
+                passwordInputState = it
+                isPasswordValid = true
+            },
             trailingIcon = {
                 IconButton(onClick = { passwordIconState = !passwordIconState }) {
                     Icon(
@@ -113,12 +137,18 @@ fun SignUpScreen(navController: NavController) {
                 keyboardType = KeyboardType.Password
             )
         )
+        if (!isPasswordValid) {
+            Text(text = "Mật khẩu quá ngắn!", color = Color.Red)
+        }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Nhập lại mật khẩu") },
             value = rePasswordInputState,
-            onValueChange = { rePasswordInputState = it },
+            onValueChange = {
+                rePasswordInputState = it
+                isPasswordMatch = true
+            },
             trailingIcon = {
                 IconButton(onClick = { rePasswordIconState = !rePasswordIconState }) {
                     Icon(
@@ -132,11 +162,14 @@ fun SignUpScreen(navController: NavController) {
                 keyboardType = KeyboardType.Password
             )
         )
+        if (!isPasswordMatch) {
+            Text(text = "Mật khẩu không trùng khớp!", color = Color.Red)
+        }
         Spacer(modifier = Modifier.height(32.dp))
         Row(horizontalArrangement = Arrangement.Start) {
             Text(text = "Hoặc đăng ký bằng", style = MaterialTheme.typography.h6, fontSize = 14.sp)
             Spacer(modifier = Modifier.width(8.dp))
-            IconButton(onClick = { signInWithGoogle(context = context as Activity) }) {
+            IconButton(onClick = { signInWithGoogle(context = context) }) {
                 Image(
                     modifier = Modifier
                         .width(32.dp)
@@ -155,12 +188,43 @@ fun SignUpScreen(navController: NavController) {
                 text = { Text(text = "Đăng ký") },
                 icon = { Icon(Icons.Filled.ArrowForward, "") },
                 onClick = {
-                    Log.d("isNavControlerNull", "SignUpScreen: $navController")
-//                    navController.navigate(route = Screen.SignUpScreen.route)
+                    // set error text
+                    isEmailValid = isValidEmail(email = emailInputState)
+                    isPasswordValid = isValidPassword(password = passwordInputState)
+                    isPasswordMatch = (passwordInputState == rePasswordInputState)
+
+                    // validate and create user
+                    if (!validateSignUpInfo(
+                            isEmailValid = isValidEmail(email = emailInputState),
+                            isPasswordValid = isValidPassword(password = passwordInputState),
+                            isPasswordMatch = (passwordInputState == rePasswordInputState)
+                        )
+                    ) {
+                        return@ExtendedFloatingActionButton
+                    } else {
+                        synchronized(this) {
+                            signUpWithEmailAndPassword(
+                                email = emailInputState,
+                                password = rePasswordInputState,
+                                context = context,
+                                navigateOnSuccess = {
+                                    navController.navigate(route = Screen.LoginScreen.route)
+                                }
+                            )
+                        }
+                    }
                 },
                 containerColor = colorResource(id = R.color.copper),
                 contentColor = colorResource(id = R.color.white)
             )
         }
     }
+}
+
+fun validateSignUpInfo(
+    isEmailValid: Boolean,
+    isPasswordValid: Boolean,
+    isPasswordMatch: Boolean
+): Boolean {
+    return isEmailValid && isPasswordValid && isPasswordMatch
 }

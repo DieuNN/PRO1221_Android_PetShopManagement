@@ -9,14 +9,36 @@ sealed class Screen(val route: String) {
     object SignUpScreen : Screen(route = "sign_up_screen")
     object AccountScreen : Screen(route = "account_screen")
 
+    fun withArgs(vararg args: String): String {
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/$arg")
+            }
+        }
+    }
 }
 
-sealed class DrawerNavigationItem(var route: String, var icon:ImageVector, var title:String) {
-    object PetStoreScreen : DrawerNavigationItem(route = "pet_store_screen", Icons.Filled.CheckCircle, "Store")
-    object SoldPetScreen : DrawerNavigationItem(route = "sold_pet_screen", Icons.Filled.CheckCircle, "Sold")
-    object KindOfAnimalScreen : DrawerNavigationItem(route = "kind_of_animal_screen", Icons.Filled.CheckCircle, "Kind")
-    object CustomerScreen : DrawerNavigationItem(route = "customer_screen", Icons.Filled.CheckCircle, "Customer")
-    object AnimalInfoScreen : DrawerNavigationItem(route = "animal_info_screen", Icons.Filled.CheckCircle, title = "PetInfo")
-    object RankingScreen : DrawerNavigationItem(route = "ranking_screen", Icons.Filled.CheckCircle, "Ranking")
+sealed class DrawerNavigationItem(var route: String, var icon: ImageVector, var title: String) {
+    object PetStoreScreen :
+        DrawerNavigationItem(route = "pet_store_screen", Icons.Filled.CheckCircle, "Store")
+
+    object SoldPetScreen :
+        DrawerNavigationItem(route = "sold_pet_screen", Icons.Filled.CheckCircle, "Sold")
+
+    object KindOfAnimalScreen :
+        DrawerNavigationItem(route = "kind_of_animal_screen", Icons.Filled.CheckCircle, "Kind")
+
+    object CustomerScreen :
+        DrawerNavigationItem(route = "customer_screen", Icons.Filled.CheckCircle, "Customer")
+
+    object AnimalInfoScreen : DrawerNavigationItem(
+        route = "animal_info_screen",
+        Icons.Filled.CheckCircle,
+        title = "PetInfo"
+    )
+
+    object RankingScreen :
+        DrawerNavigationItem(route = "ranking_screen", Icons.Filled.CheckCircle, "Ranking")
 
 }

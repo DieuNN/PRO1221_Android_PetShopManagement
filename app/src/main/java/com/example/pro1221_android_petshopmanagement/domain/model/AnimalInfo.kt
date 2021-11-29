@@ -5,7 +5,9 @@ import androidx.room.ColumnInfo
 import androidx.room.ColumnInfo.BLOB
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.database.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 @Entity(tableName = "table_animal")
 data class AnimalInfo(
     @PrimaryKey(autoGenerate = true)
@@ -15,5 +17,6 @@ data class AnimalInfo(
     @ColumnInfo(typeAffinity = BLOB)
     var image: Bitmap? = null,
     var detail: String = "",
-    var updateTime: String = ""
+    var updateTime: String = "",
+    var byteArrayAsString:String = ""
 )

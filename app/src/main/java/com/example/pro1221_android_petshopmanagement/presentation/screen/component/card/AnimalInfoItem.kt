@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.common.collections.parseLongTimeToString
 import com.example.pro1221_android_petshopmanagement.domain.model.AnimalInfo
 
 @ExperimentalMaterialApi
@@ -72,7 +73,7 @@ fun AnimalInfoItem(animalInfo: AnimalInfo) {
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = animalInfo.updateTime,
+                            text = parseLongTimeToString(animalInfo.updateTime.toLong()),
                             color = Color.White,
                         )
                     }

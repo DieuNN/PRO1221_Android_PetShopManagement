@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import com.example.pro1221_android_petshopmanagement.common.collections.RC_SIGN_IN
+import com.example.pro1221_android_petshopmanagement.common.collections.isNetworkAvailable
 import com.example.pro1221_android_petshopmanagement.presentation.activity.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -31,7 +33,10 @@ fun getGoogleSignInConfigure(context: Context): GoogleSignInClient {
 }
 
 fun signInWithGoogle(context: Context) {
-    (context as? Activity)?.startActivityForResult(getGoogleSignInConfigure(context = context).signInIntent, RC_SIGN_IN)
+    (context as? Activity)?.startActivityForResult(
+        getGoogleSignInConfigure(context = context).signInIntent,
+        RC_SIGN_IN
+    )
 }
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -49,6 +54,56 @@ fun firebaseAuthWithGoogle(idToken: String, context: Context) {
             } else {
                 // If sign in fails, display a message to the user.
                 Log.w("LoginActivity", "signInWithCredential:failure", task.exception)
+            }
+        }
+}
+
+fun signUpWithEmailAndPassword(
+    email: String,
+    password: String,
+    context: Context,
+    navigateOnSuccess: () -> Unit
+) {
+    val mAuth = FirebaseAuth.getInstance()
+    mAuth.createUserWithEmailAndPassword(email.trim(), password.trim())
+        .addOnCompleteListener(context as Activity) {
+            if (it.isSuccessful) {
+                Toast.makeText(
+                    context,
+                    "Đăng ký thành công! Đăng nhập để sử dụng ứng dụng!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                navigateOnSuccess.invoke()
+            } else {
+                Toast.makeText(
+                    context,
+                    "Đăng ký thất bại! Kiểm tra lại đường truyền Internet!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                Log.d("Sign Up With Email Failed", "signUpWithEmailAndPassword: ${it.exception}")
+            }
+        }
+}
+
+fun loginWithEmailAndPassword(
+    email: String,
+    password: String,
+    context: Context,
+    onSuccessful: () -> Unit,
+) {
+    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+        .addOnCompleteListener(context as Activity) {
+            if (it.isSuccessful) {
+                Toast.makeText(context, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
+                onSuccessful.invoke()
+            } else{
+                if (isNetworkAvailable(context = context) != true) {
+                    Toast.makeText(context, "Đăng nhập thất bại! Kiểm tra lại đường truyền!", Toast.LENGTH_SHORT).show()
+                    return@addOnCompleteListener
+                } else {
+                    Toast.makeText(context, "Đăng nhập thất bại! Kiểm tra lại mật khẩu và email!", Toast.LENGTH_SHORT).show()
+                    return@addOnCompleteListener
+                }
             }
         }
 }
