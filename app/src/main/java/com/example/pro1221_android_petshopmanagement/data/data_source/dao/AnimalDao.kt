@@ -9,11 +9,14 @@ interface AnimalDao {
     @Query("SELECT * FROM table_animal")
     fun getAnimalsAsFlow(): Flow<List<AnimalInfo>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addAnimal(animal: AnimalInfo)
 
     @Update
     suspend fun updateAnimal(animal: AnimalInfo)
+
+    @Query("delete from table_animal")
+    suspend fun deleteAllRecord()
 
     @Delete
     suspend fun deleteAnimal(animal: AnimalInfo)

@@ -20,16 +20,18 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getAnimalInfoAsList
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.UserData
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getGoogleSignInConfigure
-import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.putDataTest
-import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.receiveData
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.syncData
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.Drawer
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.AppBar
 import com.example.pro1221_android_petshopmanagement.presentation.screen.navigation.DrawerNavigation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 @ExperimentalMaterialApi
@@ -37,19 +39,27 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val mAuth = FirebaseAuth.getInstance()
 
+    @DelicateCoroutinesApi
     @ExperimentalMaterial3Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         Log.d("MainActivity", "onCreate: ${mAuth.currentUser?.uid}")
+
+        // sync data before set content
+        GlobalScope.launch {
+            syncData(context = applicationContext)
+            UserData().syncCustomer(context = applicationContext)
+        }
+
         setContent {
             MainContent()
         }
-        putDataTest("", this)
-        receiveData()
-        Log.d("MainActivity", "onCreate: ${getAnimalInfoAsList(this)}")
+
     }
 
     override fun onBackPressed() {
+        // FIXME: 11/30/21 Sync data before exit
         AlertDialog.Builder(this).apply {
             setTitle("Xác nhận thoát")
             setMessage("Xác nhận đồng bộ dữ liệu và thoát?")

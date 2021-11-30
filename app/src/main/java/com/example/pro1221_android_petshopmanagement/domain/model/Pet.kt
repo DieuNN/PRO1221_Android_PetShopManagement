@@ -4,7 +4,9 @@ import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 @Entity(tableName = "table_pet")
 data class Pet(
     @PrimaryKey(autoGenerate = true)

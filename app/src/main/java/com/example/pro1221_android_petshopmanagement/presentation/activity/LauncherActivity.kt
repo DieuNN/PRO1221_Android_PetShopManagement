@@ -90,6 +90,11 @@ fun AppIconAppearanceAnimate(modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
+//        Image(
+//            painter = rememberImagePainter(data = parseBase64StringToBitmap()),
+//            contentDescription = null
+//        )
         Image(
             painter = painterResource(id = R.mipmap.app_icon),
             contentDescription = "Icon",

@@ -9,7 +9,13 @@ import kotlinx.coroutines.flow.Flow
 interface CustomerDao {
 
     @Query("select * from table_customer")
-    fun getCustomers(): Flow<List<Customer>>
+    fun getCustomersAsFlow(): Flow<List<Customer>>
+
+    @Query("select * from table_customer")
+    fun getCustomerAsList(): List<Customer>
+
+    @Query("delete from table_customer")
+    suspend fun deleteAllRecord()
 
     @Update
     suspend fun updateCustomer(customer: Customer)
@@ -18,7 +24,7 @@ interface CustomerDao {
     suspend fun addCustomer(customer: Customer)
 
     @Query("select * from table_customer where id =:id")
-    fun getCustomer(id:Int): Customer
+    fun getCustomer(id: Int): Customer
 
     @Delete
     suspend fun deleteCustomer(customer: Customer)

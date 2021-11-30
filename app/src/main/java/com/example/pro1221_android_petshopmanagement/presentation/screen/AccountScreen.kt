@@ -1,22 +1,22 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen
 
 import android.app.Activity
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,14 +29,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
-import com.example.pro1221_android_petshopmanagement.presentation.util.AddAnimalInfoEvent
+import com.example.pro1221_android_petshopmanagement.common.collections.parseLongTimeToString
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,6 +51,13 @@ fun AccountScreen() {
     val isDropdownMenuDisplay = remember {
         mutableStateOf(false)
     }
+
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val userDisplayName = currentUser?.displayName
+    val userUid = currentUser?.uid
+    val userSignUpDate = currentUser?.metadata?.creationTimestamp
+    val userEmail = currentUser?.email
+    val userImageUrl = currentUser?.photoUrl
 
     Scaffold(
         topBar = {
@@ -107,29 +113,55 @@ fun AccountScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // FIXME: Change this
-                Image(
-                    painter = painterResource(id = R.drawable.sample_doge_img),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(75.dp)
-                        .height(75.dp)
-                        .clip(CircleShape)
-                        .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
-                )
+                if (userImageUrl == null) {
+                    Image(
+                        painter = painterResource(id = R.drawable.sample_doge_img),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(75.dp)
+                            .height(75.dp)
+                            .clip(CircleShape)
+                            .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
+                    )
+                } else {
+                    Image(
+                        painter = rememberImagePainter(
+                            data = userImageUrl
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(75.dp)
+                            .height(75.dp)
+                            .clip(CircleShape)
+                            .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
+                    )
+                }
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
+                    if (userDisplayName.isNullOrBlank()) {
+                        Text(
+                            text = userUid!!,
+                            fontWeight = FontWeight.Bold,
+                            fontStyle = FontStyle.Normal,
+                            fontSize = 22.sp
+                        )
+                    } else {
+                        Text(
+                            text = userDisplayName,
+                            fontWeight = FontWeight.Bold,
+                            fontStyle = FontStyle.Normal,
+                            fontSize = 22.sp
+                        )
+                    }
                     Text(
-                        text = "Lmao",
-                        fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Normal,
-                        fontSize = 22.sp
+                        text = "Ngày tham gia: ${parseLongTimeToString(userSignUpDate!!)}",
+                        fontSize = 14.sp
                     )
-                    Text(text = "Ngày tham gia: abcxyz", fontSize = 14.sp)
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
-                value = "Nông Ngọc Diệu",
+                value = userDisplayName!!,
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = MaterialTheme.typography.subtitle1,
@@ -151,7 +183,7 @@ fun AccountScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
-                value = "nongngocdieu20122002@gmail.com",
+                value = userEmail!!,
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = MaterialTheme.typography.subtitle1,
@@ -173,7 +205,7 @@ fun AccountScreen() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
-                value = "20/12/2002",
+                value = parseLongTimeToString(userSignUpDate!!),
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = MaterialTheme.typography.subtitle1,
