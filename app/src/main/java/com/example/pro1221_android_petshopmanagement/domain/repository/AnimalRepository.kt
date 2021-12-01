@@ -12,5 +12,4 @@ interface AnimalRepository {
 
     suspend fun deleteAnimal(animal: AnimalInfo)
 
-    suspend fun getAnimalById(id: Int):AnimalInfo
 }

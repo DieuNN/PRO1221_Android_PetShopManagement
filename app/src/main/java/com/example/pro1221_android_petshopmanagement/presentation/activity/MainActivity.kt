@@ -1,6 +1,7 @@
 package com.example.pro1221_android_petshopmanagement.presentation.activity
 
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,12 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.compose.rememberNavController
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.CommonData
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.UserData
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getGoogleSignInConfigure
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.Drawer
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.AppBar
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ProgressDialog
@@ -42,8 +45,7 @@ class MainActivity : ComponentActivity() {
     private val mAuth = FirebaseAuth.getInstance()
 
     private var isProcessDialogShowing: MutableState<Boolean> = mutableStateOf(true)
-    private val isSyncDone:MutableState<Boolean> = mutableStateOf(false)
-
+    private val isSyncDone: MutableState<Boolean> = mutableStateOf(false)
 
 
     @DelicateCoroutinesApi
@@ -52,7 +54,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         GlobalScope.launch {
-            CommonData().putAnimalDataIntoFirebase(context = applicationContext)
+            CommonData(context = applicationContext).apply {
+                syncWhenLogin()
+            }
             UserData(
                 context = applicationContext,
                 showProcessDialog = {
@@ -60,8 +64,6 @@ class MainActivity : ComponentActivity() {
                     isSyncDone.value = true
                 },
                 currentUserUid = mAuth.currentUser!!.uid,
-                isLogout = false,
-                isLogin = true
             ).syncWhenLogin()
         }
 
@@ -77,45 +79,11 @@ class MainActivity : ComponentActivity() {
 
     }
 
-
-//    @DelicateCoroutinesApi
-//    override fun onBackPressed() {
-//        setContent {
-//            val isConfirmExitDialogShowing = remember {
-//                mutableStateOf(false)
-//            }
-//
-//            // Confirm Exit dialog
-//            if (isConfirmExitDialogShowing.value) {
-//                androidx.compose.material3.AlertDialog(
-//                    title = { Text(text = "Xác nhận thoát", fontSize = 24.sp) },
-//                    text = { Text(text = "Xác nhận đồng bộ dữ liệu và thoát?") },
-//                    onDismissRequest = {
-//                        isConfirmExitDialogShowing.value = false
-//                    },
-//                    confirmButton = {
-//                        TextButton(onClick = {
-//                            val mAuth = FirebaseAuth.getInstance()
-////                            syncWithCloud()
-//                            mAuth.signOut()
-//                            getGoogleSignInConfigure(context = applicationContext).signOut()
-//                            this.finishAffinity()
-//                        }) {
-//                            Text(text = "Thoát", color = Color.Black)
-//                        }
-//                    },
-//                    dismissButton = {
-//                        TextButton(onClick = { isConfirmExitDialogShowing.value = false }) {
-//                            Text(text = "Hủy", color = Color.Black)
-//                        }
-//                    },
-//                    containerColor = colorResource(id = R.color.maccaroni_and_cheese)
-//                )
-//            }
-//        }
-//    }
-//}
+    override fun onBackPressed() {
+        this.finishAffinity()
+    }
 }
+
 
 @DelicateCoroutinesApi
 @ExperimentalMaterial3Api

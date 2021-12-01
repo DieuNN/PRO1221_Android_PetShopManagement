@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.common.collections.parseLongTimeToString
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.CommonData
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.UserData
 import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ProgressDialog
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -101,6 +102,9 @@ fun AccountScreen() {
                                     val currentUserUid =
                                         FirebaseAuth.getInstance().currentUser!!.uid
                                     GlobalScope.launch {
+                                        CommonData(context = context).apply {
+                                            syncWhenPressSync()
+                                        }
                                         UserData(
                                             context = context,
                                             showProcessDialog = {
@@ -186,7 +190,8 @@ fun AccountScreen() {
             }
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
-                value = userDisplayName!!,
+                // lmfao look at this
+                value = userDisplayName ?: userUid?: "Chưa có tên!!!",
                 onValueChange = {},
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = MaterialTheme.typography.subtitle1,

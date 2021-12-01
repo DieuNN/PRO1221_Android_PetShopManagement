@@ -47,7 +47,6 @@ class AddAnimalInfoViewModel @Inject constructor(
                 viewModelScope.launch {
                     animalUseCases.addAnimal(
                         AnimalInfo(
-                            id = null,
                             image = image.value,
                             detail = detail.value,
                             kind = kind.value,

@@ -12,13 +12,11 @@ import com.google.firebase.database.IgnoreExtraProperties
 @IgnoreExtraProperties
 @Entity(tableName = "table_animal")
 data class AnimalInfo(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = 0,
+    @PrimaryKey
     var name: String = "",
     var kind: String = "",
     @ColumnInfo(typeAffinity = BLOB)
     var image: Bitmap? = null,
     var detail: String = "",
-    var updateTime: String = "",
-    var byteArrayAsString:String = ""
+    var updateTime: String = ""
 )

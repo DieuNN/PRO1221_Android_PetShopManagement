@@ -21,8 +21,6 @@ interface AnimalDao {
     @Delete
     suspend fun deleteAnimal(animal: AnimalInfo)
 
-    @Query("Select * from table_animal where id = :id")
-    suspend fun getAnimalById(id: Int): AnimalInfo
 
     @Query("select * from table_animal")
     fun getAnimalsAsList():List<AnimalInfo>

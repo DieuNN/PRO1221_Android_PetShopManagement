@@ -22,7 +22,4 @@ class AnimalRepositoryImpl(private val animalDao: AnimalDao) : AnimalRepository 
         animalDao.deleteAnimal(animal = animal)
     }
 
-    override suspend fun getAnimalById(id: Int):AnimalInfo {
-        return animalDao.getAnimalById(id = id)
-    }
 }

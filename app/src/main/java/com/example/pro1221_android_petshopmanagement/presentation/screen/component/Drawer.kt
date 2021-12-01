@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.CommonData
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.UserData
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getGoogleSignInConfigure
 import com.example.pro1221_android_petshopmanagement.presentation.screen.DrawerNavigationItem
@@ -64,14 +65,15 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
 //                    // clear local data before exit
                     isSyncingDialogShowing.value = true
                     GlobalScope.launch {
+                        CommonData(context = context).apply {
+                            syncWhenLogout()
+                        }
                         UserData(
                             context = context,
                             showProcessDialog = {
                                 isSyncingDialogShowing.value = false
                             },
                             currentUserUid = mAuth.currentUser!!.uid,
-                            isLogout = true,
-                            isLogin = false
                         ).apply {
                             syncWhenLogout()
                         }

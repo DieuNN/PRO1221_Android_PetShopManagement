@@ -69,7 +69,6 @@ object AppModule {
     fun provideAnimalUseCase(animalRepository: AnimalRepository): AnimalUseCases = AnimalUseCases(
         addAnimal = AddAnimal(animalRepository = animalRepository),
         deleteAnimal = DeleteAnimal(animalRepository = animalRepository),
-        getAnimalById = GetAnimalById(animalRepository = animalRepository),
         getAnimals = GetAnimals(animalRepository = animalRepository),
         updateAnimal = UpdateAnimal(animalRepository = animalRepository)
     )

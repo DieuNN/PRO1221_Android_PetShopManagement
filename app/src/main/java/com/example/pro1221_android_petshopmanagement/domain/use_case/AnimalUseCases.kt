@@ -6,6 +6,5 @@ data class AnimalUseCases(
     var addAnimal: AddAnimal,
     var updateAnimal: UpdateAnimal,
     var deleteAnimal: DeleteAnimal,
-    var getAnimalById: GetAnimalById,
     var getAnimals: GetAnimals
 )
