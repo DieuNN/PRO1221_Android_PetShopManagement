@@ -10,8 +10,3 @@ fun getAnimalInfoAsList(context: Context): List<AnimalInfo> {
     return AppDatabase.getInstance(context = context).animalDao.getAnimalsAsList()
 }
 
-@DelicateCoroutinesApi
-suspend fun syncData(context: Context) {
-    // put and retrieve in 1 func
-    CommonData().putAnimalDataIntoFirebase(context = context)
-}

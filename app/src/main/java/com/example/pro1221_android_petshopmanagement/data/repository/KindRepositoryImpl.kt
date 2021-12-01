@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class KindRepositoryImpl(private val kindDao: KindDao) : KindRepository {
     override fun getKinds(): Flow<List<Kind>> {
-        return kindDao.getKinds()
+        return kindDao.getKindsAsFlow()
     }
 
     override suspend fun addKind(kind: Kind) {

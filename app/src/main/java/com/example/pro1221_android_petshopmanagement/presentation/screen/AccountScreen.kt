@@ -17,9 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,9 +32,15 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.common.collections.parseLongTimeToString
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.UserData
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ProgressDialog
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
+@DelicateCoroutinesApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountScreen() {
@@ -49,6 +53,10 @@ fun AccountScreen() {
     val context = LocalContext.current as Activity
 
     val isDropdownMenuDisplay = remember {
+        mutableStateOf(false)
+    }
+
+    var isSyncingDialogShowing by remember {
         mutableStateOf(false)
     }
 
@@ -89,6 +97,18 @@ fun AccountScreen() {
                             // FIXME: Change this pls
                             DropdownMenuItem(
                                 onClick = {
+                                    isSyncingDialogShowing = true
+                                    val currentUserUid =
+                                        FirebaseAuth.getInstance().currentUser!!.uid
+                                    GlobalScope.launch {
+                                        UserData(
+                                            context = context,
+                                            showProcessDialog = {
+                                                isSyncingDialogShowing = false
+                                            },
+                                            currentUserUid = currentUserUid
+                                        ).syncWhenPressSync()
+                                    }
                                     isDropdownMenuDisplay.value = false
                                 },
                                 modifier = Modifier.fillMaxWidth()
@@ -104,6 +124,11 @@ fun AccountScreen() {
             )
         }
     ) {
+        if (isSyncingDialogShowing) {
+            ProgressDialog {
+                isSyncingDialogShowing = false
+            }
+        }
         Column(modifier = Modifier.padding(16.dp)) {
             // Image row
             Row(

@@ -116,15 +116,15 @@ fun BottomSheetAddKind(
                     scope.launch {
                         when {
                             addKindViewModel.name.value.isBlank() -> {
-                                Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Bạn chưa nhập tên!", Toast.LENGTH_SHORT).show()
                                 return@launch
                             }
                             addKindViewModel.detail.value.isBlank() -> {
-                                Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Bạn chưa nhập loài!", Toast.LENGTH_SHORT).show()
                                 return@launch
                             }
                             addKindViewModel.image.value == null -> {
-                                Toast.makeText(context, "Image", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Bạn chưa chọn ảnh!", Toast.LENGTH_SHORT).show()
                                 return@launch
                             }
                         }

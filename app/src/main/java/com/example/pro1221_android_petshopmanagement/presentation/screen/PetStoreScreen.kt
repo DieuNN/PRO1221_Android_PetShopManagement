@@ -30,7 +30,10 @@ import kotlin.streams.toList
 @ExperimentalMaterialApi
 @ExperimentalMaterial3Api
 @Composable
-fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel(), customerViewModel: CustomerViewModel = hiltViewModel()) {
+fun PetStoreScreen(
+    petViewModel: PetViewModel = hiltViewModel(),
+    customerViewModel: CustomerViewModel = hiltViewModel()
+) {
     val forSalePets = petViewModel.petState.value.stream().filter { !it.isSold }.toList()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -68,7 +71,9 @@ fun PetStoreScreen(petViewModel: PetViewModel = hiltViewModel(), customerViewMod
         Spacer(modifier = Modifier.height(8.dp))
 
         if (forSalePets.isEmpty()) {
-            ShowEmptyListWarning(text = "Danh sách đang trống! Thử thêm mới bằng nút ấn phía dưới!")
+            ShowEmptyListWarning(text = "Danh sách đang trống!" +
+                    " Thử thêm mới bằng nút ấn phía dưới!" +
+                    " Hoặc nếu đã thêm, thử refresh bằng bằng cách chuyển sang màn hình khác rồi quay lại xem!")
         } else {
             LazyColumn(
                 contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),

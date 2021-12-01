@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 class PetRepositoryImpl(private val petDao: PetDao) : PetRepository {
     override fun getPets(): Flow<List<Pet>> {
-        return petDao.getPets()
+        return petDao.getPetsAsFlow()
     }
 
     override suspend fun addPet(pet: Pet) {

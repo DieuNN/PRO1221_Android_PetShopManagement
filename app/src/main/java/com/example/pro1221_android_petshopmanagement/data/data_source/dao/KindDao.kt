@@ -8,10 +8,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface KindDao {
     @Query("select * from table_kind")
-    fun getKinds(): Flow<List<Kind>>
+    fun getKindsAsFlow(): Flow<List<Kind>>
 
     @Insert(onConflict = REPLACE)
     suspend fun addKind(kind: Kind)
+
+    @Query("select * from table_kind")
+    suspend fun getKindsAsList(): List<Kind>
+
+    @Query("delete from table_kind")
+    suspend fun deleteAllRecords()
 
     @Delete
     suspend fun deleteKind(kind: Kind)

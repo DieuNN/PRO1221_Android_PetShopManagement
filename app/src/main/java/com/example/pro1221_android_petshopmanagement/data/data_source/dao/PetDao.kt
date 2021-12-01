@@ -1,15 +1,24 @@
 package com.example.pro1221_android_petshopmanagement.data.data_source.dao
 
 import android.graphics.Bitmap
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.Query
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PetDao {
     @Query("SELECT * FROM table_pet")
-    fun getPets(): Flow<List<Pet>>
+    fun getPetsAsFlow(): Flow<List<Pet>>
+
+    @Query("select * from table_pet")
+    fun getPetsAsList():List<Pet>
+
+    @Query("delete from table_pet")
+    suspend fun deleteAllRecords()
 
     @Insert(onConflict = REPLACE)
     suspend fun addPet(pet: Pet)

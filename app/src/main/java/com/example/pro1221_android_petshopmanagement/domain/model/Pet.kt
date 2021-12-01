@@ -19,5 +19,5 @@ data class Pet(
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var image:Bitmap? = null,
     var price:Int = 0,
-    var customerName:String? = null
+    var customerName:String = ""
 )

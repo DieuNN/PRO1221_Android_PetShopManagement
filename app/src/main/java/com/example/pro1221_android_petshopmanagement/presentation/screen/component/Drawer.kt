@@ -1,6 +1,7 @@
 package com.example.pro1221_android_petshopmanagement.presentation.screen.component
 
 import android.app.Activity
+import android.os.Looper
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,12 +18,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.pro1221_android_petshopmanagement.R
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.UserData
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.getGoogleSignInConfigure
 import com.example.pro1221_android_petshopmanagement.presentation.screen.DrawerNavigationItem
+import com.example.pro1221_android_petshopmanagement.presentation.screen.component.card.ProgressDialog
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
+@DelicateCoroutinesApi
 @Composable
 fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -32,6 +38,16 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
     val context = LocalContext.current as Activity
     val isConfirmExitDialogShowing = remember {
         mutableStateOf(false)
+    }
+    val isSyncingDialogShowing = remember {
+        mutableStateOf(false)
+    }
+
+    if (isSyncingDialogShowing.value) {
+        ProgressDialog {
+            isSyncingDialogShowing.value = false
+
+        }
     }
 
     // Confirm Exit dialog
@@ -45,9 +61,26 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
             confirmButton = {
                 TextButton(onClick = {
                     val mAuth = FirebaseAuth.getInstance()
-                    mAuth.signOut()
-                    getGoogleSignInConfigure(context = context).signOut()
-                    context.finishAffinity()
+//                    // clear local data before exit
+                    isSyncingDialogShowing.value = true
+                    GlobalScope.launch {
+                        UserData(
+                            context = context,
+                            showProcessDialog = {
+                                isSyncingDialogShowing.value = false
+                            },
+                            currentUserUid = mAuth.currentUser!!.uid,
+                            isLogout = true,
+                            isLogin = false
+                        ).apply {
+                            syncWhenLogout()
+                        }
+                        android.os.Handler(Looper.getMainLooper()).postDelayed({
+                            mAuth.signOut()
+                            getGoogleSignInConfigure(context = context).signOut()
+                            context.finishAffinity()
+                        }, 5000)
+                    }
                 }) {
                     Text(text = "Thoát", color = Color.Black)
                 }
