@@ -35,7 +35,6 @@ fun Drawer(scaffoldState: ScaffoldState, navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    // FIXME: Sync before exit app
     val context = LocalContext.current as Activity
     val isConfirmExitDialogShowing = remember {
         mutableStateOf(false)

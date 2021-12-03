@@ -138,6 +138,7 @@ fun DialogEditPetInfo(
     {
         val kindViewModel: KindViewModel = hiltViewModel()
 //        // FIXME: optimize this, code looks like shit lol :)
+        // TODO: 12/4/21 so fucking tierd, next time
         if (isPickKindDialogShowing.value) {
             Dialog(
                 onDismissRequest = { isPickKindDialogShowing.value = false },

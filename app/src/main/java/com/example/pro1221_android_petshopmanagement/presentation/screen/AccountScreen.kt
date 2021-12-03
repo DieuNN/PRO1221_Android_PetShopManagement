@@ -151,7 +151,6 @@ fun AccountScreen() {
                             expanded = isDropdownMenuDisplay.value,
                             onDismissRequest = { isDropdownMenuDisplay.value = false },
                         ) {
-                            // FIXME: Change this pls
                             DropdownMenuItem(
                                 onClick = {
                                     isSyncingDialogShowing = true

@@ -22,7 +22,7 @@ fun PetRankingScreen(petViewModel: PetViewModel = hiltViewModel()) {
             .filter { it.isSold }
             .collect(Collectors.toList())
     if (petSortedByPrice.isEmpty()) {
-        ShowEmptyListWarning(text = "Chưa có thú nào ở đây để thống kê! Thử thêm một vài thú xem!")
+        ShowEmptyListWarning(text = "Chưa có thú nào ở đây để thống kê! Thử bán một vài thú xem!")
     } else {
         LazyColumn(
             contentPadding = PaddingValues(top = 8.dp, bottom = 32.dp),
