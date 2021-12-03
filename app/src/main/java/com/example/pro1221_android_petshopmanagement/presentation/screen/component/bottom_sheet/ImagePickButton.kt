@@ -12,8 +12,6 @@ import com.example.pro1221_android_petshopmanagement.R
 
 @Composable
 fun FABPickImage(onImagePick: () -> Unit) {
-
-
     androidx.compose.material3.FloatingActionButton(
         onClick = onImagePick,
         containerColor = colorResource(id = R.color.maccaroni_and_cheese),

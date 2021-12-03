@@ -116,4 +116,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
+    // firebase cloud storage
+    implementation 'com.google.firebase:firebase-storage-ktx'
+
 }

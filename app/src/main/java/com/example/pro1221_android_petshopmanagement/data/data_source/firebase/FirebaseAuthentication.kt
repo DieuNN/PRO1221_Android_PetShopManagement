@@ -3,10 +3,16 @@ package com.example.pro1221_android_petshopmanagement.data.data_source.firebase
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import com.example.pro1221_android_petshopmanagement.common.collections.Converters
 import com.example.pro1221_android_petshopmanagement.common.collections.RC_SIGN_IN
 import com.example.pro1221_android_petshopmanagement.common.collections.isNetworkAvailable
 import com.example.pro1221_android_petshopmanagement.presentation.activity.MainActivity
@@ -16,6 +22,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 
 fun getCurrentUser(): FirebaseUser? {
@@ -96,20 +105,66 @@ fun loginWithEmailAndPassword(
             if (it.isSuccessful) {
                 Toast.makeText(context, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
                 onSuccessful.invoke()
-            } else{
+            } else {
                 if (isNetworkAvailable(context = context) != true) {
-                    Toast.makeText(context, "Đăng nhập thất bại! Kiểm tra lại đường truyền!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Đăng nhập thất bại! Kiểm tra lại đường truyền!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@addOnCompleteListener
                 } else {
-                    Toast.makeText(context, "Đăng nhập thất bại! Kiểm tra lại mật khẩu và email!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Đăng nhập thất bại! Kiểm tra lại mật khẩu và email!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@addOnCompleteListener
                 }
             }
         }
 }
 
-fun forgetPassword(email:String, onSuccessful: () -> Unit) {
+fun forgetPassword(email: String, onSuccessful: () -> Unit) {
     FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener {
         onSuccessful()
     }
+}
+
+fun changeProfile(
+    onProfileChangeSuccess: () -> Unit,
+    displayName: String,
+    photoUri: Uri,
+    context: Context
+) {
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val storage = Firebase.storage
+    val storageReference = storage.reference
+    val userProfileImgRef = storageReference.child("user/image_profile/${currentUser?.uid}.jpg")
+
+    try {
+        val tempBitmap: Bitmap? = if (Build.VERSION.SDK_INT < 28) {
+            MediaStore.Images.Media.getBitmap(context.contentResolver, photoUri)
+        } else {
+            val source = ImageDecoder.createSource(context.contentResolver, photoUri)
+            ImageDecoder.decodeBitmap(source)
+        }
+
+        userProfileImgRef.putBytes(Converters().fromBitmapToByteArray(tempBitmap!!)).addOnSuccessListener {
+            Log.d("put user image", "changeProfile: successful")
+        }
+    } catch (e:Exception) {
+        Toast.makeText(context, "Chưa chọn ảnh mới?", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    val userProfileChangeRequest = UserProfileChangeRequest.Builder()
+        .setDisplayName(displayName)
+        .setPhotoUri(photoUri)
+        .build();
+
+    currentUser?.updateProfile(userProfileChangeRequest)?.addOnSuccessListener {
+        onProfileChangeSuccess()
+    }
+
 }
