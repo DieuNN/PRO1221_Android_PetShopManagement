@@ -144,6 +144,12 @@ fun LoginMainView(navController: NavController) {
                                 "Một email đã được gửi tới $emailInputState, kiểm tra email và làm theo hướng dẫn để đặt lại mật khẩu!",
                                 Toast.LENGTH_SHORT
                             ).show()
+                        }, onFailure = {
+                            Toast.makeText(
+                                context,
+                                "Kiểm tra email và thử lại! Hãy chắc chắn rằng bạn đã đăng ký!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         })
                     } else {
                         return@clickable
