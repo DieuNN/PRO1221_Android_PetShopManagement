@@ -100,7 +100,7 @@ fun AccountScreen() {
 
     val currentUser = FirebaseAuth.getInstance().currentUser
     val firebaseStorage = Firebase.storage
-    var profileDownloadLink:MutableState<Uri?> = remember {
+    var profileDownloadLink: MutableState<Uri?> = remember {
         mutableStateOf(null)
     }
     var userDisplayName by remember {
@@ -201,13 +201,29 @@ fun AccountScreen() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(75.dp),
+                    .height(80.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (!imageClickable.value) {
-                    Box(modifier = Modifier.wrapContentSize()) {
+                    Image(
+                        rememberImagePainter(
+                            data = userImageUrl.value
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(75.dp)
+                            .height(75.dp)
+                            .clip(CircleShape)
+                            .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
+                    )
+
+                } else {
+                    Card(onClick = {
+                        launcher.launch("image/*")
+                        Log.d("image uri", "AccountScreen: ${userImageUrl.value}")
+                    }, elevation = 0.dp) {
                         Image(
-                            rememberImagePainter(
+                            painter = rememberImagePainter(
                                 data = userImageUrl.value
                             ),
                             contentDescription = null,
@@ -217,28 +233,6 @@ fun AccountScreen() {
                                 .clip(CircleShape)
                                 .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
                         )
-                    }
-                } else {
-                    Box(
-                        modifier = Modifier
-                            .wrapContentSize(),
-                    ) {
-                        Card(onClick = {
-                            launcher.launch("image/*")
-                            Log.d("image uri", "AccountScreen: ${userImageUrl.value}")
-                        }, elevation = 0.dp) {
-                            Image(
-                                painter = rememberImagePainter(
-                                    data = userImageUrl.value
-                                ),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .width(75.dp)
-                                    .height(75.dp)
-                                    .clip(CircleShape)
-                                    .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
-                            )
-                        }
                     }
 
                 }
