@@ -2,6 +2,7 @@ package com.example.pro1221_android_petshopmanagement.presentation.screen
 
 import android.app.Activity
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -31,6 +32,7 @@ import androidx.navigation.NavController
 import com.example.pro1221_android_petshopmanagement.R
 import com.example.pro1221_android_petshopmanagement.common.collections.isValidEmail
 import com.example.pro1221_android_petshopmanagement.common.collections.isValidPassword
+import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.forgetPassword
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.loginWithEmailAndPassword
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.signInWithGoogle
 import com.example.pro1221_android_petshopmanagement.presentation.activity.MainActivity
@@ -134,7 +136,18 @@ fun LoginMainView(navController: NavController) {
         Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
             Text(
                 modifier = Modifier.clickable {
-
+                    isValidEmail = isValidEmail(emailInputState)
+                    if (isValidEmail) {
+                        forgetPassword(email = emailInputState, onSuccessful = {
+                            Toast.makeText(
+                                context,
+                                "Một email đã được gửi tới $emailInputState, kiểm tra email và làm theo hướng dẫn để đặt lại mật khẩu!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        })
+                    } else {
+                        return@clickable
+                    }
                 },
                 text = stringResource(id = R.string.forgot_password),
                 fontSize = 12.sp,

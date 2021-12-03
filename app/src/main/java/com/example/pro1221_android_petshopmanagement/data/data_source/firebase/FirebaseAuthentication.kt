@@ -107,3 +107,9 @@ fun loginWithEmailAndPassword(
             }
         }
 }
+
+fun forgetPassword(email:String, onSuccessful: () -> Unit) {
+    FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener {
+        onSuccessful()
+    }
+}

@@ -9,14 +9,6 @@ sealed class Screen(val route: String) {
     object SignUpScreen : Screen(route = "sign_up_screen")
     object AccountScreen : Screen(route = "account_screen")
 
-    fun withArgs(vararg args: String): String {
-        return buildString {
-            append(route)
-            args.forEach { arg ->
-                append("/$arg")
-            }
-        }
-    }
 }
 
 sealed class DrawerNavigationItem(var route: String, var icon: ImageVector, var title: String) {
