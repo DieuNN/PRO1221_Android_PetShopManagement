@@ -53,6 +53,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // sync when login
         GlobalScope.launch {
             CommonData(context = applicationContext).apply {
                 syncWhenLogin()
@@ -69,6 +70,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MainContent()
+            // if syncing, show a progress dialog
             if (isProcessDialogShowing.value) {
                 ProgressDialog {
                     isProcessDialogShowing.value = false
@@ -128,6 +130,7 @@ fun MainContent() {
             bottomEnd = 32.dp
         ),
     ) {
+        // navigate between drawer screen
         DrawerNavigation(navController = navController)
     }
 }

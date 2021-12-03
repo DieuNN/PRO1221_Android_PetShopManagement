@@ -51,8 +51,11 @@ fun BottomSheetAddAnimalInfo(
     addAnimalInfoViewModel: AddAnimalInfoViewModel = hiltViewModel(),
     scope: CoroutineScope
 ) {
+    // FIXME: 12/4/21 reuse code if possible
     val context = LocalContext.current
     val focus = LocalFocusManager.current
+
+    // get image from external storage and display it
     val imageBitmap: MutableState<Bitmap?> = remember {
         mutableStateOf(null)
     }
@@ -83,6 +86,7 @@ fun BottomSheetAddAnimalInfo(
         }
     }
 
+    // create state
     val name = addAnimalInfoViewModel.name
     val detail = addAnimalInfoViewModel.detail
     val kind = addAnimalInfoViewModel.kind

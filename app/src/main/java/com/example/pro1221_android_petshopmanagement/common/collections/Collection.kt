@@ -13,7 +13,3 @@ fun isValidPassword(password: String): Boolean = password.length >= 6
 fun isNetworkAvailable(context: Context): Boolean? {
     return (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo?.isConnectedOrConnecting
 }
-
-fun pickImage() {
-
-}

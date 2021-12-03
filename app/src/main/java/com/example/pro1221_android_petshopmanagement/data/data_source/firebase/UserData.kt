@@ -57,6 +57,7 @@ class UserData(
     private val mAuth = FirebaseAuth.getInstance()
     private val imageUtil = ImageUtil()
 
+    // clear local data, prepare to retrieve data from cloud
     private suspend fun clearLocalData() {
         localDB.apply {
             petDao.deleteAllRecords()
@@ -66,6 +67,7 @@ class UserData(
         Log.d("local", "clearLocalData: local data cleared")
     }
 
+    // when login: clear local data -> get data from cloud -> add to local db
     @DelicateCoroutinesApi
     suspend fun syncWhenLogin() {
         clearLocalData()
@@ -126,12 +128,15 @@ class UserData(
                     Log.d("Sync pet", "${pet.name} added to local")
                 }
             }
+        // hide process dialog
         showProcessDialog.invoke()
     }
 
+    // when press sync: clear cloud -> put local to cloud
+    // cuz firebase is asynchronous, we can't wait to retrieve data and update UI :(
+    // hardcoded, hard to read the code :/
     @DelicateCoroutinesApi
     suspend fun syncWhenPressSync() {
-        // first, clear cloud, then put local to cloud again
         val customers = localDB.customerDao.getCustomerAsList()
         val kinds: List<Kind> = localDB.kindDao.getKindsAsList()
         val pets = localDB.petDao.getPetsAsList()
@@ -284,6 +289,7 @@ class UserData(
 
     }
 
+    // when logout: clear cloud -> put local data to cloud -> clear local
     @DelicateCoroutinesApi
     suspend fun syncWhenLogout() {
         val customers = localDB.customerDao.getCustomerAsList()

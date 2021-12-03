@@ -41,14 +41,13 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
+    // start google login dialog
     @OptIn(ExperimentalMaterialApi::class)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
                 Log.d("LoginActivity", "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!, this)
@@ -59,12 +58,14 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
+    // request READ_EXTERNAL_STORAGE to get image
     private fun requestPermission() {
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            // exit if request time == 3
             if (requestedTime == 3) {
                 AlertDialog.Builder(this).apply {
                     setTitle("Bye")
@@ -94,6 +95,7 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
+    // if user keep denying permission, fuck them :)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

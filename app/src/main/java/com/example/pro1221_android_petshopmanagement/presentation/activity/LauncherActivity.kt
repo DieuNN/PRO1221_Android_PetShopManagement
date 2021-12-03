@@ -36,6 +36,7 @@ class LauncherScreen : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LauncherScreenMainView()
+                // check if current user exist, if not, login
             Handler(Looper.getMainLooper()).postDelayed({
                 if (getCurrentUser() == null) {
                     startActivity(
@@ -90,11 +91,6 @@ fun AppIconAppearanceAnimate(modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-//        Image(
-//            painter = rememberImagePainter(data = parseBase64StringToBitmap()),
-//            contentDescription = null
-//        )
         Image(
             painter = painterResource(id = R.mipmap.app_icon),
             contentDescription = "Icon",

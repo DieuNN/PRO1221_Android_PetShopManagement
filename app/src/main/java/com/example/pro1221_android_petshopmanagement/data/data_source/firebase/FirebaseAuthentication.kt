@@ -137,11 +137,14 @@ fun changeProfile(
     photoUri: Uri,
     context: Context
 ) {
+    // get storage ref
     val currentUser = FirebaseAuth.getInstance().currentUser
     val storage = Firebase.storage
     val storageReference = storage.reference
     val userProfileImgRef = storageReference.child("user/image_profile/${currentUser?.uid}.jpg")
 
+    // try to get bitmap from uri, if uri is url, warning user that they didn't change their image
+    // parse bitmap to byte array and put it into firebase storage
     try {
         val tempBitmap: Bitmap? = if (Build.VERSION.SDK_INT < 28) {
             MediaStore.Images.Media.getBitmap(context.contentResolver, photoUri)
@@ -158,10 +161,11 @@ fun changeProfile(
         return
     }
 
+    // change user display name and local image uri
     val userProfileChangeRequest = UserProfileChangeRequest.Builder()
         .setDisplayName(displayName)
         .setPhotoUri(photoUri)
-        .build();
+        .build()
 
     currentUser?.updateProfile(userProfileChangeRequest)?.addOnSuccessListener {
         onProfileChangeSuccess()

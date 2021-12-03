@@ -15,14 +15,12 @@ import com.example.pro1221_android_petshopmanagement.domain.model.Customer
 import com.example.pro1221_android_petshopmanagement.domain.model.Kind
 import com.example.pro1221_android_petshopmanagement.domain.model.Pet
 
-
-
-
 @Database(
     entities = [AnimalInfo::class, Pet::class, Customer::class, Kind::class],
     version = 1,
     exportSchema = false
 )
+// set Converters class, to convert bitmap to byteArray and vice versa
 @TypeConverters(value = [Converters::class])
 abstract class AppDatabase : RoomDatabase() {
     abstract val animalDao: AnimalDao
