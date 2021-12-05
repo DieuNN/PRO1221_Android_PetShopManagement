@@ -1,4 +1,4 @@
-package com.example.pro1221_android_petshopmanagement.ui.screen.navigation
+package com.example.pro1221_android_petshopmanagement.presentation.screen.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutSlowInEasing

@@ -14,7 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.pro1221_android_petshopmanagement.common.collections.RC_SIGN_IN
 import com.example.pro1221_android_petshopmanagement.data.data_source.firebase.firebaseAuthWithGoogle
-import com.example.pro1221_android_petshopmanagement.ui.screen.navigation.LoginNavigation
+import com.example.pro1221_android_petshopmanagement.presentation.screen.navigation.LoginNavigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import kotlin.system.exitProcess
@@ -31,8 +31,7 @@ class LoginActivity : ComponentActivity() {
         requestPermission()
     }
 
-    @ExperimentalAnimationApi
-    @ExperimentalMaterialApi
+    @ExperimentalMaterialApi @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
